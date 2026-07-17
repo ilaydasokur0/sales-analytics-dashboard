@@ -1,0 +1,11 @@
+#projede sık değişebilcek değerler. ilerde customer sayısı veya invoice sayısıyla oynamak istersem burdan değiştiricem
+CUSTOMER_COUNT = 20
+PRODUCT_COUNT = 25
+INVOICE_COUNT = 300
+RANDOM_SEED = 42
+
+MIN_PRODUCTS_PER_INVOICE = 1
+MAX_PRODUCTS_PER_INVOICE = 5
+
+START_DATE = "2025-01-01"
+END_DATE = "2025-12-31"

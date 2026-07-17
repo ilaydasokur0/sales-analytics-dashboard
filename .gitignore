@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env
+.venv/
+env/
+
+# VS Code / IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Streamlit
+.streamlit/
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
