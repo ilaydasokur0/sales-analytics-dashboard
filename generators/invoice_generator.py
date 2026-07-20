@@ -2,6 +2,7 @@ import random
 import uuid
 from datetime import datetime, timedelta
 
+import numpy as np
 import pandas as pd
 
 from config import INVOICE_COUNT, START_DATE, END_DATE
@@ -17,11 +18,18 @@ def generate_invoices():
 
     date_difference = (end_date - start_date).days
 
+    # Assign per-customer invoice frequency weights so some customers are more frequent buyers
+    # We sample weights from a gamma distribution to create variability
+    customer_weights = np.random.default_rng().gamma(shape=2.0, scale=1.0, size=len(customers))
+
+    # Sample customers for each invoice according to weights (with replacement)
+    sampled_customers = customers.sample(n=INVOICE_COUNT, replace=True, weights=customer_weights)
+    sampled_customers = sampled_customers.reset_index(drop=True)
+
     invoices = []
 
     for i in range(INVOICE_COUNT):
-
-        customer = customers.sample(1).iloc[0]
+        customer = sampled_customers.iloc[i]
 
         random_days = random.randint(0, date_difference)
         invoice_date = start_date + timedelta(days=random_days)

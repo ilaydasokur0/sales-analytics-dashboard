@@ -1,8 +1,9 @@
 import streamlit as st
 from utils.formatters import format_currency
+from utils.tables import build_ranked_table, build_change_table
 
 
-def build_customer_product_summary(current_df, previous_df):
+def render_product_detail_table(current_df, previous_df):
     current_totals = current_df.groupby("product_name").agg(
         quantity=("quantity", "sum"),
         amount=("total_amount", "sum"),
@@ -37,12 +38,5 @@ def build_customer_product_summary(current_df, previous_df):
 
     comparison = comparison.rename(columns={"product_name": "Ürün"})
 
-    return comparison[["Ürün", "Satış Adedi", "Ciro"]]
-
-
-def render_customer_detail_table(current_df, previous_df):
-    # Wrapper to render customer-level product summary
-    table = build_customer_product_summary(current_df, previous_df)
-    st.subheader("Müşteri Ürünleri")
-    st.dataframe(table, hide_index=True, width="stretch", height=420)
-
+    st.subheader("Ürün Detayı")
+    st.dataframe(comparison[["Ürün", "Satış Adedi", "Ciro"]], hide_index=True, width="stretch", height=420)

@@ -3,7 +3,8 @@ import streamlit as st
 from styles import load_css
 import analysis as sa
 from components.sidebar import apply_sidebar_filters
-from components.overview import render_compact_overview_tables, render_ranked_pair, render_header
+from components.overview_clean import render_compact_overview_tables, render_header
+from components.general import render_ranked_pair
 from components.kpi import render_kpi_section
 from components.charts import render_chart_section
 from utils.metrics import get_month_comparison_frames
@@ -73,6 +74,7 @@ render_compact_overview_tables(
     previous_month_df,
     city_selected=active_filters["city"] != "Hepsi",
     customer_selected=active_filters["customer"] != "Hepsi",
+    product_selected=active_filters["product"] != "Hepsi",
     city_summary_df=filtered_df,
     national_summary_df=national_summary_df,
     national_current_df=national_df,

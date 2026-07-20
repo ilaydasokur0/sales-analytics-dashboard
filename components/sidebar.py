@@ -1,17 +1,25 @@
 import streamlit as st
 import analysis as sa
+import pandas as pd
+
 
 def apply_sidebar_filters(df):
+    """Render cascading sidebar filters and return filtered dataframe + active filters.
+
+    Filter order (cascading): date -> city -> customer -> product
+    Each dropdown shows only values available after applying previous selections.
+    Selecting "Hepsi" disables that filter (i.e. does not restrict downstream options).
+    The final filtered dataframe is computed the same way as before via `sa.filter_data`.
+    """
+
+    # date bounds
     min_date = df["invoice_date"].dropna().min().date()
     max_date = df["invoice_date"].dropna().max().date()
-
-    def select_option(label, values):
-        options = ["Hepsi"] + sorted(values.dropna().unique().tolist())
-        return st.sidebar.selectbox(label, options)
 
     st.sidebar.markdown('<div class="sidebar-title">Filtreler</div>', unsafe_allow_html=True)
     st.sidebar.caption("Boş bırakmak için Hepsi seç.")
 
+    # Date range first (controls available rows for subsequent dropdowns)
     date_range = st.sidebar.date_input(
         "Tarih aralığı",
         value=(min_date, max_date),
@@ -27,10 +35,40 @@ def apply_sidebar_filters(df):
     else:
         start_date = end_date = date_range
 
-    city = select_option("İl", df["city"])
-    customer = select_option("Müşteri", df["customer_name"])
-    product = select_option("Ürün", df["product_name"])
+    # Helper to build options list (always include 'Hepsi')
+    def make_options(series: pd.Series):
+        vals = series.dropna().unique().tolist()
+        vals = sorted(vals)
+        return ["Hepsi"] + vals if vals else ["Hepsi"]
 
+    # Base df filtered by date only
+    df_date = sa.filter_data(df, start_date=start_date, end_date=end_date)
+
+    # City options depend on date range
+    city_options = make_options(df_date["city"]) if not df_date.empty else ["Hepsi"]
+    city = st.sidebar.selectbox("İl", city_options)
+
+    # If a specific city is selected, filter by it for downstream options
+    if city == "Hepsi":
+        df_city = df_date
+    else:
+        df_city = df_date[df_date["city"] == city]
+
+    # Customer options depend on date range and (optional) city
+    customer_options = make_options(df_city["customer_name"]) if not df_city.empty else ["Hepsi"]
+    customer = st.sidebar.selectbox("Müşteri", customer_options)
+
+    # If a specific customer is selected, filter by it for downstream options
+    if customer == "Hepsi":
+        df_customer = df_city
+    else:
+        df_customer = df_city[df_city["customer_name"] == customer]
+
+    # Product options depend on date range + city + customer (respecting Hepsi semantics)
+    product_options = make_options(df_customer["product_name"]) if not df_customer.empty else ["Hepsi"]
+    product = st.sidebar.selectbox("Ürün", product_options)
+
+    # Final filtered dataframe - same logic as before (use sa.filter_data)
     filtered_df = sa.filter_data(
         df,
         city=None if city == "Hepsi" else city,
