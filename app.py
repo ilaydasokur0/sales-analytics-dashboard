@@ -3,21 +3,24 @@ import streamlit as st
 from styles import load_css
 import analysis as sa
 from components.sidebar import apply_sidebar_filters
-from components.overview_clean import render_compact_overview_tables, render_header
+from components.overview import render_compact_overview_tables, render_header
 from components.general import render_ranked_pair
 from components.kpi import render_kpi_section
 from components.charts import render_chart_section
 from utils.metrics import get_month_comparison_frames
 
+
 # ---------------- SAYFA ---------------- #
 
 st.set_page_config(
-    page_title="Satış Dashboard",
+    page_title="Satış Raporu",
+    page_icon="📊",
     layout="wide",
 )
 
 # ---------------- VERİ ---------------- #
 load_css()
+
 
 @st.cache_data(show_spinner=False)
 def get_sales_data():
@@ -29,6 +32,7 @@ try:
 except (FileNotFoundError, KeyError, pd.errors.ParserError) as error:
     st.error(f"Veri dosyaları yüklenemedi: {error}")
     st.stop()
+
 
 # ---------------- FİLTRELER ---------------- #
 

@@ -1,42 +1,46 @@
-import streamlit as st
 from utils.formatters import format_currency
-from utils.tables import build_ranked_table, build_change_table
+import streamlit as st
 
 
-def render_product_detail_table(current_df, previous_df):
-    current_totals = current_df.groupby("product_name").agg(
-        quantity=("quantity", "sum"),
-        amount=("total_amount", "sum"),
-    )
-    previous_totals = previous_df.groupby("product_name").agg(
-        quantity=("quantity", "sum"),
-        amount=("total_amount", "sum"),
-    )
-
-    comparison = current_totals.join(
-        previous_totals, how="left", rsuffix="_previous"
-    ).fillna(0)
-
-    comparison = comparison.sort_values("amount", ascending=False).reset_index()
-
-    def arrow(current_value, previous_value):
-        if previous_df.empty:
-            return ""
-        if previous_value == 0:
-            return "▲" if current_value else ""
-        change_ratio = ((current_value - previous_value) / previous_value) * 100
-        return "▲" if change_ratio >= 0 else "▼"
-
-    comparison["Satış Adedi"] = comparison.apply(
-        lambda row: f"{row['quantity']:,.0f} {arrow(row['quantity'], row['quantity_previous'])}".strip(),
-        axis=1,
-    )
-    comparison["Ciro"] = comparison.apply(
-        lambda row: f"{format_currency(row['amount'])} {arrow(row['amount'], row['amount_previous'])}".strip(),
-        axis=1,
+def build_product_invoice_table(current_df):
+    table = (
+        current_df[
+            [
+                "invoice_id",
+                "invoice_date",
+                "quantity",
+                "unit_price",
+                "total_amount",
+            ]
+        ]
+        .copy()
+        .sort_values("invoice_date", ascending=False)
     )
 
-    comparison = comparison.rename(columns={"product_name": "Ürün"})
+    table = table.rename(
+        columns={
+            "invoice_id": "Fatura No",
+            "invoice_date": "Fatura Tarihi",
+            "quantity": "Satış Adedi",
+            "unit_price": "Birim Fiyat",
+            "total_amount": "Ciro",
+        }
+    )
 
-    st.subheader("Ürün Detayı")
-    st.dataframe(comparison[["Ürün", "Satış Adedi", "Ciro"]], hide_index=True, width="stretch", height=420)
+    table["Fatura Tarihi"] = table["Fatura Tarihi"].dt.strftime("%d.%m.%Y")
+    table["Birim Fiyat"] = table["Birim Fiyat"].apply(format_currency)
+    table["Ciro"] = table["Ciro"].apply(format_currency)
+
+    return table
+
+def render_product_detail_table(current_df):
+    st.subheader("Fatura Geçmişi")
+
+    table = build_product_invoice_table(current_df)
+
+    st.dataframe(
+        table,
+        hide_index=True,
+        use_container_width=True,
+        height=350,
+    )

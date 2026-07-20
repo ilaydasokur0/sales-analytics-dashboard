@@ -94,9 +94,16 @@ section[data-testid="stSidebar"] span{
 }
 
 .page-title{
-    font-size:40px;
+    font-size:3.2rem;
     line-height:1.02;
     font-weight:800;
+}
+
+/* Reduce vertical gap between two consecutive captions that follow the page title
+   (keeps spacing between page title and first caption unchanged) */
+.page-title + .stCaption + .stCaption {
+    margin-top: 0.15rem !important;
+    margin-bottom: 0.15rem !important;
 }
 
 .section-title{
