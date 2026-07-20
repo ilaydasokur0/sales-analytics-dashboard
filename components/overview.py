@@ -46,6 +46,12 @@ def render_header(sales_df, active_filters, comparison_enabled, current_period, 
         active_filters["city"] != "Hepsi" and active_filters["customer"] != "Hepsi"
     )
 
+    city_and_customer_and_product_selected = (
+        active_filters["city"] != "Hepsi"
+        and active_filters["customer"] != "Hepsi"
+        and active_filters["product"] != "Hepsi"
+    )
+
     # İl bazlı verileri filtreler
     city_base_df = sa.filter_data(
         sales_df,
