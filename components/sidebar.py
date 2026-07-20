@@ -4,20 +4,11 @@ import pandas as pd
 
 
 def apply_sidebar_filters(df):
-    """Render cascading sidebar filters and return filtered dataframe + active filters.
-
-    Filter order (cascading): date -> city -> customer -> product
-    Each dropdown shows only values available after applying previous selections.
-    Selecting "Hepsi" disables that filter (i.e. does not restrict downstream options).
-    The final filtered dataframe is computed the same way as before via `sa.filter_data`.
-    """
-
-    # date bounds
+    
     min_date = df["invoice_date"].dropna().min().date()
     max_date = df["invoice_date"].dropna().max().date()
 
     st.sidebar.markdown('<div class="sidebar-title">Filtreler</div>', unsafe_allow_html=True)
-    st.sidebar.caption("Boş bırakmak için Hepsi seç.")
 
     # Date range first (controls available rows for subsequent dropdowns)
     date_range = st.sidebar.date_input(

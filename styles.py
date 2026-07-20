@@ -56,7 +56,12 @@ section[data-testid="stSidebar"] .sidebar-title{
 section[data-testid="stSidebar"] .mini-section-title{
     color:rgba(230,251,250,0.95) !important;
 }
-
+.sidebar-title{
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}                
 /* Sidebar scoped inputs and controls */
 /* Sidebar controls: accent on hover/focus */
 section[data-testid="stSidebar"] div[data-baseweb="select"]>div{
