@@ -461,27 +461,6 @@ def get_bottom_products(df, top_n=3):  # en az satılan ürünler
         .sort_values()
         .head(top_n)
     )
-def get_average_purchase_interval(df):
-    if len(df) < 2:
-        return 0
-    df = df.sort_values("invoice_date").copy()
-    df["previous_invoice_date"] = df["invoice_date"].shift(1)
-    df["days_since_last_purchase"] = (
-        df["invoice_date"] - df["previous_invoice_date"]
-    ).dt.days
-    average_interval = df["days_since_last_purchase"].mean()
-    if pd.isna(average_interval):
-        return 0
-
-    return round(average_interval, 1)
-
-
-def get_days_since_last_purchase(df):
-    if df.empty:
-        return 0
-    last_purchase_date = df["invoice_date"].max()
-
-    return (pd.Timestamp.today().normalize() - last_purchase_date).days
 
 # ----- Ciro ----- #
 

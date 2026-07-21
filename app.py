@@ -1,7 +1,8 @@
 import pandas as pd
 import streamlit as st
+from sales_dashboard.services.dashboard_data import prepare_dashboard_data
 from styles import load_css
-import analysis as sa
+import sales_dashboard.services.analysis as sa
 from components.sidebar import apply_sidebar_filters
 from components.overview import render_compact_overview_tables, render_header
 from components.general import render_ranked_pair
@@ -45,7 +46,7 @@ current_month_df, previous_month_df, comparison_enabled, current_period, previou
     sales_df, active_filters
 )
 
-# Render header (title, filter summary, captions, and no-data warning)
+# Veriyi hazırlama
 (
     current_month_df,
     previous_month_df,
@@ -54,7 +55,23 @@ current_month_df, previous_month_df, comparison_enabled, current_period, previou
     national_previous_df,
     city_base_df,
     city_and_customer_selected,
-) = render_header(sales_df, active_filters, comparison_enabled, current_period, previous_period)
+    city_and_customer_and_product_selected,
+) = prepare_dashboard_data(
+    sales_df,
+    active_filters,
+    comparison_enabled,
+    current_period,
+    previous_period,
+)
+
+render_header(
+    sales_df,
+    active_filters,
+    comparison_enabled,
+    current_period,
+    previous_period,
+    current_month_df,
+)
 
 render_kpi_section(
     current_month_df,
