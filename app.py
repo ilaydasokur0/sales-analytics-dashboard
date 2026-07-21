@@ -69,7 +69,7 @@ st.markdown('<div style="height:.35rem"></div>', unsafe_allow_html=True)
 
 # ---------------- GRAFİK + DAĞILIMLAR ---------------- #
 
-render_chart_section(filtered_df)
+render_chart_section(filtered_df, active_filters)
 
 # ---------------- ÖNE ÇIKANLAR ---------------- #
 

@@ -1,5 +1,5 @@
 import streamlit as st
-from components.city import render_city_summary_cards, render_city_product_tables
+from components.city import render_customer_revenue_share_chart, render_city_product_tables
 from components.product import render_product_detail_table
 from components.general import render_overview_section
 import analysis as sa
@@ -115,17 +115,10 @@ def render_compact_overview_tables(
 
     if city_selected:
         st.header("İl Özeti")
-        col1, col2 = st.columns([1, 2])
+        col1, col2 = st.columns([1.28, 1.22], gap="large")
 
         with col1:
-            render_city_summary_cards(
-                selected_city,
-                current_df,
-                previous_df,
-                national_current_df,
-                national_previous_df,
-                comparison_enabled,
-            )
+            render_customer_revenue_share_chart(current_df)
 
         with col2:
             render_city_product_tables(current_df, previous_df)

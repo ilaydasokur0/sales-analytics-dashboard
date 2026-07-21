@@ -116,7 +116,10 @@ def render_share_metrics(share_series):
         label = share_series.index[0]
         col = st.columns(1, gap="small")[0]
         with col:
-            st.metric(label, "")
+            st.markdown(
+                f'<div class="distribution-selected-value">{label}</div>',
+                unsafe_allow_html=True,
+            )
         return
 
     cols = st.columns(len(share_series), gap="small")

@@ -169,6 +169,54 @@ div[data-testid="stMetricValue"]{
     color:#245274 !important;
 }
 
+.distribution-selected-value{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:64px;
+    font-size:26px;
+    font-weight:800;
+    color:#245274;
+    letter-spacing:0.01em;
+}
+
+.product-info-card{
+    display:flex;
+    flex-direction:column;
+    gap:0.4rem;
+    padding:0.15rem 0 0;
+    min-height:210px;
+}
+
+.product-info-row{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) auto;
+    align-items:center;
+    gap:1rem;
+    padding:0.28rem 0;
+}
+
+.product-info-row + .product-info-row{
+    border-top:1px solid rgba(10,43,71,0.08);
+}
+
+.product-info-label{
+    font-size:0.74rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    color:#6A88A4;
+}
+
+.product-info-value{
+    justify-self:end;
+    text-align:right;
+    font-size:0.98rem;
+    font-weight:800;
+    color:#245274;
+    line-height:1.15;
+}
+
 .city-summary-card{
     background:linear-gradient(180deg,#FFFFFF,#F7FBFF);
     border:1px solid #D8E8F5;
@@ -183,6 +231,7 @@ div[data-testid="stMetricValue"]{
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+    gap:0.95rem;
 }
 
 .city-summary-label{
@@ -196,6 +245,97 @@ div[data-testid="stMetricValue"]{
     font-size:22px;
     color:#245274;
     font-weight:800;
+}
+
+.customer-share-chart{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    padding-top:0.15rem;
+    width:100%;
+    max-width:100%;
+}
+
+.customer-share-row{
+    display:grid;
+    grid-template-columns:minmax(0, 1.28fr) minmax(0, 2.8fr) max-content;
+    align-items:center;
+    gap:1rem;
+    padding:0.7rem 0;
+    width:100%;
+    box-sizing:border-box;
+}
+
+.customer-share-name{
+    font-size:0.94rem;
+    font-weight:800;
+    color:#0A2B47;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    min-width:0;
+}
+
+.customer-share-track{
+    height:12px;
+    background:linear-gradient(90deg,#ECF4FA 0%,#E2EBF5 100%);
+    border-radius:999px;
+    overflow:hidden;
+    box-shadow:inset 0 1px 2px rgba(4,23,38,.05);
+    width:100%;
+    min-width:0;
+}
+
+.customer-share-bar{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg,#0A2B47 0%,#1E3A5F 48%,#00A8B5 100%);
+    box-shadow:0 6px 14px rgba(0,168,181,.18);
+}
+
+.customer-share-meta{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:0.1rem;
+    white-space:nowrap;
+    min-width:94px;
+}
+
+.customer-share-amount{
+    font-size:0.9rem;
+    font-weight:800;
+    color:#245274;
+}
+
+.customer-share-pct{
+    justify-self:end;
+    text-align:right;
+    font-size:0.84rem;
+    font-weight:800;
+    color:#245274;
+    min-width:56px;
+    white-space:nowrap;
+}
+
+@media (min-width: 1101px){
+    .customer-share-row + .customer-share-row{
+        margin-top:0.05rem;
+    }
+}
+
+@media (max-width: 1100px){
+    .customer-share-row{
+        grid-template-columns:1fr;
+        gap:0.45rem;
+        padding:0.65rem 0;
+    }
+
+    .customer-share-pct{
+        justify-self:start;
+        text-align:left;
+        min-width:0;
+    }
 }
 
 div[data-testid="stDataFrame"]{
@@ -276,4 +416,4 @@ section[data-testid="stSidebar"] .stButton>button:focus{
 .transition-smooth{transition:all .18s cubic-bezier(.2,.8,.2,1);}
 
 </style>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True) 
