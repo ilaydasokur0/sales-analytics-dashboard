@@ -94,22 +94,38 @@ def render_chart_section(filtered_df, active_filters):
 
 
 
-def render_horizontal_bar_chart(title, chart_df, label_col, value_col, value_suffix="", empty_message="Veri bulunamadı."):
+import streamlit as st
+import html
 
+
+def render_horizontal_bar_chart(
+    title,
+    chart_df,
+    label_col,
+    value_col,
+    value_suffix="",
+    empty_message="Veri bulunamadı.",
+):
+    st.markdown(
+        f'<div class="section-title section-title--large">{title}</div>',
+        unsafe_allow_html=True,
+    )
     if chart_df.empty:
-        st.info("Veri bulunamadı.")
+        st.info(empty_message)
         return
+
+    max_value = chart_df[value_col].max()
 
     for _, row in chart_df.iterrows():
         share_value = float(row["share"])
         st.markdown(
             f"""
-            <div class="customer-share-row">
-                <div class="customer-share-name">{html.escape(str(row['customer_name']))}</div>
-                <div class="customer-share-track">
-                    <div class="customer-share-bar" style="width:{share_value:.1f}%;"></div>
+            <div class="horizontal-bar-row">
+                <div class="horizontal-bar-name">{html.escape(str(row['customer_name']))}</div>
+                <div class="horizontal-bar-track">
+                    <div class="horizontal-bar-bar" style="width:{share_value:.1f}%;"></div>
                 </div>
-                <div class="customer-share-pct">%{share_value:.1f}</div>
+                <div class="horizontal-bar-pct">%{share_value:.1f}</div>
             </div>
             """,
             unsafe_allow_html=True,

@@ -247,7 +247,7 @@ div[data-testid="stMetricValue"]{
     font-weight:800;
 }
 
-.customer-share-chart{
+.horizontal-bar-chart{
     display:flex;
     flex-direction:column;
     gap:1rem;
@@ -256,7 +256,7 @@ div[data-testid="stMetricValue"]{
     max-width:100%;
 }
 
-.customer-share-row{
+.horizontal-bar-row{
     display:grid;
     grid-template-columns:minmax(0, 1.28fr) minmax(0, 2.8fr) max-content;
     align-items:center;
@@ -266,7 +266,7 @@ div[data-testid="stMetricValue"]{
     box-sizing:border-box;
 }
 
-.customer-share-name{
+.horizontal-bar-name{
     font-size:0.94rem;
     font-weight:800;
     color:#0A2B47;
@@ -276,7 +276,7 @@ div[data-testid="stMetricValue"]{
     min-width:0;
 }
 
-.customer-share-track{
+.horizontal-bar-track{
     height:12px;
     background:linear-gradient(90deg,#ECF4FA 0%,#E2EBF5 100%);
     border-radius:999px;
@@ -286,14 +286,14 @@ div[data-testid="stMetricValue"]{
     min-width:0;
 }
 
-.customer-share-bar{
+.horizontal-bar-bar{
     height:100%;
     border-radius:999px;
     background:linear-gradient(90deg,#0A2B47 0%,#1E3A5F 48%,#00A8B5 100%);
     box-shadow:0 6px 14px rgba(0,168,181,.18);
 }
 
-.customer-share-meta{
+.horizontal-bar-meta{
     display:flex;
     flex-direction:column;
     align-items:flex-end;
@@ -302,13 +302,13 @@ div[data-testid="stMetricValue"]{
     min-width:94px;
 }
 
-.customer-share-amount{
+.horizontal-bar-amount{
     font-size:0.9rem;
     font-weight:800;
     color:#245274;
 }
 
-.customer-share-pct{
+.horizontal-bar-pct{
     justify-self:end;
     text-align:right;
     font-size:0.84rem;
@@ -319,19 +319,19 @@ div[data-testid="stMetricValue"]{
 }
 
 @media (min-width: 1101px){
-    .customer-share-row + .customer-share-row{
+    .horizontal-bar-row + .horizontal-bar-row{
         margin-top:0.05rem;
     }
 }
 
 @media (max-width: 1100px){
-    .customer-share-row{
+    .horizontal-bar-row{
         grid-template-columns:1fr;
         gap:0.45rem;
         padding:0.65rem 0;
     }
 
-    .customer-share-pct{
+    .horizontal-bar-pct{
         justify-self:start;
         text-align:left;
         min-width:0;
