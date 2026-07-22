@@ -4,6 +4,7 @@ import pandas as pd
 from components.kpi import render_share_metrics
 from utils.metrics import get_amount_share
 import html
+import textwrap
 
 def render_chart_controls(graph_key):
     return st.radio(
@@ -94,9 +95,6 @@ def render_chart_section(filtered_df, active_filters):
 
 
 
-import streamlit as st
-import html
-
 
 def render_horizontal_bar_chart(
     title,
@@ -110,6 +108,7 @@ def render_horizontal_bar_chart(
         f'<div class="section-title section-title--large">{title}</div>',
         unsafe_allow_html=True,
     )
+
     if chart_df.empty:
         st.info(empty_message)
         return
@@ -117,16 +116,24 @@ def render_horizontal_bar_chart(
     max_value = chart_df[value_col].max()
 
     for _, row in chart_df.iterrows():
-        share_value = float(row["share"])
+        label = html.escape(str(row[label_col]))
+        value = float(row[value_col])
+
+        width = 0
+        if max_value != 0:
+            width = (value / max_value) * 100
+
         st.markdown(
-            f"""
-            <div class="horizontal-bar-row">
-                <div class="horizontal-bar-name">{html.escape(str(row['customer_name']))}</div>
-                <div class="horizontal-bar-track">
-                    <div class="horizontal-bar-bar" style="width:{share_value:.1f}%;"></div>
+            textwrap.dedent(f"""
+                <div class="horizontal-bar-row">
+                    <div class="horizontal-bar-name">{label}</div>
+                    <div class="horizontal-bar-track">
+                        <div class="horizontal-bar-bar" style="width:{width:.1f}%;"></div>
+                    </div>
+                    <div class="horizontal-bar-meta">
+                        <div class="horizontal-bar-amount">{value:,.0f}{value_suffix}</div>
+                    </div>
                 </div>
-                <div class="horizontal-bar-pct">%{share_value:.1f}</div>
-            </div>
-            """,
+            """).strip(),
             unsafe_allow_html=True,
         )

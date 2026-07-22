@@ -276,21 +276,17 @@ div[data-testid="stMetricValue"]{
     min-width:0;
 }
 
-.horizontal-bar-track{
-    height:12px;
-    background:linear-gradient(90deg,#ECF4FA 0%,#E2EBF5 100%);
-    border-radius:999px;
-    overflow:hidden;
-    box-shadow:inset 0 1px 2px rgba(4,23,38,.05);
-    width:100%;
-    min-width:0;
+.horizontal-bar-track {
+    width: 100%;
+    height: 10px;
+    background: #E5EEF5;
+    border-radius: 999px;
+    overflow: hidden;
 }
 
-.horizontal-bar-bar{
-    height:100%;
-    border-radius:999px;
-    background:linear-gradient(90deg,#0A2B47 0%,#1E3A5F 48%,#00A8B5 100%);
-    box-shadow:0 6px 14px rgba(0,168,181,.18);
+.horizontal-bar-bar {
+    height: 12px;
+    background: navy;
 }
 
 .horizontal-bar-meta{
