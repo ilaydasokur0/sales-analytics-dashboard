@@ -538,6 +538,29 @@ def get_product_bottom_customers(df, top_n=3):  # ürünü en az alan müşteril
         .head(top_n)
     )
 
+def build_customer_revenue_share_table(current_df, top_n=10):
+    customer_sales = get_customer_sales(current_df)
+
+    if customer_sales.empty:
+        return customer_sales.reset_index()
+
+    total_sales = customer_sales.sum()
+
+    table = (
+        customer_sales
+        .reset_index()
+        .sort_values("total_amount", ascending=False)
+        .head(top_n)
+        .reset_index(drop=True)
+    )
+
+    if total_sales == 0:
+        table["share"] = 0.0
+    else:
+        table["share"] = (table["total_amount"] / total_sales * 100).round(1)
+
+    return table
+
 
 # ----- İl ----- #
 

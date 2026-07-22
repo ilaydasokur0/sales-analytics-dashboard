@@ -1,55 +1,21 @@
 import streamlit as st
+from components import charts
 from services import analysis as sa
 import html
 from components.kpi import get_trend_arrow
 from utils.tables import build_ranked_table, build_change_table
-
-def build_customer_revenue_share_table(current_df, top_n=10):
-    customer_sales = sa.get_customer_sales(current_df)
-
-    if customer_sales.empty:
-        return customer_sales.reset_index()
-
-    total_sales = customer_sales.sum()
-
-    table = (
-        customer_sales
-        .reset_index()
-        .sort_values("total_amount", ascending=False)
-        .head(top_n)
-        .reset_index(drop=True)
-    )
-
-    if total_sales == 0:
-        table["share"] = 0.0
-    else:
-        table["share"] = (table["total_amount"] / total_sales * 100).round(1)
-
-    return table
+from utils.tables import build_customer_revenue_share_table
 
 def render_customer_revenue_share_chart(current_df):
-    st.subheader("Müşteri Ciro Payları")
-
     chart_df = build_customer_revenue_share_table(current_df)
 
-    if chart_df.empty:
-        st.info("Veri bulunamadı.")
-        return
-
-    for _, row in chart_df.iterrows():
-        share_value = float(row["share"])
-        st.markdown(
-            f"""
-            <div class="customer-share-row">
-                <div class="customer-share-name">{html.escape(str(row['customer_name']))}</div>
-                <div class="customer-share-track">
-                    <div class="customer-share-bar" style="width:{share_value:.1f}%;"></div>
-                </div>
-                <div class="customer-share-pct">%{share_value:.1f}</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+    charts.render_horizontal_bar_chart(
+        title="Müşteri Ciro Payları",
+        chart_df=chart_df,
+        label_col="customer_name",
+        value_col="share",
+        value_suffix="%"
+    )
 
 def render_city_summary_cards(
     city,

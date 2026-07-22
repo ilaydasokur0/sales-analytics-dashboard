@@ -1,6 +1,9 @@
 import streamlit as st
 import services.analysis as sa
 import pandas as pd
+from components.kpi import render_share_metrics
+from utils.metrics import get_amount_share
+import html
 
 def render_chart_controls(graph_key):
     return st.radio(
@@ -11,18 +14,11 @@ def render_chart_controls(graph_key):
         label_visibility="collapsed",
     )
 
-
-
 def get_chart_data(df, graph_type):
     if graph_type == "Ciro":
         return sa.get_monthly_sales(df)
 
     return sa.get_monthly_quantity(df)
-
-
-from components.kpi import render_share_metrics
-from utils.metrics import get_amount_share
-
 
 def build_selected_product_info(filtered_df):
     if filtered_df.empty:
@@ -95,3 +91,26 @@ def render_chart_section(filtered_df, active_filters):
 
                 st.markdown('<div class="mini-section-title">Ürün Dağılımı</div>', unsafe_allow_html=True)
                 render_share_metrics(get_amount_share(filtered_df, "product_type"))
+
+
+
+def render_horizontal_bar_chart(title, chart_df, label_col, value_col, value_suffix="", empty_message="Veri bulunamadı."):
+
+    if chart_df.empty:
+        st.info("Veri bulunamadı.")
+        return
+
+    for _, row in chart_df.iterrows():
+        share_value = float(row["share"])
+        st.markdown(
+            f"""
+            <div class="customer-share-row">
+                <div class="customer-share-name">{html.escape(str(row['customer_name']))}</div>
+                <div class="customer-share-track">
+                    <div class="customer-share-bar" style="width:{share_value:.1f}%;"></div>
+                </div>
+                <div class="customer-share-pct">%{share_value:.1f}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
