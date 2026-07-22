@@ -2,7 +2,7 @@ import streamlit as st
 from components.city import render_customer_revenue_share_chart, render_city_product_tables
 from components.product import render_product_detail_table
 from components.general import render_overview_section
-import sales_dashboard.services.analysis as sa
+import services.analysis as sa
 from utils.metrics import get_month_comparison_frames
 
 

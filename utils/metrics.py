@@ -1,4 +1,4 @@
-import analysis as sa
+import services.analysis as sa
 def get_amount_share(df, group_col, value_col="total_amount"):
     grouped = df.groupby(group_col)[value_col].sum()
     total = grouped.sum()

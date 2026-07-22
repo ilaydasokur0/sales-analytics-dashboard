@@ -1,6 +1,6 @@
 import streamlit as st
-import analysis as sa
-from utils.formatters import format_currency
+from services import analysis as sa
+from services.formatters import format_currency
 from utils.metrics import get_city_share, get_customer_city_share
 
 

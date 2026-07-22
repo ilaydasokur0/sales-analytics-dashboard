@@ -1,5 +1,5 @@
 import streamlit as st
-import analysis as sa
+import services.analysis as sa
 import pandas as pd
 
 def render_chart_controls(graph_key):

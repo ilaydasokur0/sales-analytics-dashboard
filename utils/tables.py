@@ -1,4 +1,4 @@
-from utils.formatters import format_currency
+from services.formatters import format_currency
 def build_ranked_table(
     current_df,        # Bu aya ait filtrelenmiş veriler
     previous_df,       # Önceki aya ait filtrelenmiş veriler

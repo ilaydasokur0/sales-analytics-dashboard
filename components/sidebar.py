@@ -1,5 +1,5 @@
 import streamlit as st
-import analysis as sa
+from services import analysis as sa
 import pandas as pd
 
 

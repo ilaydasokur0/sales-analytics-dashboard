@@ -1,5 +1,5 @@
 import streamlit as st
-import analysis as sa
+from services import analysis as sa
 import html
 from components.kpi import get_trend_arrow
 from utils.tables import build_ranked_table, build_change_table

@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from config import RANDOM_SEED
+from config.config import RANDOM_SEED
 from generators.customer_generator import generate_customers
 from generators.product_generator import generate_products
 from generators.invoice_generator import generate_invoices

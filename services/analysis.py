@@ -1,6 +1,6 @@
 import pandas as pd
 
-from paths import data_path
+from config.paths import data_path
 
 
 def load_data():

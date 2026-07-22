@@ -1,4 +1,4 @@
-from utils.formatters import format_currency
+from services.formatters import format_currency
 import streamlit as st
 
 

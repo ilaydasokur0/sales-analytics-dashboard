@@ -1,8 +1,8 @@
 import pandas as pd
 import streamlit as st
-from sales_dashboard.services.dashboard_data import prepare_dashboard_data
+from services.dashboard_data import prepare_dashboard_data
 from styles import load_css
-import sales_dashboard.services.analysis as sa
+import services.analysis as sa
 from components.sidebar import apply_sidebar_filters
 from components.overview import render_compact_overview_tables, render_header
 from components.general import render_ranked_pair

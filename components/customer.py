@@ -1,5 +1,5 @@
 import streamlit as st
-from utils.formatters import format_currency
+from services.formatters import format_currency
 
 
 def build_customer_product_summary(current_df, previous_df):
