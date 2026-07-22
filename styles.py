@@ -144,16 +144,8 @@ div[data-testid="stMetric"]{
     border-left:4px solid var(--navy);
     border-radius:16px;
     padding:12px;
-    height:96px;
+    height:110px;
     box-shadow:0 8px 20px rgba(4,23,38,0.06);
-    transition:all .2s ease;
-}
-
-div[data-testid="stMetric"]:hover{
-    transform:translateY(-4px);
-    background:#F2FAFF;
-    border-color:#A9D4F5;
-    box-shadow:0 14px 30px rgba(83,133,176,.16);
 }
 
 div[data-testid="stMetricLabel"]{
