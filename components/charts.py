@@ -126,7 +126,7 @@ def render_horizontal_bar_chart(
         st.markdown(
             textwrap.dedent(f"""
                 <div class="horizontal-bar-row">
-                    <div class="horizontal-bar-name">{label}</div>
+                    <div class="horizontal-bar-name" title="{label}">{label}</div>
                     <div class="horizontal-bar-track">
                         <div class="horizontal-bar-bar" style="width:{width:.1f}%;"></div>
                     </div>

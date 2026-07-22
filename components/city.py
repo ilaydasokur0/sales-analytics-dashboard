@@ -87,10 +87,9 @@ def render_city_summary_cards(
 def render_city_product_tables(current_df, previous_df):
     top_products = build_ranked_table(
         current_df,
-        previous_df,
         "product_name",
         "quantity",
-        top_n=5,
+        top_n=100,
         ascending=False,
         group_label="Ürün",
         value_label="Satış Adedi",
@@ -110,4 +109,22 @@ def render_city_product_tables(current_df, previous_df):
     st.dataframe(top_products, hide_index=True, width="stretch", height=180)
     st.caption("En Çok Düşüş Yaşayan 5 Ürün")
     st.dataframe(declining_products, hide_index=True, width="stretch", height=180)
+
+
+def render_city_customer_product_ranking(current_df):
+    chart_df = build_ranked_table(
+        current_df,
+        "product_name",
+        "quantity",
+        group_label="Ürün",
+        value_label="Satış Adedi",
+    )
+
+    with st.container(height=320):
+        charts.render_horizontal_bar_chart(
+            title="Ürün Sıralaması",
+            chart_df=chart_df,
+            label_col="Ürün",
+            value_col="Satış Adedi",
+        )
 

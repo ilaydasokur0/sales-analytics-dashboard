@@ -258,9 +258,9 @@ div[data-testid="stMetricValue"]{
 
 .horizontal-bar-row{
     display:grid;
-    grid-template-columns:minmax(0, 1.28fr) minmax(0, 2.8fr) max-content;
+    grid-template-columns:minmax(0, 2fr) minmax(72px, 1fr) max-content;
     align-items:center;
-    gap:1rem;
+    gap:0.55rem;
     padding:0.7rem 0;
     width:100%;
     box-sizing:border-box;
@@ -295,7 +295,7 @@ div[data-testid="stMetricValue"]{
     align-items:flex-end;
     gap:0.1rem;
     white-space:nowrap;
-    min-width:94px;
+    min-width:76px;
 }
 
 .horizontal-bar-amount{

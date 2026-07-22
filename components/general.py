@@ -13,31 +13,27 @@ def render_ranked_pair(
     group_label,
     value_label,
     currency=False,
-    top_n=3,
+    top_n=5,
     height=145,
 ):
     left_table = build_ranked_table(
         current_df,
-        previous_df,
         group_col,
         value_col,
         top_n=top_n,
         ascending=False,
         group_label=group_label,
         value_label=value_label,
-        currency=currency,
     )
 
     right_table = build_ranked_table(
         current_df,
-        previous_df,
         group_col,
         value_col,
         top_n=top_n,
         ascending=True,
         group_label=group_label,
         value_label=value_label,
-        currency=currency,
     )
 
     col1, col2 = st.columns(2)
@@ -77,20 +73,18 @@ def render_overview_section(
     st.subheader(title)
     top_table = build_ranked_table(
         current_df,
-        previous_df,
         group_col,
         value_col,
-        top_n=3,
+        top_n=5,
         group_label=group_label,
         value_label=value_label,
-        currency=currency,
     )
     change_table = build_change_table(
         current_df,
         previous_df,
         group_col,
         value_col,
-        top_n=3,
+        top_n=5,
         group_label=group_label,
         value_label=value_label,
         currency=currency,
