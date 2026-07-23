@@ -160,25 +160,52 @@ def render_donut_chart(
         "#00A8B5",
         "#7CC6D6",
         "#B8E3EA",
+        "#5B9BD5",
     ]
 
-    segments = []
-    start = 0.0
+    size = 220
+    center = size / 2
+    radius = 76
+    stroke_width = 34
+    circumference = 2 * 3.14159265 * radius
+
+    slices = []
+    offset = 0.0
 
     for i, (_, row) in enumerate(chart_df.iterrows()):
+        label = html.escape(str(row[label_col]))
+        value = float(row[value_col])
         share = float(row["share"])
-        end = start + share
-        segments.append(f"{colors[i % len(colors)]} {start:.1f}% {end:.1f}%")
-        start = end
+        color = colors[i % len(colors)]
 
-    gradient = ", ".join(segments)
+        dash = (share / 100) * circumference
+        gap = circumference - dash
 
-    legend_rows = []
+        slices.append(
+            f'<circle cx="{center}" cy="{center}" r="{radius}" fill="none" '
+            f'stroke="{color}" stroke-width="{stroke_width}" '
+            f'stroke-dasharray="{dash:.2f} {gap:.2f}" '
+            f'stroke-dashoffset="{-offset:.2f}" '
+            f'transform="rotate(-90 {center} {center})" '
+            f'style="cursor:pointer;">'
+            f'<title>{label}: {value:,.0f} (%{share:.1f})</title>'
+            f'</circle>'
+        )
+
+        offset += dash
+
+    circle_svg = (
+        f'<svg width="{size}" height="{size}" viewBox="0 0 {size} {size}">'
+        + "".join(slices) +
+        "</svg>"
+    )
+
+    legend_html = ""
     for i, (_, row) in enumerate(chart_df.iterrows()):
         label = html.escape(str(row[label_col]))
         value = float(row[value_col])
         color = colors[i % len(colors)]
-        legend_rows.append(
+        legend_html += (
             f'<div class="donut-chart-row">'
             f'<div class="donut-chart-label">'
             f'<span class="donut-chart-color" style="background:{color};"></span>'
@@ -186,16 +213,16 @@ def render_donut_chart(
             f'<div class="donut-chart-value">{value:,.0f}</div>'
             f'</div>'
         )
-    legend_html = "".join(legend_rows)
 
     html_content = (
         '<div class="donut-chart">'
-        f'<div class="donut-chart-circle" style="background: conic-gradient({gradient});">'
-        '<div class="donut-chart-center"></div>'
+        f'<div class="donut-chart-circle" style="position:relative;background:none;">'
+        f'{circle_svg}'
+        '<div class="donut-chart-center" '
+        'style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"></div>'
         '</div>'
         f'<div class="donut-chart-legend">{legend_html}</div>'
         '</div>'
     )
 
     st.markdown(html_content, unsafe_allow_html=True)
-    

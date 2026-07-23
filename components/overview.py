@@ -126,7 +126,9 @@ def render_compact_overview_tables(
         with st.container(height=320):
             render_donut_chart(
                 title="Ürün Dağılımı",
-                chart_df=build_product_revenue_share_table(current_df),
+                chart_df=build_product_revenue_share_table(
+                    current_df, top_n=5, others_label="Diğer"
+                ),
                 label_col="product_name",
                 value_col="total_amount",
             )

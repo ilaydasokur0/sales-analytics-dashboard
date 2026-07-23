@@ -1,5 +1,6 @@
 from services import analysis as sa
 from services.formatters import format_currency
+import pandas as pd
 
 
 def build_ranked_table(
@@ -86,20 +87,28 @@ def build_customer_revenue_share_table(current_df, top_n=10):
 
     return table
 
-def build_product_revenue_share_table(current_df, top_n=10):
+def build_product_revenue_share_table(current_df, top_n=10, others_label=None):
     product_sales = sa.get_product_sales(current_df)
 
     if product_sales.empty:
         return product_sales.reset_index()
 
-    total_sales = product_sales.sum()
-    table = (
-        product_sales
-        .reset_index()
-        .sort_values("total_amount", ascending=False)
-        .head(top_n)
-        .reset_index(drop=True)
-    )
+    if others_label and len(product_sales) > top_n:
+        top_sales = product_sales.head(top_n)
+        others_sum: float = float(product_sales.iloc[top_n:].sum())
+        others_series = pd.Series(
+            data=[others_sum],
+            index=[others_label],
+            dtype="float64",
+            name="total_amount",
+        )
+        product_sales = pd.concat([top_sales, others_series])
+    else:
+        product_sales = product_sales.head(top_n)
+
+    total_sales: float = float(product_sales.sum())
+    table = product_sales.reset_index()
+    table.columns = ["product_name", "total_amount"]
     table["share"] = 0.0 if total_sales == 0 else (table["total_amount"] / total_sales * 100).round(1)
 
     return table
