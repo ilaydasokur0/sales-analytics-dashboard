@@ -29,3 +29,6 @@ def generate_customers():
     df.to_csv(data_path("customers.csv"), index=False)
 
     return df
+
+if __name__ == "__main__":
+    generate_customers()

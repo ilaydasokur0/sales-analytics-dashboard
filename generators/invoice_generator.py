@@ -48,3 +48,6 @@ def generate_invoices():
     df.to_csv(data_path("invoices.csv"), index=False)
 
     return df
+
+if __name__ == "__main__":
+    generate_invoices()

@@ -103,3 +103,6 @@ def generate_invoice_details():
     df.to_csv(data_path("invoice_details.csv"), index=False)
 
     return df
+
+if __name__ == "__main__":
+    generate_invoice_details()
