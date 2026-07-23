@@ -174,7 +174,6 @@ def render_donut_chart(
 
     for i, (_, row) in enumerate(chart_df.iterrows()):
         label = html.escape(str(row[label_col]))
-        value = float(row[value_col])
         share = float(row["share"])
         color = colors[i % len(colors)]
 
@@ -188,7 +187,7 @@ def render_donut_chart(
             f'stroke-dashoffset="{-offset:.2f}" '
             f'transform="rotate(-90 {center} {center})" '
             f'style="cursor:pointer;">'
-            f'<title>{label}: {value:,.0f} (%{share:.1f})</title>'
+            f'<title>{label} (%{share:.1f})</title>'
             f'</circle>'
         )
 
@@ -201,19 +200,6 @@ def render_donut_chart(
     )
 
     legend_html = ""
-    for i, (_, row) in enumerate(chart_df.iterrows()):
-        label = html.escape(str(row[label_col]))
-        value = float(row[value_col])
-        color = colors[i % len(colors)]
-        legend_html += (
-            f'<div class="donut-chart-row">'
-            f'<div class="donut-chart-label">'
-            f'<span class="donut-chart-color" style="background:{color};"></span>'
-            f'{label}</div>'
-            f'<div class="donut-chart-value">{value:,.0f}</div>'
-            f'</div>'
-        )
-
     html_content = (
         '<div class="donut-chart">'
         f'<div class="donut-chart-circle" style="position:relative;background:none;">'

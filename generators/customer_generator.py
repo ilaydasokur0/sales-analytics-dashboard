@@ -3,9 +3,9 @@ import uuid
 
 import pandas as pd
 
-from config import CUSTOMER_COUNT
-from constants import CUSTOMER_NAMES, CITIES
-from paths import data_path
+from config.config import CUSTOMER_COUNT
+from config.constants import CUSTOMER_NAMES, CITIES
+from config.paths import data_path
 
 
 def generate_customers():

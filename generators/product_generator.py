@@ -3,8 +3,8 @@ import uuid
 
 import pandas as pd
 
-from constants import PRODUCTS
-from paths import data_path
+from config.constants import PRODUCTS
+from config.paths import data_path
 
 
 def generate_products():

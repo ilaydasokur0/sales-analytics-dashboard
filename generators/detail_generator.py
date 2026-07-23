@@ -4,11 +4,11 @@ import uuid
 import numpy as np
 import pandas as pd
 
-from config import (
+from config.config import (
     MIN_PRODUCTS_PER_INVOICE,
     MAX_PRODUCTS_PER_INVOICE
 )
-from paths import data_path
+from config.paths import data_path
 
 
 def generate_invoice_details():

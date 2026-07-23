@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 import numpy as np
 import pandas as pd
 
-from config import INVOICE_COUNT, START_DATE, END_DATE
-from paths import data_path
+from config.config import INVOICE_COUNT, START_DATE, END_DATE
+from config.paths import data_path
 
 
 def generate_invoices():
