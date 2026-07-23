@@ -138,26 +138,64 @@ def render_horizontal_bar_chart(
             unsafe_allow_html=True,
         )
 
-def render_donut_chart(title, chart_df, label_col, value_col, empty_message="Veri bulunamadı."):
+def render_donut_chart(
+    title,
+    chart_df,
+    label_col,
+    value_col,
+    empty_message="Veri bulunamadı.",
+):
     st.markdown(
         f'<div class="section-title section-title--large">{title}</div>',
         unsafe_allow_html=True,
     )
+
     if chart_df.empty:
         st.info(empty_message)
         return
 
-    for _, row in chart_df.iterrows():
+    colors = [
+        "#0A2B47",
+        "#1E3A5F",
+        "#00A8B5",
+        "#7CC6D6",
+        "#B8E3EA",
+    ]
+
+    segments = []
+    start = 0.0
+
+    for i, (_, row) in enumerate(chart_df.iterrows()):
+        share = float(row["share"])
+        end = start + share
+        segments.append(f"{colors[i % len(colors)]} {start:.1f}% {end:.1f}%")
+        start = end
+
+    gradient = ", ".join(segments)
+
+    legend_rows = []
+    for i, (_, row) in enumerate(chart_df.iterrows()):
         label = html.escape(str(row[label_col]))
         value = float(row[value_col])
-
-        st.markdown(
-            textwrap.dedent(f"""
-                <div class="donut-chart-row">
-                    <div class="donut-chart-label">{label}</div>
-                    <div class="donut-chart-value">{value:,.0f}</div>
-                </div>
-            """).strip(),
-            unsafe_allow_html=True,
+        color = colors[i % len(colors)]
+        legend_rows.append(
+            f'<div class="donut-chart-row">'
+            f'<div class="donut-chart-label">'
+            f'<span class="donut-chart-color" style="background:{color};"></span>'
+            f'{label}</div>'
+            f'<div class="donut-chart-value">{value:,.0f}</div>'
+            f'</div>'
         )
+    legend_html = "".join(legend_rows)
+
+    html_content = (
+        '<div class="donut-chart">'
+        f'<div class="donut-chart-circle" style="background: conic-gradient({gradient});">'
+        '<div class="donut-chart-center"></div>'
+        '</div>'
+        f'<div class="donut-chart-legend">{legend_html}</div>'
+        '</div>'
+    )
+
+    st.markdown(html_content, unsafe_allow_html=True)
     

@@ -326,6 +326,77 @@ div[data-testid="stMetricValue"]{
     }
 }
 
+.donut-chart{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.75rem;
+    width:100%;
+}
+
+.donut-chart-circle{
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+}
+
+.donut-chart-center{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:#FFFFFF;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.donut-chart-legend{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:.75rem;
+}
+
+.donut-chart-row{
+    display:grid;
+    grid-template-columns:18px 1fr auto;
+    align-items:center;
+    gap:.75rem;
+}
+
+.donut-chart-color{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+}
+
+.donut-chart-label{
+    font-size:.95rem;
+    font-weight:700;
+    color:#0A2B47;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.donut-chart-value{
+    font-size:.9rem;
+    font-weight:700;
+    color:#245274;
+    white-space:nowrap;
+}
+
 div[data-testid="stDataFrame"]{
     border:1px solid #DCE8F3;
     border-radius:14px;
