@@ -137,3 +137,27 @@ def render_horizontal_bar_chart(
             """).strip(),
             unsafe_allow_html=True,
         )
+
+def render_donut_chart(title, chart_df, label_col, value_col, empty_message="Veri bulunamadı."):
+    st.markdown(
+        f'<div class="section-title section-title--large">{title}</div>',
+        unsafe_allow_html=True,
+    )
+    if chart_df.empty:
+        st.info(empty_message)
+        return
+
+    for _, row in chart_df.iterrows():
+        label = html.escape(str(row[label_col]))
+        value = float(row[value_col])
+
+        st.markdown(
+            textwrap.dedent(f"""
+                <div class="donut-chart-row">
+                    <div class="donut-chart-label">{label}</div>
+                    <div class="donut-chart-value">{value:,.0f}</div>
+                </div>
+            """).strip(),
+            unsafe_allow_html=True,
+        )
+    

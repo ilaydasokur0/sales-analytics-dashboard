@@ -445,32 +445,13 @@ def get_city_pl_share(df):  # il bazında PL satış yüzdesi
 
 # ----- Genel ----- #
 
-def get_top_products(df, top_n=3):  # en çok satılan ürünler
-    return (
-        df.groupby("product_name")["quantity"]
-        .sum()
-        .sort_values(ascending=False)
-        .head(top_n)
-    )
-
-
-def get_bottom_products(df, top_n=3):  # en az satılan ürünler
-    return (
-        df.groupby("product_name")["quantity"]
-        .sum()
-        .sort_values()
-        .head(top_n)
-    )
-
-# ----- Ciro ----- #
-
-def get_product_sales(df):  # ürün bazında toplam ciro
+def get_product_sales(df):
     return (
         df.groupby("product_name")["total_amount"]
         .sum()
         .sort_values(ascending=False)
     )
-
+# ----- Ciro ----- #
 
 def get_product_share(df):  # ürünlerin toplam satıştaki yüzdesi
 
@@ -537,29 +518,6 @@ def get_product_bottom_customers(df, top_n=3):  # ürünü en az alan müşteril
         .groupby("product_name")
         .head(top_n)
     )
-
-def build_customer_revenue_share_table(current_df, top_n=10):
-    customer_sales = get_customer_sales(current_df)
-
-    if customer_sales.empty:
-        return customer_sales.reset_index()
-
-    total_sales = customer_sales.sum()
-
-    table = (
-        customer_sales
-        .reset_index()
-        .sort_values("total_amount", ascending=False)
-        .head(top_n)
-        .reset_index(drop=True)
-    )
-
-    if total_sales == 0:
-        table["share"] = 0.0
-    else:
-        table["share"] = (table["total_amount"] / total_sales * 100).round(1)
-
-    return table
 
 
 # ----- İl ----- #

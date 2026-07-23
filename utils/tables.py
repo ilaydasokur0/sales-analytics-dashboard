@@ -85,3 +85,21 @@ def build_customer_revenue_share_table(current_df, top_n=10):
     table["share"] = 0.0 if total_sales == 0 else (table["total_amount"] / total_sales * 100).round(1)
 
     return table
+
+def build_product_revenue_share_table(current_df, top_n=10):
+    product_sales = sa.get_product_sales(current_df)
+
+    if product_sales.empty:
+        return product_sales.reset_index()
+
+    total_sales = product_sales.sum()
+    table = (
+        product_sales
+        .reset_index()
+        .sort_values("total_amount", ascending=False)
+        .head(top_n)
+        .reset_index(drop=True)
+    )
+    table["share"] = 0.0 if total_sales == 0 else (table["total_amount"] / total_sales * 100).round(1)
+
+    return table

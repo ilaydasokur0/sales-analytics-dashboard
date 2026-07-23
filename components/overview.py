@@ -1,6 +1,6 @@
 import streamlit as st
 
-from components.charts import render_horizontal_bar_chart
+from components.charts import render_donut_chart, render_horizontal_bar_chart
 from components.city import (
     render_city_customer_product_ranking,
     render_customer_revenue_share_chart,
@@ -9,7 +9,7 @@ from components.city import (
 from components.customer import render_customer_product_ranking
 from components.general import render_overview_section
 from components.product import render_product_detail_table
-from utils.tables import build_ranked_table
+from utils.tables import build_product_revenue_share_table, build_ranked_table
 
 
 def render_header(
@@ -123,14 +123,9 @@ def render_compact_overview_tables(
             )
 
     with col3:
-        render_overview_section(
-            current_df,
-            previous_df,
-            "Ürün Performansı",
-            "product_name",
-            "quantity",
-            "Ürün",
-            "Satış Adedi",
-            top_caption="En Çok Satılan Ürünler",
-            bottom_caption="En Çok Düşüş Yaşayan Ürünler",
+        render_donut_chart(
+            title="Ürün Payları",
+            chart_df=build_product_revenue_share_table(current_df),
+            label_col="product_name",
+            value_col="total_amount",
         )
