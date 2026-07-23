@@ -17,7 +17,6 @@ def generate_products():
             "product_id": str(uuid.uuid4()),
             "product_name": product["name"],
             "product_type": product["type"],
-            "unit": product["unit"],
             "pl_status": product["pl_status"]
         }
 
@@ -28,3 +27,6 @@ def generate_products():
     df.to_csv(data_path("products.csv"), index=False)
 
     return df
+
+if __name__ == "__main__":
+    generate_products()

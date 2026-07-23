@@ -1,26 +1,26 @@
-product_id,product_name,product_type,unit,pl_status
-2124bc8d-003d-4eb7-b00d-313ce2625ecf,Bill Matik,Toz,KL,PL Değil
-9ff69c9e-a9f3-4e67-8ce9-c4bc61bf367c,Art Matik Beyazlar,Toz,ADT,PL
-d69f87fa-5ccf-4bcb-8979-a13c45a2d8b5,Art Matik Renkliler,Toz,ADT,PL
-ca2cf83e-ceaa-409d-9932-859e047977d6,Fairy Platinum,Sıvı,LT,PL Değil
-6b5b09d6-ebd5-45b1-855d-e8d9149f1ae5,Fairy Limon,Sıvı,LT,PL Değil
-889c5b48-9adf-4b0a-b436-ea72dda94f2d,Pril,Sıvı,LT,PL Değil
-ffa10c48-ddc1-4eb0-b516-b9a669d04091,Finish Quantum,Toz,ADT,PL Değil
-74cf46f1-1385-490b-9916-820cb57e6788,Finish Classic,Toz,ADT,PL Değil
-66965e96-1f13-4448-aad9-e2cfd562c8c4,Domestos Çamaşır Suyu,Sıvı,LT,PL Değil
-05aa27ae-0e8a-469a-9eaa-ef642a7e7b62,Domestos Dağ Esintisi,Sıvı,LT,PL Değil
-7d8f9e92-f969-4301-9d0c-85a59a26df98,Cif Krem,Sıvı,LT,PL Değil
-ad9ecb23-4b8c-463a-82f8-afb3c98a2ae9,Cif Sprey,Sıvı,LT,PL Değil
-60921fa8-a0eb-4955-abc4-2e7a91ae829c,Yumoş Extra,Sıvı,LT,PL Değil
-ac0200b2-49d0-4920-a09f-aebf7a8982b7,Vernel,Sıvı,LT,PL Değil
-dbe68dc0-caea-4177-b94a-33c6ba441a7a,Persil Jel,Sıvı,LT,PL Değil
-566ffc71-8768-4cd9-af59-fdadeb15427f,Ariel Dağ Esintisi,Toz,KL,PL Değil
-d8e4e854-a695-40a4-904e-86c6815aa6a4,Ariel Color,Toz,KL,PL Değil
-e4e721f7-4967-4ef9-85d8-6281b52c7cd9,Omo Active,Toz,KL,PL Değil
-9c6fa66f-dacc-46b5-8ff5-33325701b853,Rinso,Toz,KL,PL Değil
-e1f8a9b9-ec1f-4951-b427-9548401a0977,ABC Deterjan,Toz,KL,PL
-ca326934-521f-4df7-852d-23aebf897ae4,Mintax,Sıvı,LT,PL
-a6f7c96f-e981-4327-9aa2-dfa1c3970855,Ace,Sıvı,LT,PL Değil
-f6542ef0-fa58-40a4-8b04-443525808af8,Porçöz,Sıvı,LT,PL Değil
-8703f81e-c162-4651-bafe-4ef0600fb628,Mr. Muscle,Sıvı,LT,PL Değil
-2b959f72-50bd-40bb-8866-9af791855f2d,Asperox Sarı Güç,Sıvı,LT,PL Değil
+product_id,product_name,product_type,pl_status
+0fa94664-1bd5-4b62-9076-a2b4140319c4,Bill Matik,Toz,PL Değil
+13ed56b5-b914-489d-ae0a-ab3a3cf1512a,Art Matik Beyazlar,Toz,PL
+009fb83d-7d63-4e00-b34f-f8308f9ea3bc,Art Matik Renkliler,Toz,PL
+94467b05-074f-412d-abf3-3d7a13580aca,Fairy Platinum,Sıvı,PL Değil
+be6076ed-679f-429f-a078-a7c081a30341,Fairy Limon,Sıvı,PL Değil
+ad08bebe-5243-4f86-bc5d-39a085ab8229,Pril,Sıvı,PL Değil
+5f965832-cb5e-4c3f-803a-42a058f0385c,Finish Quantum,Toz,PL Değil
+1b0e0070-bcff-4195-9aa1-dec4debe7367,Finish Classic,Toz,PL Değil
+bcca8844-6d9a-4438-b6bb-d4bf7b48f023,Domestos Çamaşır Suyu,Sıvı,PL Değil
+20dee7b3-0298-4f6a-8711-53832f1df292,Domestos Dağ Esintisi,Sıvı,PL Değil
+3b2ee38a-dc98-4a4b-b483-97822725d17e,Cif Krem,Sıvı,PL Değil
+6f1e0367-60c7-45aa-9760-52abfea65320,Cif Sprey,Sıvı,PL Değil
+9442adb8-11a0-4ffa-9b95-680be515715c,Yumoş Extra,Sıvı,PL Değil
+a4665b5d-472a-4033-a828-99b1eedb60f0,Vernel,Sıvı,PL Değil
+8240683b-785d-4fe7-ba4c-e4d07ab99655,Persil Jel,Sıvı,PL Değil
+61b25f44-da04-4fe7-b920-bb7e9c03eec1,Ariel Dağ Esintisi,Toz,PL Değil
+3b018a7b-a794-47b5-88b8-38456fd75705,Ariel Color,Toz,PL Değil
+56b85269-14e4-43e3-a510-ab736b80a39d,Omo Active,Toz,PL Değil
+72948612-f2cb-4642-865c-47c8fc33612a,Rinso,Toz,PL Değil
+a9b04950-5e8e-4deb-a14b-b12adfca1ee6,ABC Deterjan,Toz,PL
+61f003c9-38a4-4569-948d-27efa3b7999a,Mintax,Sıvı,PL
+eb273192-58b5-4dd8-a9e4-a8d37ab5c833,Ace,Sıvı,PL Değil
+845ebfe2-4cb8-4ec6-bc94-9de2df133d80,Porçöz,Sıvı,PL Değil
+906fcbbd-4efe-47ee-9c0b-150a806c31b8,Mr. Muscle,Sıvı,PL Değil
+a3b379e4-ac49-47ff-a559-8261694d0fd6,Asperox Sarı Güç,Sıvı,PL Değil
