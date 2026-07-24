@@ -1,7 +1,7 @@
 import streamlit as st
 from services import analysis as sa
 from services.formatters import format_currency
-from utils.metrics import get_city_share, get_customer_city_share
+from services.analysis import get_city_share, get_customer_city_share
 
 
 def render_delta_metric(

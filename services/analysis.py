@@ -230,3 +230,25 @@ def get_monthly_quantity(df):
         monthly.groupby("year_month")["quantity"]
         .sum()
     )
+
+#-------------------------------- SHARES ------------------------------- #
+
+def get_amount_share(df, group_col, value_col="total_amount"):
+    grouped = df.groupby(group_col)[value_col].sum()
+    total = grouped.sum()
+
+    if total == 0:
+        return grouped * 0
+
+    return ((grouped / total) * 100).round(2)
+
+def get_city_share(national_df, city_df):
+    national_sales = get_total_sales(national_df)
+    city_sales = get_total_sales(city_df)
+    return 0 if national_sales == 0 else (city_sales / national_sales) * 100
+
+def get_customer_city_share(city_base_df, customer_df):
+    city_sales_all_customers = get_total_sales(city_base_df)
+    customer_sales_in_city = get_total_sales(customer_df)
+    return 0 if city_sales_all_customers == 0 else (customer_sales_in_city / city_sales_all_customers) * 100
+

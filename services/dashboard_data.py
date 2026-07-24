@@ -1,5 +1,4 @@
 import services.analysis as sa
-from utils.metrics import get_month_comparison_frames 
 
 def prepare_dashboard_data(
     sales_df,
@@ -77,3 +76,36 @@ def prepare_dashboard_data(
         city_and_customer_selected,
         city_and_customer_and_product_selected,
     )
+
+def get_month_comparison_frames(df, filters):
+    base_df = sa.filter_data(  
+        df,
+        city=None if filters["city"] == "Hepsi" else filters["city"],
+        customer=None if filters["customer"] == "Hepsi" else filters["customer"],
+        product=None if filters["product"] == "Hepsi" else filters["product"],
+    )
+    selected_df = sa.filter_data(
+        base_df, 
+        start_date=filters["start_date"],
+        end_date=filters["end_date"],
+    )
+    data_start = df["invoice_date"].min().date()
+    data_end = df["invoice_date"].max().date()
+
+    if filters["start_date"] == data_start and filters["end_date"] == data_end:
+        return selected_df, selected_df.iloc[0:0], False, None, None
+
+    if selected_df.empty:
+        return selected_df, selected_df, True, None, None
+
+    latest_period = selected_df["invoice_date"].dt.to_period("M").max()
+    base_periods = base_df["invoice_date"].dt.to_period("M")
+    previous_candidates = base_periods[base_periods < latest_period]
+    previous_period = previous_candidates.max() if not previous_candidates.empty else None
+    current_df = selected_df[selected_df["invoice_date"].dt.to_period("M") == latest_period]
+    previous_df = (
+        base_df[base_periods == previous_period]
+        if previous_period is not None
+        else base_df.iloc[0:0]
+    )
+    return current_df, previous_df, previous_period is not None, latest_period, previous_period

@@ -1,7 +1,7 @@
 import streamlit as st
 import services.analysis as sa
 from components.kpi import render_share_metrics
-from utils.metrics import get_amount_share
+from services.analysis import get_amount_share
 from utils.tables import build_selected_product_info
 import html
 import textwrap
