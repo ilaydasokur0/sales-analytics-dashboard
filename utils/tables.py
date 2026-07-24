@@ -112,3 +112,17 @@ def build_product_revenue_share_table(current_df, top_n=10, others_label=None):
     table["share"] = 0.0 if total_sales == 0 else (table["total_amount"] / total_sales * 100).round(1)
 
     return table
+
+def build_selected_product_info(filtered_df):
+    if filtered_df.empty:
+        return []
+
+    product_row = filtered_df.iloc[0]
+    info_items = [
+        ("Ürün Adı", product_row.get("product_name", "-")),
+        ("PL Durumu", product_row.get("pl_status", "-")),
+        ("Ürün Tipi", product_row.get("product_type", "-")),
+        ("Ürün Kodu", product_row.get("product_id", "-")),
+    ]
+
+    return info_items

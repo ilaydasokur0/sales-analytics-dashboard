@@ -2,6 +2,7 @@ import streamlit as st
 import services.analysis as sa
 from components.kpi import render_share_metrics
 from utils.metrics import get_amount_share
+from utils.tables import build_selected_product_info
 import html
 import textwrap
 
@@ -19,21 +20,6 @@ def get_chart_data(df, graph_type):
         return sa.get_monthly_sales(df)
 
     return sa.get_monthly_quantity(df)
-
-def build_selected_product_info(filtered_df):
-    if filtered_df.empty:
-        return []
-
-    product_row = filtered_df.iloc[0]
-    info_items = [
-        ("Ürün Adı", product_row.get("product_name", "-")),
-        ("PL Durumu", product_row.get("pl_status", "-")),
-        ("Ürün Tipi", product_row.get("product_type", "-")),
-        ("ADT", product_row.get("unit", "-")),
-        ("Ürün Kodu", product_row.get("product_id", "-")),
-    ]
-
-    return info_items
 
 
 def render_product_info_card(filtered_df):

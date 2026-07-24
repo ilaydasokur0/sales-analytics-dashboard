@@ -595,3 +595,17 @@ def get_monthly_quantity(df):  # aylık satılan ürün adedi
         monthly.groupby("year_month")["quantity"]
         .sum()
     )
+
+def build_selected_product_info(filtered_df):
+    if filtered_df.empty:
+        return []
+
+    product_row = filtered_df.iloc[0]
+    info_items = [
+        ("Ürün Adı", product_row.get("product_name", "-")),
+        ("PL Durumu", product_row.get("pl_status", "-")),
+        ("Ürün Tipi", product_row.get("product_type", "-")),
+        ("Ürün Kodu", product_row.get("product_id", "-")),
+    ]
+
+    return info_items
