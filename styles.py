@@ -93,6 +93,24 @@ section[data-testid="stSidebar"] span{
     color:#E6FBFA !important;
 }
 
+/* Ay seçim grid'i: kompakt kutular, seçili ay filtre kaldırılana kadar mavi kalır */
+section[data-testid="stSidebar"] .st-key-month_grid .stButton>button{
+    padding:0.2rem 0.3rem !important;
+    min-height:1.8rem !important;
+    font-size:0.78rem !important;
+}
+section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]{
+    background:var(--accent) !important;
+    border:1px solid var(--accent) !important;
+    color:#FFFFFF !important;
+    font-weight:700 !important;
+}
+section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover{
+    background:var(--accent) !important;
+    border-color:var(--accent) !important;
+    opacity:0.9;
+}
+
 .page-title{
     font-size:3.2rem;
     line-height:1.02;
@@ -475,4 +493,4 @@ section[data-testid="stSidebar"] .stButton>button:focus{
 .transition-smooth{transition:all .18s cubic-bezier(.2,.8,.2,1);}
 
 </style>
-""", unsafe_allow_html=True) 
+""", unsafe_allow_html=True)

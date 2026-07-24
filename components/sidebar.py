@@ -5,16 +5,59 @@ from services import analysis as sa
 
 
 FILTER_WIDGET_KEYS = (
-    "filter_date_range",
+    "filter_month",
     "filter_city",
     "filter_customer",
     "filter_product",
 )
 
+TURKISH_MONTH_ABBR = [
+    "Oca", "Şub", "Mar", "Nis", "May", "Haz",
+    "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara",
+]
+
+MONTH_GRID_COLS = 4
+
 
 def clear_sidebar_filters():
     for key in FILTER_WIDGET_KEYS:
         st.session_state.pop(key, None)
+
+
+def _render_month_grid(month_periods):
+    """Ayları 4'lü satırlar halinde buton grid'i olarak çizer.
+    Seçili ay filtre kaldırılana kadar mavi (primary) kalır.
+    Hiçbir ay seçilmemişse (ör. filtreler temizlendiğinde) genel
+    toplam veriler gösterilir."""
+    period_keys = [str(p) for p in month_periods]
+
+    if st.session_state.get("filter_month") not in period_keys:
+        st.session_state["filter_month"] = ""
+
+    selected_key = st.session_state["filter_month"]
+
+    st.sidebar.markdown('<div class="mini-section-title">Ay</div>', unsafe_allow_html=True)
+
+    with st.sidebar.container(key="month_grid"):
+        for row_start in range(0, len(month_periods), MONTH_GRID_COLS):
+            row = list(zip(period_keys, month_periods))[row_start:row_start + MONTH_GRID_COLS]
+            cols = st.columns(MONTH_GRID_COLS, gap="small")
+            for col, (period_key, period) in zip(cols, row):
+                is_selected = period_key == selected_key
+                clicked = col.button(
+                    TURKISH_MONTH_ABBR[period.month - 1],
+                    key=f"month_btn_{period_key}",
+                    type="primary" if is_selected else "secondary",
+                    use_container_width=True,
+                )
+                if clicked and not is_selected:
+                    st.session_state["filter_month"] = period_key
+                    st.rerun()
+
+    selected_key = st.session_state["filter_month"]
+    if not selected_key:
+        return None
+    return pd.Period(selected_key, freq="M")
 
 
 def apply_sidebar_filters(df):
@@ -28,20 +71,25 @@ def apply_sidebar_filters(df):
         use_container_width=True,
     )
 
-    date_range = st.sidebar.date_input(
-        "Tarih aralığı",
-        value=(min_date, max_date),
-        min_value=min_date,
-        max_value=max_date,
-        key="filter_date_range",
-    )
+    month_periods = list(pd.period_range(start=min_date, end=max_date, freq="M"))
+    selected_period = _render_month_grid(month_periods)
 
-    if isinstance(date_range, tuple) and len(date_range) == 2:
-        start_date, end_date = date_range
-    elif isinstance(date_range, tuple):
-        start_date = end_date = date_range[0] if date_range else min_date
+    if selected_period is None:
+        start_date = min_date
+        end_date = max_date
+        prev_start_date = None
+        prev_end_date = None
+        comparison_available = False
+        month_label = "Hepsi"
     else:
-        start_date = end_date = date_range
+        start_date = selected_period.start_time.date()
+        end_date = min(selected_period.end_time.date(), max_date)
+
+        prev_period = selected_period - 1
+        prev_start_date = prev_period.start_time.date()
+        prev_end_date = prev_period.end_time.date()
+        comparison_available = str(prev_period) in [str(p) for p in month_periods]
+        month_label = TURKISH_MONTH_ABBR[selected_period.month - 1]
 
     def make_options(series: pd.Series):
         values = sorted(series.dropna().unique().tolist())
@@ -83,6 +131,10 @@ def apply_sidebar_filters(df):
     return filtered_df, {
         "start_date": start_date,
         "end_date": end_date,
+        "prev_start_date": prev_start_date,
+        "prev_end_date": prev_end_date,
+        "comparison_available": comparison_available,
+        "month_label": month_label,
         "city": city,
         "customer": customer,
         "product": product,

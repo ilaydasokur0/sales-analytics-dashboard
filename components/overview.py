@@ -1,3 +1,5 @@
+from warnings import filters
+
 import streamlit as st
 
 from components.charts import render_donut_chart, render_horizontal_bar_chart
@@ -39,6 +41,9 @@ def render_header(
         and active_filters["end_date"] == sales_df["invoice_date"].max().date()
     ):
         st.caption("Seçilen tarih aralığı için karşılaştırma yapılamıyor.")
+
+    if active_filters["month_label"] != "Hepsi" and not active_filters["comparison_available"]:
+        st.caption("Seçilen ay için karşılaştırma yapılamıyor.")
 
     if current_month_df.empty:
         st.warning("Seçilen filtrelerde veri bulunamadı. Filtreleri genişletip tekrar deneyin.")
