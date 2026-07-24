@@ -85,41 +85,80 @@ def render_compact_overview_tables(
             pass #placeholder
 
     st.header("Performans Özeti")
+    performance_type = st.radio(
+        "Performans Türü",
+        ("Ciro", "Satış Adedi"),
+        horizontal=True,
+        key="performance_type",
+        label_visibility="collapsed",
+    )
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        customer_ranking = build_ranked_table(
-            current_df,
-            "customer_name",
-            "total_amount",
-            group_label="Müşteri",
-            value_label="Ciro",
-        )
-        with st.container(height=320):
-            render_horizontal_bar_chart(
-                title="Müşteri Performansı",
-                chart_df=customer_ranking,
-                label_col="Müşteri",
-                value_col="Ciro",
-                value_suffix=" ₺",
+        if performance_type == "Ciro":
+            customer_ranking = build_ranked_table(
+                current_df,
+                "customer_name",
+                "total_amount",
+                group_label="Müşteri",
+                value_label="Ciro",
             )
+            with st.container(height=320):
+                render_horizontal_bar_chart(
+                    title="Müşteri Performansı",
+                    chart_df=customer_ranking,
+                    label_col="Müşteri",
+                    value_col="Ciro",
+                    value_suffix=" ₺",
+                )
+        else:
+            customer_ranking = build_ranked_table(
+                current_df,
+                "customer_name",
+                "quantity",
+                group_label="Müşteri",
+                value_label="Satış Adedi",
+            )
+            with st.container(height=320):
+                render_horizontal_bar_chart(
+                    title="Müşteri Performansı",
+                    chart_df=customer_ranking,
+                    label_col="Müşteri",
+                    value_col="Satış Adedi",
+                )
 
     with col2:
-        city_ranking = build_ranked_table(
-            current_df,
-            "city",
-            "total_amount",
-            group_label="İl",
-            value_label="Ciro",
-        )
-        with st.container(height=320):
-            render_horizontal_bar_chart(
-                title="Bölgesel Performans",
-                chart_df=city_ranking,
-                label_col="İl",
-                value_col="Ciro",
-                value_suffix=" ₺",
+        if performance_type == "Ciro":
+            city_ranking = build_ranked_table(
+                current_df,
+                "city",
+                "total_amount",
+                group_label="İl",
+                value_label="Ciro",
             )
+            with st.container(height=320):
+                render_horizontal_bar_chart(
+                    title="Bölgesel Performans",
+                    chart_df=city_ranking,
+                    label_col="İl",
+                    value_col="Ciro",
+                    value_suffix=" ₺",
+                )
+        else:
+            city_ranking = build_ranked_table(
+                current_df,
+                "city",
+                "quantity",
+                group_label="İl",
+                value_label="Satış Adedi",
+            )
+            with st.container(height=320):
+                render_horizontal_bar_chart(
+                    title="Bölgesel Performans",
+                    chart_df=city_ranking,
+                    label_col="İl",
+                    value_col="Satış Adedi",
+                )
 
     with col3:
         with st.container(height=320):
