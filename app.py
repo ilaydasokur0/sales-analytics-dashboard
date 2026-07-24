@@ -59,6 +59,8 @@ current_month_df, previous_month_df, comparison_enabled, current_period, previou
     comparison_enabled,
     current_period,
     previous_period,
+    current_month_df,
+    previous_month_df,
 )
 
 render_header(

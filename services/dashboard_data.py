@@ -1,21 +1,15 @@
 import services.analysis as sa
 
+
 def prepare_dashboard_data(
     sales_df,
     active_filters,
     comparison_enabled,
     current_period,
     previous_period,
+    current_month_df,
+    previous_month_df
 ):
-    # Karşılaştırma için geçerli ay ve önceki ay verileri
-    (
-        current_month_df,
-        previous_month_df,
-        comparison_enabled_local,
-        current_period_local,
-        previous_period_local,
-    ) = get_month_comparison_frames(sales_df, active_filters)
-
     # Ulusal veriler
     national_df = sa.filter_data(
         sales_df,
@@ -77,18 +71,21 @@ def prepare_dashboard_data(
         city_and_customer_and_product_selected,
     )
 
+
 def get_month_comparison_frames(df, filters):
-    base_df = sa.filter_data(  
+    base_df = sa.filter_data(
         df,
         city=None if filters["city"] == "Hepsi" else filters["city"],
         customer=None if filters["customer"] == "Hepsi" else filters["customer"],
         product=None if filters["product"] == "Hepsi" else filters["product"],
     )
+
     selected_df = sa.filter_data(
-        base_df, 
+        base_df,
         start_date=filters["start_date"],
         end_date=filters["end_date"],
     )
+
     data_start = df["invoice_date"].min().date()
     data_end = df["invoice_date"].max().date()
 
@@ -99,13 +96,29 @@ def get_month_comparison_frames(df, filters):
         return selected_df, selected_df, True, None, None
 
     latest_period = selected_df["invoice_date"].dt.to_period("M").max()
+
     base_periods = base_df["invoice_date"].dt.to_period("M")
     previous_candidates = base_periods[base_periods < latest_period]
-    previous_period = previous_candidates.max() if not previous_candidates.empty else None
-    current_df = selected_df[selected_df["invoice_date"].dt.to_period("M") == latest_period]
+    previous_period = (
+        previous_candidates.max()
+        if not previous_candidates.empty
+        else None
+    )
+
+    current_df = selected_df[
+        selected_df["invoice_date"].dt.to_period("M") == latest_period
+    ]
+
     previous_df = (
         base_df[base_periods == previous_period]
         if previous_period is not None
         else base_df.iloc[0:0]
     )
-    return current_df, previous_df, previous_period is not None, latest_period, previous_period
+
+    return (
+        current_df,
+        previous_df,
+        previous_period is not None,
+        latest_period,
+        previous_period,
+    )
