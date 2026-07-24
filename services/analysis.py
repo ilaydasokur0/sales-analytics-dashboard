@@ -1,5 +1,4 @@
 import pandas as pd
-
 from config.paths import data_path
 
 

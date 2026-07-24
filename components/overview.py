@@ -4,7 +4,6 @@ from components.charts import render_donut_chart, render_horizontal_bar_chart
 from components.city import (
     render_city_customer_product_ranking,
     render_customer_revenue_share_chart,
-    render_city_product_tables,
 )
 from components.customer import render_customer_product_ranking
 from components.general import render_overview_section
@@ -82,8 +81,7 @@ def render_compact_overview_tables(
         with col1:
             render_customer_revenue_share_chart(current_df)
         with col2:
-            render_city_product_tables(current_df, previous_df)
-        return
+            pass #placeholder
 
     st.header("Performans Özeti")
     col1, col2, col3 = st.columns(3)

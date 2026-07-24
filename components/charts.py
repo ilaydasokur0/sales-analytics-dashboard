@@ -1,6 +1,5 @@
 import streamlit as st
 import services.analysis as sa
-import pandas as pd
 from components.kpi import render_share_metrics
 from utils.metrics import get_amount_share
 import html
@@ -200,6 +199,19 @@ def render_donut_chart(
     )
 
     legend_html = ""
+    for i, (_, row) in enumerate(chart_df.iterrows()):
+        label = html.escape(str(row[label_col]))
+        value = float(row[value_col])
+        color = colors[i % len(colors)]
+        legend_html += (
+            f'<div class="donut-chart-row">'
+            f'<div class="donut-chart-label">'
+            f'<span class="donut-chart-color" style="background:{color};"></span>'
+            f'{label}</div>'
+            f'<div class="donut-chart-value">{value:,.0f}</div>'
+            f'</div>'
+        )
+
     html_content = (
         '<div class="donut-chart">'
         f'<div class="donut-chart-circle" style="position:relative;background:none;">'
