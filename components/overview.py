@@ -6,7 +6,6 @@ from components.city import (
     render_customer_revenue_share_chart,
 )
 from components.customer import render_customer_product_ranking
-from components.general import render_overview_section
 from components.product import render_product_detail_table
 from utils.tables import build_product_revenue_share_table, build_ranked_table
 
