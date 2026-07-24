@@ -4,68 +4,6 @@ from services.formatters import format_currency
 from utils.metrics import get_city_share, get_customer_city_share
 
 
-def _customer_product_share(city_base_df, period_df, active_filters):
-    customer = active_filters.get("customer")
-    product = active_filters.get("product")
-
-    if not customer or not product:
-        return 0
-
-    num = (
-        period_df[(period_df["customer_name"] == customer) & (period_df["product_name"] == product)]["total_amount"].sum()
-    )
-
-    if "product_name" in city_base_df.columns:
-        unique_products = city_base_df["product_name"].dropna().unique()
-    else:
-        unique_products = []
-
-    if len(unique_products) == 1 and unique_products[0] == product:
-        full_sales = sa.load_data()
-        city_all_df = sa.filter_data(
-            full_sales,
-            city=None if active_filters.get("city") == "Hepsi" else active_filters.get("city"),
-            start_date=active_filters.get("start_date"),
-            end_date=active_filters.get("end_date"),
-        )
-        cust_all = city_all_df[city_all_df["customer_name"] == customer]["total_amount"].sum()
-    else:
-        cust_all = city_base_df[city_base_df["customer_name"] == customer]["total_amount"].sum()
-
-    return 0 if cust_all == 0 else (num / cust_all) * 100
-
-
-def _product_customer_share(city_base_df, period_df, active_filters):
-    """Return percentage: customer's sales of the selected product / selected product's total sales across all customers (within city/date scope)."""
-    customer = active_filters.get("customer")
-    product = active_filters.get("product")
-
-    if not customer or not product:
-        return 0
-
-    num = (
-        period_df[(period_df["customer_name"] == customer) & (period_df["product_name"] == product)]["total_amount"].sum()
-    )
-
-    # denominator: total sales of the product across all customers within the city/date scope
-    if "product_name" in city_base_df.columns:
-        unique_products = city_base_df["product_name"].dropna().unique()
-    else:
-        unique_products = []
-
-    if len(unique_products) == 1 and unique_products[0] == product:
-        full_sales = sa.load_data()
-        city_all_df = sa.filter_data(
-            full_sales,
-            city=None if active_filters.get("city") == "Hepsi" else active_filters.get("city"),
-            start_date=active_filters.get("start_date"),
-            end_date=active_filters.get("end_date"),
-        )
-        prod_all = city_all_df[city_all_df["product_name"] == product]["total_amount"].sum()
-    else:
-        prod_all = city_base_df[city_base_df["product_name"] == product]["total_amount"].sum()
-
-    return 0 if prod_all == 0 else (num / prod_all) * 100
 def render_delta_metric(
     label,
     current_value,
@@ -182,8 +120,8 @@ def render_kpi_section(
             if city_and_customer_and_product_selected:
                 render_delta_metric(
                     "Ürünün Müşterideki Ciro Payı",
-                    _customer_product_share(city_base_df, current_month_df, active_filters),
-                    _customer_product_share(city_base_df, previous_month_df, active_filters),
+                    sa.get_customer_product_share(city_base_df, current_month_df, active_filters),
+                    sa.get_customer_product_share(city_base_df, previous_month_df, active_filters),
                     lambda value: f"%{value:.1f}",
                     show_percentage=False,
                     comparison_enabled=comparison_enabled,
@@ -224,8 +162,8 @@ def render_kpi_section(
             if city_and_customer_and_product_selected:
                 render_delta_metric(
                     "Müşterinin Üründeki Ciro Payı",
-                    _product_customer_share(city_base_df, current_month_df, active_filters),
-                    _product_customer_share(city_base_df, previous_month_df, active_filters),
+                    sa.get_product_customer_share(current_month_df, active_filters),
+                    sa.get_product_customer_share(previous_month_df, active_filters),
                     lambda value: f"%{value:.1f}",
                     show_percentage=False,
                     comparison_enabled=comparison_enabled,

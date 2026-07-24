@@ -106,7 +106,72 @@ def get_customer_quantity(df):  # müşteri bazında toplam satış adedi
         .sort_values(ascending=False)
     )
 
+def get_customer_product_share(
+    city_base_df,
+    period_df,
+    active_filters,
+):
+    customer = active_filters.get("customer")
+    product = active_filters.get("product")
 
+    if not customer or not product:
+        return 0
+
+    selected_sales = period_df[
+        (period_df["customer_name"] == customer)
+        & (period_df["product_name"] == product)
+    ]["total_amount"].sum()
+
+    full_sales = load_data()
+
+    customer_df = filter_data(
+        full_sales,
+        city=None if active_filters.get("city") == "Hepsi" else active_filters.get("city"),
+        start_date=active_filters.get("start_date"),
+        end_date=active_filters.get("end_date"),
+    )
+
+    customer_total = customer_df[
+        customer_df["customer_name"] == customer
+    ]["total_amount"].sum()
+
+    if customer_total == 0:
+        return 0
+
+    return (selected_sales / customer_total) * 100
+
+
+def get_product_customer_share(
+    period_df,
+    active_filters,
+):
+    customer = active_filters.get("customer")
+    product = active_filters.get("product")
+
+    if not customer or not product:
+        return 0
+
+    selected_sales = period_df[
+        (period_df["customer_name"] == customer)
+        & (period_df["product_name"] == product)
+    ]["total_amount"].sum()
+
+    full_sales = load_data()
+
+    product_df = filter_data(
+        full_sales,
+        start_date=active_filters.get("start_date"),
+        end_date=active_filters.get("end_date"),
+    )
+
+    product_total = product_df[
+        product_df["product_name"] == product
+    ]["total_amount"].sum()
+
+    if product_total == 0:
+        return 0
+
+    return (selected_sales / product_total) * 100
 
 # ----- Fatura ----- #
 
