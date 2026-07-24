@@ -1,5 +1,3 @@
-#projede değişmeyen sabit bilgileri tutar. ilerde mesela yeni bir il eklendiğinde tek yerden eklemek yeterli olucak
-
 CUSTOMER_NAMES = [
     "BİM",
     "A101",

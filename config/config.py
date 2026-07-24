@@ -1,4 +1,3 @@
-#projede sık değişebilcek değerler. ilerde customer sayısı veya invoice sayısıyla oynamak istersem burdan değiştiricem
 CUSTOMER_COUNT = 20
 PRODUCT_COUNT = 25
 INVOICE_COUNT = 300

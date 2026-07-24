@@ -67,10 +67,8 @@ def render_compact_overview_tables(
     comparison_enabled=True,
 ):
     if city_selected and customer_selected and product_selected:
-        st.header("Ürün Performansı")
-        render_product_detail_table(current_df)
-        return
-
+        pass
+    
     if city_selected and customer_selected:
         render_city_customer_product_ranking(current_df)
         return
