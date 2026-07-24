@@ -2,6 +2,7 @@ import streamlit as st
 import services.analysis as sa
 from components.kpi import render_share_metrics
 from services.analysis import get_amount_share
+from services.formatters import format_currency
 from utils.tables import build_selected_product_info
 import html
 import textwrap
@@ -87,11 +88,15 @@ def render_horizontal_bar_chart(
     value_col,
     value_suffix="",
     empty_message="Veri bulunamadı.",
+    render_controls=None,
 ):
     st.markdown(
         f'<div class="section-title section-title--large">{title}</div>',
         unsafe_allow_html=True,
     )
+
+    if render_controls is not None:
+        render_controls()
 
     if chart_df.empty:
         st.info(empty_message)
@@ -140,17 +145,20 @@ def render_donut_chart(
 
     colors = [
         "#0A2B47",
+        "#123C5D",
         "#1E3A5F",
+        "#2F5A82",
         "#00A8B5",
+        "#3FBEC9",
         "#7CC6D6",
+        "#A8D8E0",
         "#B8E3EA",
-        "#5B9BD5",
     ]
 
-    size = 220
+    size = 180
     center = size / 2
-    radius = 76
-    stroke_width = 34
+    radius = 60
+    stroke_width = 28
     circumference = 2 * 3.14159265 * radius
 
     slices = []
@@ -190,10 +198,11 @@ def render_donut_chart(
         color = colors[i % len(colors)]
         legend_html += (
             f'<div class="donut-chart-row">'
-            f'<div class="donut-chart-label">'
             f'<span class="donut-chart-color" style="background:{color};"></span>'
-            f'{label}</div>'
-            f'<div class="donut-chart-value">{value:,.0f}</div>'
+            f'<div class="donut-chart-text">'
+            f'<div class="donut-chart-label">{label}</div>'
+            f'<div class="donut-chart-value">{format_currency(value)}</div>'
+            f'</div>'
             f'</div>'
         )
 

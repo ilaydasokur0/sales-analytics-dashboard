@@ -346,15 +346,15 @@ div[data-testid="stMetricValue"]{
 
 .donut-chart{
     display:flex;
-    flex-direction:column;
+    flex-direction:row;
     align-items:center;
-    gap:1.75rem;
+    gap:1.25rem;
     width:100%;
 }
 
 .donut-chart-circle{
-    width:220px;
-    height:220px;
+    width:180px;
+    height:180px;
     border-radius:50%;
     position:relative;
 
@@ -366,8 +366,8 @@ div[data-testid="stMetricValue"]{
 }
 
 .donut-chart-center{
-    width:130px;
-    height:130px;
+    width:104px;
+    height:104px;
     border-radius:50%;
     background:#FFFFFF;
 
@@ -379,27 +379,35 @@ div[data-testid="stMetricValue"]{
 }
 
 .donut-chart-legend{
-    width:100%;
+    flex:1;
+    min-width:0;
     display:flex;
     flex-direction:column;
-    gap:.75rem;
+    gap:.65rem;
 }
 
 .donut-chart-row{
-    display:grid;
-    grid-template-columns:18px 1fr auto;
-    align-items:center;
-    gap:.75rem;
+    display:flex;
+    align-items:flex-start;
+    gap:.6rem;
 }
 
 .donut-chart-color{
     width:12px;
     height:12px;
     border-radius:50%;
+    margin-top:.2rem;
+    flex-shrink:0;
+}
+
+.donut-chart-text{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
 }
 
 .donut-chart-label{
-    font-size:.95rem;
+    font-size:.92rem;
     font-weight:700;
     color:#0A2B47;
 
@@ -409,7 +417,7 @@ div[data-testid="stMetricValue"]{
 }
 
 .donut-chart-value{
-    font-size:.9rem;
+    font-size:.78rem;
     font-weight:700;
     color:#245274;
     white-space:nowrap;
