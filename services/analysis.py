@@ -86,25 +86,6 @@ def get_average_invoice_amount(df): #ortalama fatura tutarı
 
 # ---------------- CUSTOMER ---------------- #
 
-# ----- Genel ----- #
-
-def get_top_customers(df, top_n=3):  # en çok alış yapan müşteriler
-    return (
-        df.groupby("customer_name")["total_amount"]
-        .sum()
-        .sort_values(ascending=False)
-        .head(top_n)
-    )
-
-
-def get_bottom_customers(df, top_n=3):  # en az alış yapan müşteriler
-    return (
-        df.groupby("customer_name")["total_amount"]
-        .sum()
-        .sort_values()
-        .head(top_n)
-    )
-
 
 # ----- Ciro ----- #
 
@@ -116,21 +97,6 @@ def get_customer_sales(df):  # müşteri bazında toplam ciro
     )
 
 
-def get_customer_share(df):  # müşterilerin toplam satıştaki yüzdesi
-
-    customer_sales = (
-        df.groupby("customer_name")["total_amount"]
-        .sum()
-    )
-
-    total = customer_sales.sum()
-
-    if total == 0:
-        return customer_sales * 0
-
-    return ((customer_sales / total) * 100).round(2)
-
-
 # ----- Ürün ----- #
 
 def get_customer_quantity(df):  # müşteri bazında toplam satış adedi
@@ -140,37 +106,6 @@ def get_customer_quantity(df):  # müşteri bazında toplam satış adedi
         .sort_values(ascending=False)
     )
 
-
-def get_customer_top_products(df, top_n=3):  # her müşterinin en çok aldığı ürünler
-
-    customer_products = (
-        df.groupby(["customer_name", "product_name"])["quantity"]
-        .sum()
-        .reset_index()
-    )
-
-    return (
-        customer_products
-        .sort_values(["customer_name", "quantity"], ascending=[True, False])
-        .groupby("customer_name")
-        .head(top_n)
-    )
-
-
-def get_customer_bottom_products(df, top_n=3):  # her müşterinin en az aldığı ürünler
-
-    customer_products = (
-        df.groupby(["customer_name", "product_name"])["quantity"]
-        .sum()
-        .reset_index()
-    )
-
-    return (
-        customer_products
-        .sort_values(["customer_name", "quantity"], ascending=[True, True])
-        .groupby("customer_name")
-        .head(top_n)
-    )
 
 
 # ----- Fatura ----- #
@@ -243,24 +178,6 @@ def get_customer_product_type_share(df):  # müşteri bazında ürün tipi satı
 # ---------------- CITY ---------------- #
 
 # ----- Genel ----- #
-
-def get_top_cities(df, top_n=3):  # en çok satış yapılan iller
-    return (
-        df.groupby("city")["total_amount"]
-        .sum()
-        .sort_values(ascending=False)
-        .head(top_n)
-    )
-
-
-def get_bottom_cities(df, top_n=3):  # en az satış yapılan iller
-    return (
-        df.groupby("city")["total_amount"]
-        .sum()
-        .sort_values()
-        .head(top_n)
-    )
-
 
 # ----- Ciro ----- #
 

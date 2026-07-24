@@ -5,32 +5,22 @@ from utils.metrics import get_city_share, get_customer_city_share
 
 
 def _customer_product_share(city_base_df, period_df, active_filters):
-    """Return percentage: selected product sales / customer's total sales (within city/date scope).
-
-    - city_base_df: dataframe for the city (all products) within selected date range
-    - period_df: dataframe for the period to evaluate (current or previous); may be pre-filtered by product
-    - active_filters: dict with 'customer' and 'product' keys
-    """
     customer = active_filters.get("customer")
     product = active_filters.get("product")
 
     if not customer or not product:
         return 0
 
-    # numerator: product sales by the customer in the provided period
     num = (
         period_df[(period_df["customer_name"] == customer) & (period_df["product_name"] == product)]["total_amount"].sum()
     )
 
-    # denominator: customer's total sales within the city/date scope (all products)
-    # If city_base_df already appears filtered to the selected product, rebuild the city-wide frame
     if "product_name" in city_base_df.columns:
         unique_products = city_base_df["product_name"].dropna().unique()
     else:
         unique_products = []
 
     if len(unique_products) == 1 and unique_products[0] == product:
-        # rebuild city-wide data (all products) from source
         full_sales = sa.load_data()
         city_all_df = sa.filter_data(
             full_sales,
@@ -53,7 +43,6 @@ def _product_customer_share(city_base_df, period_df, active_filters):
     if not customer or not product:
         return 0
 
-    # numerator: product sales by the customer in the provided period
     num = (
         period_df[(period_df["customer_name"] == customer) & (period_df["product_name"] == product)]["total_amount"].sum()
     )
