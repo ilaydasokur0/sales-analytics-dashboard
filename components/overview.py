@@ -88,64 +88,65 @@ def render_compact_overview_tables(
         with col2:
             pass #placeholder
 
-    st.header("Performans Özeti")
-    col1, col2, col3 = st.columns(3)
+    else:
+        st.header("Performans Özeti")
+        col1, col2, col3 = st.columns(3)
 
-    with col1:
-        customer_type = st.session_state.get("performance_type_customer", "Ciro")
-        if customer_type == "Ciro":
-            value_col, value_label, value_suffix = "total_amount", "Ciro", " ₺"
-        else:
-            value_col, value_label, value_suffix = "quantity", "Satış Adedi", ""
+        with col1:
+            customer_type = st.session_state.get("performance_type_customer", "Ciro")
+            if customer_type == "Ciro":
+                value_col, value_label, value_suffix = "total_amount", "Ciro", " ₺"
+            else:
+                value_col, value_label, value_suffix = "quantity", "Satış Adedi", ""
 
-        customer_ranking = build_ranked_table(
-            current_df,
-            "customer_name",
-            value_col,
-            group_label="Müşteri",
-            value_label=value_label,
-        )
-        with st.container(height=320):
-            render_horizontal_bar_chart(
-                title="Müşteri Performansı",
-                chart_df=customer_ranking,
-                label_col="Müşteri",
-                value_col=value_label,
-                value_suffix=value_suffix,
-                render_controls=lambda: render_chart_controls("performance_type_customer"),
+            customer_ranking = build_ranked_table(
+                current_df,
+                "customer_name",
+                value_col,
+                group_label="Müşteri",
+                value_label=value_label,
             )
+            with st.container(height=320):
+                render_horizontal_bar_chart(
+                    title="Müşteri Performansı",
+                    chart_df=customer_ranking,
+                    label_col="Müşteri",
+                    value_col=value_label,
+                    value_suffix=value_suffix,
+                    render_controls=lambda: render_chart_controls("performance_type_customer"),
+                )
 
-    with col2:
-        city_type = st.session_state.get("performance_type_city", "Ciro")
-        if city_type == "Ciro":
-            value_col, value_label, value_suffix = "total_amount", "Ciro", " ₺"
-        else:
-            value_col, value_label, value_suffix = "quantity", "Satış Adedi", ""
+        with col2:
+            city_type = st.session_state.get("performance_type_city", "Ciro")
+            if city_type == "Ciro":
+                value_col, value_label, value_suffix = "total_amount", "Ciro", " ₺"
+            else:
+                value_col, value_label, value_suffix = "quantity", "Satış Adedi", ""
 
-        city_ranking = build_ranked_table(
-            current_df,
-            "city",
-            value_col,
-            group_label="İl",
-            value_label=value_label,
-        )
-        with st.container(height=320):
-            render_horizontal_bar_chart(
-                title="Bölgesel Performans",
-                chart_df=city_ranking,
-                label_col="İl",
-                value_col=value_label,
-                value_suffix=value_suffix,
-                render_controls=lambda: render_chart_controls("performance_type_city"),
+            city_ranking = build_ranked_table(
+                current_df,
+                "city",
+                value_col,
+                group_label="İl",
+                value_label=value_label,
             )
+            with st.container(height=320):
+                render_horizontal_bar_chart(
+                    title="Bölgesel Performans",
+                    chart_df=city_ranking,
+                    label_col="İl",
+                    value_col=value_label,
+                    value_suffix=value_suffix,
+                    render_controls=lambda: render_chart_controls("performance_type_city"),
+                )
 
-    with col3:
-        with st.container(height=320):
-            render_donut_chart(
-                title="Ürün Dağılımı",
-                chart_df=build_product_revenue_share_table(
-                    current_df, top_n=8, others_label="Diğer"
-                ),
-                label_col="product_name",
-                value_col="total_amount",
-            )
+        with col3:
+            with st.container(height=320):
+                render_donut_chart(
+                    title="Ürün Dağılımı",
+                    chart_df=build_product_revenue_share_table(
+                        current_df, top_n=8, others_label="Diğer"
+                    ),
+                    label_col="product_name",
+                    value_col="total_amount",
+                )
