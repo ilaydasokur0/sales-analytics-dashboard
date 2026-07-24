@@ -13,7 +13,6 @@ def build_ranked_table(
     group_label=None,
     value_label=None,
 ):
-    """Prepare a numeric ranking DataFrame for a chart component."""
     table = (
         current_df.groupby(group_col, as_index=False)[value_col]
         .sum()

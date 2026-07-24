@@ -8,7 +8,6 @@ from components.city import (
     render_customer_revenue_share_chart,
 )
 from components.customer import render_customer_product_ranking
-from components.product import render_product_detail_table
 from utils.tables import build_product_revenue_share_table, build_ranked_table
 
 
@@ -68,7 +67,7 @@ def render_compact_overview_tables(
 ):
     if city_selected and customer_selected and product_selected:
         pass
-    
+
     if city_selected and customer_selected:
         render_city_customer_product_ranking(current_df)
         return

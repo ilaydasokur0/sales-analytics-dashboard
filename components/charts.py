@@ -21,7 +21,6 @@ def get_chart_data(df, graph_type):
 
     return sa.get_monthly_quantity(df)
 
-
 def render_product_info_card(filtered_df):
     info_items = build_selected_product_info(filtered_df)
     if not info_items:
