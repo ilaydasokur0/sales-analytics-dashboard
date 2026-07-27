@@ -23,13 +23,11 @@ html, body, [class*="css"]{
     background:var(--bg);
 }
 
-/* Sidebar: slightly darker than page */
 section[data-testid="stSidebar"]{
     background:var(--navy);
     border-right:1px solid rgba(4,23,38,0.6);
 }
 
-/* Top header / deploy ribbon: lighter (page background) */
 header,
 div[data-testid="stToolbar"],
 div[data-testid="stHeader"]{
@@ -39,8 +37,8 @@ div[data-testid="stHeader"]{
 
 .block-container{
     max-width:1800px;
-    padding-top:2.6rem;
-    padding-bottom:2rem;
+    padding-top:2.8rem;
+    padding-bottom:1.6rem;
 }
 
 .page-title,
@@ -57,13 +55,12 @@ section[data-testid="stSidebar"] .mini-section-title{
     color:rgba(230,251,250,0.95) !important;
 }
 .sidebar-title{
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 800;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     line-height: 1.2;
 }                
-/* Sidebar scoped inputs and controls */
-/* Sidebar controls: accent on hover/focus */
+
 section[data-testid="stSidebar"] div[data-baseweb="select"]>div{
     border-color:rgba(255,255,255,0.08) !important;
     background:rgba(255,255,255,0.02) !important;
@@ -84,7 +81,7 @@ section[data-testid="stSidebar"] .filter-item:hover{color:var(--accent) !importa
 section[data-testid="stSidebar"] .stButton>button,
 section[data-testid="stSidebar"] button{
     background:transparent !important;
-    border:1px solid rgba(255,255,255,0.08) !important;
+    border:0.5px solid rgba(255,255,255,0.08) !important;
     color:#FFFFFF !important;
 }
 section[data-testid="stSidebar"] p,
@@ -92,8 +89,6 @@ section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] span{
     color:#E6FBFA !important;
 }
-
-/* Ay seçim grid'i: kompakt kutular, seçili ay filtre kaldırılana kadar mavi kalır */
 section[data-testid="stSidebar"] .st-key-month_grid .stButton>button{
     padding:0.2rem 0.3rem !important;
     min-height:1.8rem !important;
@@ -101,7 +96,7 @@ section[data-testid="stSidebar"] .st-key-month_grid .stButton>button{
 }
 section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]{
     background:var(--accent) !important;
-    border:1px solid var(--accent) !important;
+    border:0.5px solid var(--accent) !important;
     color:#FFFFFF !important;
     font-weight:700 !important;
 }
@@ -112,9 +107,17 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
 }
 
 .page-title{
-    font-size:3.2rem;
+    font-size:2.5rem;
     line-height:1.02;
     font-weight:800;
+}
+
+.sidebar-filter-summary{
+    font-size:0.78rem;
+    color:#E6FBFA;
+    font-weight:700;
+    margin-top:0.5rem;
+    margin-bottom:1.2rem;
 }
 
 /* Reduce vertical gap between two consecutive captions that follow the page title
@@ -125,7 +128,7 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
 }
 
 .section-title{
-    font-size:18px;
+    font-size:15px;
     font-weight:800;
     margin-bottom:.5rem;
     padding-bottom:.45rem;
@@ -135,7 +138,7 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
 .section-title--large{font-size:19px;}
 
 .mini-section-title{
-    font-size:12px;
+    font-size:10px;
     font-weight:700;
     text-transform:uppercase;
     color:#6787A5;

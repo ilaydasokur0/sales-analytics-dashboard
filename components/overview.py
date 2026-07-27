@@ -23,19 +23,7 @@ def render_header(
     previous_period,
     current_month_df,
 ):
-    st.markdown('<div class="page-title">Satış Raporu</div>', unsafe_allow_html=True)
-
-    filter_summary = []
-    if active_filters["city"] != "Hepsi":
-        filter_summary.append(f"İl: {active_filters['city']}")
-    if active_filters["customer"] != "Hepsi":
-        filter_summary.append(f"Müşteri: {active_filters['customer']}")
-    if active_filters["product"] != "Hepsi":
-        filter_summary.append(f"Ürün: {active_filters['product']}")
-    filter_summary.insert(
-        0,
-        f"Tarih: {active_filters['start_date']} - {active_filters['end_date']}",
-    )
+    st.markdown('<div class="page-title">Satış Analiz ve Raporlama Sistemi</div>', unsafe_allow_html=True)
 
     if comparison_enabled:
         st.caption(f"Karşılaştırma: {current_period} / {previous_period}")
@@ -51,8 +39,6 @@ def render_header(
     if current_month_df.empty:
         st.warning("Seçilen filtrelerde veri bulunamadı. Filtreleri genişletip tekrar deneyin.")
         st.stop()
-
-    st.caption(" | ".join(filter_summary) if filter_summary else "Seçilen filtre: yok")
 
 
 def render_compact_overview_tables(

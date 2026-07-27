@@ -74,39 +74,10 @@ def render_kpi_section(
     comparison_enabled,
 ):
     with st.container(border=True):
-        row1_col1, row1_col2, row1_col3 = st.columns(3, gap="small")
+        # 2 satır yerine tek satırda 6 sütun oluşturuyoruz
+        col1, col2, col3, col4, col5, col6 = st.columns(6, gap="small")
 
-        with row1_col1:
-            render_delta_metric(
-                "Toplam Ciro",
-                sa.get_total_sales(current_month_df),
-                sa.get_total_sales(previous_month_df),
-                format_currency,
-                comparison_enabled=comparison_enabled,
-            )
-
-        with row1_col2:
-            render_delta_metric(
-                "Toplam Satış Adedi",
-                sa.get_total_quantity(current_month_df),
-                sa.get_total_quantity(previous_month_df),
-                lambda value: f"{value:,}",
-                comparison_enabled=comparison_enabled,
-            )
-
-        with row1_col3:
-            render_delta_metric(
-                "Ortalama Fatura Tutarı",
-                sa.get_average_invoice_amount(current_month_df),
-                sa.get_average_invoice_amount(previous_month_df),
-                format_currency,
-                comparison_enabled=comparison_enabled,
-            )
-
-        st.markdown('<div style="height:.18rem"></div>', unsafe_allow_html=True)
-
-        row2_col1, row2_col2, row2_col3 = st.columns(3, gap="small")
-
+        # Koşul kontrolleri (if-else mantığı birebir korundu)
         city_and_customer_selected = (
             active_filters["city"] != "Hepsi" and active_filters["customer"] != "Hepsi"
         )
@@ -116,7 +87,49 @@ def render_kpi_section(
             and active_filters.get("product", "Hepsi") != "Hepsi"
         )
 
-        with row2_col1:
+        # 1. KPI: Toplam Ciro
+        with col1:
+            render_delta_metric(
+                "Toplam Ciro",
+                sa.get_total_sales(current_month_df),
+                sa.get_total_sales(previous_month_df),
+                format_currency,
+                comparison_enabled=comparison_enabled,
+            )
+
+        # 2. KPI: Toplam Satış Adedi
+        with col2:
+            render_delta_metric(
+                "Toplam Satış Adedi",
+                sa.get_total_quantity(current_month_df),
+                sa.get_total_quantity(previous_month_df),
+                lambda value: f"{value:,}",
+                comparison_enabled=comparison_enabled,
+            )
+
+        # 3. KPI: Ortalama Fatura Tutarı
+        with col3:
+            render_delta_metric(
+                "Ortalama Fatura Tutarı",
+                sa.get_average_invoice_amount(current_month_df),
+                sa.get_average_invoice_amount(previous_month_df),
+                format_currency,
+                comparison_enabled=comparison_enabled,
+            )
+
+        # 4. KPI: Fatura Sayısı
+        with col4:
+            render_delta_metric(
+                "Fatura Sayısı",
+                sa.get_total_invoice_count(current_month_df),
+                sa.get_total_invoice_count(previous_month_df),
+                lambda value: f"{value:,}",
+                show_percentage=False,
+                comparison_enabled=comparison_enabled,
+            )
+
+        # 5. KPI: Aktif Müşteri / Çeşitlilik / Ürün Ciro Payı
+        with col5:
             if city_and_customer_and_product_selected:
                 render_delta_metric(
                     "Ürünün Müşterideki Ciro Payı",
@@ -126,7 +139,6 @@ def render_kpi_section(
                     show_percentage=False,
                     comparison_enabled=comparison_enabled,
                 )
-            
             elif city_and_customer_selected:
                 render_delta_metric(
                     "Alınan Ürün Çeşitliliği",
@@ -136,8 +148,6 @@ def render_kpi_section(
                     show_percentage=False,
                     comparison_enabled=comparison_enabled,
                 )
-            
-                
             else:
                 render_delta_metric(
                     "Aktif Müşteri",
@@ -148,17 +158,8 @@ def render_kpi_section(
                     comparison_enabled=comparison_enabled,
                 )
 
-        with row2_col2:
-            render_delta_metric(
-                "Fatura Sayısı",
-                sa.get_total_invoice_count(current_month_df),
-                sa.get_total_invoice_count(previous_month_df),
-                lambda value: f"{value:,}",
-                show_percentage=False,
-                comparison_enabled=comparison_enabled,
-            )
-
-        with row2_col3:
+        # 6. KPI: Şehir Sayısı / İldeki Pay / Ulusal Pay
+        with col6:
             if city_and_customer_and_product_selected:
                 render_delta_metric(
                     "Müşterinin Üründeki Ciro Payı",
@@ -168,15 +169,12 @@ def render_kpi_section(
                     show_percentage=False,
                     comparison_enabled=comparison_enabled,
                 )
-
             elif city_and_customer_selected:
                 customer_city_share = get_customer_city_share(city_base_df, current_month_df)
                 st.metric("Müşterinin İldeki Ciro Payı", f"%{customer_city_share:.1f}")
-
             elif active_filters["city"] != "Hepsi":
                 city_share = get_city_share(national_df, current_month_df)
                 st.metric("İlin Ulusal Ciro Payı", f"%{city_share:.1f}")
-
             else:
                 render_delta_metric(
                     "Satış Yapılan Şehir",

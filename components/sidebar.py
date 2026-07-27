@@ -60,6 +60,22 @@ def _render_month_grid(month_periods):
     return pd.Period(selected_key, freq="M")
 
 
+def _render_filter_summary(city, customer, product, start_date, end_date):
+
+    summary_parts = [f"Seçili Filtreler - Tarih: {start_date} - {end_date}"]
+    if city != "Hepsi":
+        summary_parts.append(f"İl: {city}")
+    if customer != "Hepsi":
+        summary_parts.append(f"Müşteri: {customer}")
+    if product != "Hepsi":
+        summary_parts.append(f"Ürün: {product}")
+
+    st.sidebar.markdown(
+        f'<div class="sidebar-filter-summary">{" | ".join(summary_parts)}</div>',
+        unsafe_allow_html=True,
+    )
+
+
 def apply_sidebar_filters(df):
     min_date = df["invoice_date"].dropna().min().date()
     max_date = df["invoice_date"].dropna().max().date()
@@ -118,6 +134,8 @@ def apply_sidebar_filters(df):
         else ["Hepsi"]
     )
     product = st.sidebar.selectbox("Ürün", product_options, key="filter_product")
+
+    _render_filter_summary(city, customer, product, start_date, end_date)
 
     filtered_df = sa.filter_data(
         df,
