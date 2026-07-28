@@ -173,37 +173,41 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
         city_value_label = "Ciro" if city_type == "Ciro" else "Satış Adedi"
         city_value_suffix = " ₺" if city_type == "Ciro" else ""
 
-        with st.container(height=ROW2_CARD_HEIGHT, border=True):
+        selected_product = active_filters.get("product", "Hepsi")
+        if selected_product != "Hepsi":
+            pass
+        else:
+            with st.container(height=ROW2_CARD_HEIGHT, border=True):
 
-            selected_city = active_filters["city"]
+                selected_city = active_filters["city"]
 
-            if selected_city != "Hepsi":
+                if selected_city != "Hepsi":
 
-                summary = build_city_summary_rank(sales_df, selected_city)
+                    summary = build_city_summary_rank(sales_df, selected_city)
 
-                if summary:
-                    render_city_summary_rank(
-                        rank=summary["rank"],
-                        total=summary["total"],
-                        difference=summary["difference"],
-                        status=summary["status"],
+                    if summary:
+                        render_city_summary_rank(
+                            rank=summary["rank"],
+                            total=summary["total"],
+                            difference=summary["difference"],
+                            status=summary["status"],
+                        )
+
+                else:
+
+                    city_ranking = build_ranked_table(
+                        current_df,
+                        "city",
+                        city_value_col,
+                        group_label="İl",
+                        value_label=city_value_label,
                     )
 
-            else:
-
-                city_ranking = build_ranked_table(
-                    current_df,
-                    "city",
-                    city_value_col,
-                    group_label="İl",
-                    value_label=city_value_label,
-                )
-
-                render_horizontal_bar_chart(
-                    title="Bölgesel Performans",
-                    chart_df=city_ranking,
-                    label_col="İl",
-                    value_col=city_value_label,
-                    value_suffix=city_value_suffix,
-                    render_controls=lambda: render_chart_controls("performance_type_city"),
-                )
+                    render_horizontal_bar_chart(
+                        title="Bölgesel Performans",
+                        chart_df=city_ranking,
+                        label_col="İl",
+                        value_col=city_value_label,
+                        value_suffix=city_value_suffix,
+                        render_controls=lambda: render_chart_controls("performance_type_city"),
+                    )
