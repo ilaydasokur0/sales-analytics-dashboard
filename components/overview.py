@@ -8,8 +8,9 @@ from components.charts import (
     render_gauge_pair,
 )
 from components.city import render_city_summary_rank
+from components.customer import render_customer_invoice_summary
 from services.analysis import get_amount_share
-from utils.tables import build_city_summary_rank, build_product_revenue_share_table, build_ranked_table
+from utils.tables import build_city_summary_rank, build_customer_invoice_summary, build_product_revenue_share_table, build_ranked_table
 
 def render_header(
     sales_df,
@@ -99,15 +100,35 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
             group_label="Müşteri",
             value_label=customer_value_label,
         )
+
         with st.container(height=ROW2_CARD_HEIGHT, border=True):
-            render_horizontal_bar_chart(
-                title="Müşteri Performansı",
-                chart_df=customer_ranking,
-                label_col="Müşteri",
-                value_col=customer_value_label,
-                value_suffix=customer_value_suffix,
-                render_controls=lambda: render_chart_controls("performance_type_customer"),
-            )
+
+            selected_customer = active_filters["customer"]
+
+            if selected_customer != "Hepsi":
+
+                summary = build_customer_invoice_summary(
+                    sales_df,
+                    selected_customer
+                )
+
+                if summary is not None:
+                    render_customer_invoice_summary(
+                        avg_invoice=summary["avg_invoice"],
+                        difference=summary["difference"],
+                        status=summary["status"],
+                    )
+
+            else:
+
+                render_horizontal_bar_chart(
+                    title="Müşteri Performansı",
+                    chart_df=customer_ranking,
+                    label_col="Müşteri",
+                    value_col=customer_value_label,
+                    value_suffix=customer_value_suffix,
+                    render_controls=lambda: render_chart_controls("performance_type_customer"),
+                )
 
     # ----- 5. KART: Bölgesel Performans -----
     with row2_col3:

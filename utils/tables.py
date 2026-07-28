@@ -164,3 +164,36 @@ def build_city_summary_rank(sales_df, selected_city):
         "difference": abs(difference),
         "status": status,
     }
+
+def build_customer_invoice_summary(sales_df, selected_customer):
+    customer_summary = (
+        sales_df.groupby("customer_name")
+          .agg(
+              total_amount=("total_amount", "sum"),
+              invoice_count=("invoice_id", "nunique")
+          )
+          .reset_index()
+    )
+
+    customer_summary["avg_invoice"] = (
+        customer_summary["total_amount"] /
+        customer_summary["invoice_count"]
+    )
+
+    selected = customer_summary[
+        customer_summary["customer_name"] == selected_customer
+    ]
+
+    if selected.empty:
+        return None
+
+    customer_avg = float(selected.iloc[0]["avg_invoice"])
+    national_avg = customer_summary["avg_invoice"].mean()
+
+    difference = ((customer_avg - national_avg) / national_avg) * 100
+
+    return {
+        "avg_invoice": customer_avg,
+        "difference": abs(difference),
+        "status": "Üzerinde" if difference >= 0 else "Altında",
+    }
