@@ -5,7 +5,7 @@ from components.charts import (
     render_horizontal_bar_chart,
     render_monthly_chart_card,
     render_product_info_card,
-    render_gauge_pair
+    render_gauge_pair,
 )
 from services.analysis import get_amount_share
 from utils.tables import build_product_revenue_share_table, build_ranked_table
@@ -23,11 +23,6 @@ def render_header(
 
     if comparison_enabled:
         st.caption(f"Karşılaştırma: {current_period} / {previous_period}")
-    elif (
-        active_filters["start_date"] == sales_df["invoice_date"].min().date()
-        and active_filters["end_date"] == sales_df["invoice_date"].max().date()
-    ):
-        st.caption("Seçilen tarih aralığı için karşılaştırma yapılamıyor.")
 
     if active_filters["month_label"] != "Hepsi" and not active_filters["comparison_available"]:
         st.caption("Seçilen ay için karşılaştırma yapılamıyor.")
@@ -37,24 +32,30 @@ def render_header(
         st.stop()
 
 
+# Row1 ve Row2 kartlarının hepsi bu sabit yüksekliklerle hizalanır.
+ROW1_CARD_HEIGHT = 205
+ROW2_CARD_HEIGHT = 195
+
+
 def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
     """
     Tüm dashboard ekran kartlarının düzenini (layout) yöneten tek ana gövde fonksiyonu.
-    Sıralamayı veya sütun düzenini değiştirmek için aşağıdaki blokların yerini değiştirmeniz yeterlidir.
 
-    NOT: city_selected / customer_selected özel durumlarına göre farklı görünümler
-    (ör. müşteri/il bazlı özel tablolar) şu an bu taslakta yok; bu kısım daha
-    sonra ayrıca ele alınacak. Şimdilik şablon sabit.
+    Row1: [Gauge kartı] [Donut kartı] - eşit genişlik, eşit yükseklik, içerikleri
+    kendi kartlarının içinde tam ortalanmış.
+    Row2: [Aylık Performans] [Müşteri Performansı] [Bölgesel Performans] - üçü de
+    yan yana, eşit genişlikte ve aynı yükseklikte, ayrı bir başlık olmadan
+    doğrudan üst satırın altına yaslanmış.
     """
 
     # ==========================================
-    # 1. BÖLÜM: ÜST KARTLAR (2 Sütunlu Yapı)
+    # 1. BÖLÜM: ÜST KARTLAR (Eşit Genişlik: Gauge / Donut)
     # ==========================================
     row1_col1, row1_col2 = st.columns(2, gap="small")
 
     # ----- 1. KART: Gauge (Yarım Daireler) -----
     with row1_col1:
-        with st.container(border=True):
+        with st.container(height=ROW1_CARD_HEIGHT, border=True):
             city_selected = active_filters["city"] != "Hepsi"
             customer_selected = active_filters["customer"] != "Hepsi"
             product_selected = active_filters.get("product", "Hepsi") != "Hepsi"
@@ -63,14 +64,16 @@ def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
                 st.markdown('<div class="section-title section-title--large">Ürün Özellikleri</div>', unsafe_allow_html=True)
                 render_product_info_card(current_df)
             else:
+                st.markdown('<div class="gauge-card-body">', unsafe_allow_html=True)
                 st.markdown('<div class="section-title section-title--large">Ürün Tipi ve PL Dağılımları</div>', unsafe_allow_html=True)
                 pl_share = get_amount_share(current_df, "pl_status")
                 type_share = get_amount_share(current_df, "product_type")
                 render_gauge_pair(pl_share, type_share)
+                st.markdown('</div>', unsafe_allow_html=True)
 
     # ----- 2. KART: Donut (Ürün Ciro Dağılımı) -----
     with row1_col2:
-        with st.container(border=True):
+        with st.container(height=ROW1_CARD_HEIGHT, border=True):
             render_donut_chart(
                 title="Ürün Ciro Dağılımı",
                 chart_df=build_product_revenue_share_table(current_df, top_n=8, others_label="Diğer"),
@@ -79,24 +82,20 @@ def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
             )
 
     # ==========================================
-    # 2. BÖLÜM: ALT KARTLAR (2 Sütunlu Performans Özeti)
-    # row2_col2 kendi içinde ikiye ayrılır: üstte Müşteri Performansı,
-    # altta Bölgesel (İl) Performans yatay bar grafiği.
+    # 2. BÖLÜM: 3 eşit sütun, yan yana, üst satıra yakın (başlık yok)
     # ==========================================
-    st.subheader("Performans Özeti")
-    row2_col1, row2_col2 = st.columns(2, gap="small")
+    row2_col1, row2_col2, row2_col3 = st.columns(3, gap="small")
 
     # ----- 3. KART: Aylık Performans (Çizgi/Sütun Grafik) -----
     with row2_col1:
-        with st.container(height=260, border=True):
+        with st.container(height=ROW2_CARD_HEIGHT, border=True):
             render_monthly_chart_card(
                 monthly_chart_df if monthly_chart_df is not None else current_df,
                 active_filters or {},
             )
 
-    # ----- 4. KART: row2_col2 içinde ikiye bölünmüş performans barları -----
+    # ----- 4. KART: Müşteri Performansı -----
     with row2_col2:
-        # ---- 4a. Müşteri Performansı (üstte) ----
         customer_type = st.session_state.get("performance_type_customer", "Ciro")
         customer_value_col = "total_amount" if customer_type == "Ciro" else "quantity"
         customer_value_label = "Ciro" if customer_type == "Ciro" else "Satış Adedi"
@@ -109,7 +108,7 @@ def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
             group_label="Müşteri",
             value_label=customer_value_label,
         )
-        with st.container(height=125, border=True):
+        with st.container(height=ROW2_CARD_HEIGHT, border=True):
             render_horizontal_bar_chart(
                 title="Müşteri Performansı",
                 chart_df=customer_ranking,
@@ -119,7 +118,8 @@ def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
                 render_controls=lambda: render_chart_controls("performance_type_customer"),
             )
 
-        # ---- 4b. Bölgesel (İl) Performans (altta) ----
+    # ----- 5. KART: Bölgesel Performans -----
+    with row2_col3:
         city_type = st.session_state.get("performance_type_city", "Ciro")
         city_value_col = "total_amount" if city_type == "Ciro" else "quantity"
         city_value_label = "Ciro" if city_type == "Ciro" else "Satış Adedi"
@@ -132,7 +132,7 @@ def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
             group_label="İl",
             value_label=city_value_label,
         )
-        with st.container(height=125, border=True):
+        with st.container(height=ROW2_CARD_HEIGHT, border=True):
             render_horizontal_bar_chart(
                 title="Bölgesel Performans",
                 chart_df=city_ranking,

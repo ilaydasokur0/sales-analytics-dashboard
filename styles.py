@@ -1,8 +1,32 @@
 import streamlit as st
 
+
 def load_css():
-    st.markdown("""
+    st.markdown(
+        """
 <style>
+
+/* En üstteki Deploy / Header barını tamamen gizleme */
+header[data-testid="stHeader"] {
+    display: none !important;
+}
+
+[data-testid="stMainBlockContainer"], .block-container {
+    padding-top: 2.5rem !important;
+    padding-bottom: 1rem !important;
+}
+
+[data-testid="stMainBlockContainer"] [data-testid="stHorizontalBlock"]:first-of-type {
+    margin-top: 1.2rem !important;
+}
+.page-title {
+    margin-bottom: 0.3rem !important;
+}
+
+.page-title + .stCaption, 
+.page-title + p {
+    margin-bottom: 0.8rem !important;
+} 
 
 html, body, [class*="css"]{
     font-family:"Segoe UI",sans-serif;
@@ -34,11 +58,24 @@ div[data-testid="stHeader"]{
     background:var(--bg) !important;
     color:var(--navy) !important;
 }
-
 .block-container{
     max-width:1800px;
-    padding-top:2.8rem;
-    padding-bottom:1.6rem;
+    padding-top:2.4rem;
+    padding-bottom:0.35rem;
+}
+
+[data-testid="stVerticalBlock"]{
+    gap:0.5rem !important;
+}
+
+div[data-testid="element-container"],
+.element-container{
+    margin-bottom:0 !important;
+}
+
+/* st.container(border=True) iç boşluğunu daralt */
+div[data-testid="stVerticalBlockBorderWrapper"]{
+    padding:0.5rem 0.65rem !important;
 }
 
 .page-title,
@@ -107,8 +144,8 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
 }
 
 .page-title{
-    font-size:2.5rem;
-    line-height:1.02;
+    font-size:1.7rem;
+    line-height:1.1;
     font-weight:800;
 }
 
@@ -120,36 +157,35 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
     margin-bottom:1.2rem;
 }
 
-/* Reduce vertical gap between two consecutive captions that follow the page title
-   (keeps spacing between page title and first caption unchanged) */
 .page-title + .stCaption + .stCaption {
-    margin-top: 0.15rem !important;
-    margin-bottom: 0.15rem !important;
+    margin-top: 0.05rem !important;
+    margin-bottom: 0.05rem !important;
 }
 
 .section-title{
-    font-size:15px;
+    font-size:13px;
     font-weight:800;
-    margin-bottom:.5rem;
-    padding-bottom:.45rem;
+    margin-bottom:.25rem;
+    padding-bottom:.2rem;
     border-bottom:3px solid #DCEFFA;
 }
 
-.section-title--large{font-size:19px;}
+.section-title--large{font-size:15px;}
 
 .mini-section-title{
     font-size:10px;
     font-weight:700;
     text-transform:uppercase;
     color:#6787A5;
+    margin-bottom:.2rem;
 }
 
 .dashboard-section{
     background:var(--card-bg);
     border:1px solid var(--muted);
     border-radius:var(--radius);
-    padding:24px;
-    margin-bottom:28px;
+    padding: 16px 20px !important;
+    margin-bottom:12px !important;
     box-shadow:var(--shadow-md);
     transition:transform .18s ease, box-shadow .18s ease;
 }
@@ -170,12 +206,12 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
 div[data-testid="stMetric"] {
     background: #FFFFFF !important;
     border: 1px solid #D0DFEE !important;
-    border-top: 4px solid #0F2E4F !important; /* Koyu Navy Accent Çizgisi */
+    border-top: 4px solid #0F2E4F !important;
     border-radius: 8px !important;
-    padding: 10px 8px !important;
-    height: 80px !important;
+    padding: 8px 6px !important;
+    height: 70px !important;
     box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
-    
+
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -191,11 +227,11 @@ div[data-testid="stMetric"]:hover {
 div[data-testid="stMetricLabel"],
 div[data-testid="stMetricLabel"] > div,
 div[data-testid="stMetricLabel"] p {
-    font-size: 11px !important;
+    font-size: 10.5px !important;
     font-weight: 700 !important;
     color: #4A6E8D !important;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.3px;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -205,19 +241,19 @@ div[data-testid="stMetricLabel"] p {
 
 div[data-testid="stMetricLabel"] {
     white-space: normal !important;
-    line-height: 1.15 !important;
-    max-height: 2.3em !important;
+    line-height: 1.1 !important;
+    max-height: 2.0em !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    margin-bottom: 4px !important;
+    margin-bottom: 2px !important;
 }
 
 div[data-testid="stMetricValue"],
 div[data-testid="stMetricValue"] > div,
 div[data-testid="stMetricValue"] span {
-    font-size: 19px !important;
+    font-size: 17px !important;
     font-weight: 800 !important;
     color: #0F2E4F !important;
     display: flex !important;
@@ -234,9 +270,9 @@ div[data-testid="stMetricDelta"] {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    font-size: 10px !important;
+    font-size: 9.5px !important;
     font-weight: 700 !important;
-    margin-top: 3px !important;
+    margin-top: 2px !important;
     width: 100% !important;
 }
 
@@ -254,25 +290,12 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     border-radius: 8px !important;
 }
 
-div[data-testid="stMetricLabel"]{
-    font-size:12px !important;
-    font-weight:700 !important;
-    color:#6A88A4 !important;
-    text-transform:uppercase;
-}
-
-div[data-testid="stMetricValue"]{
-    font-size:26px !important;
-    font-weight:800 !important;
-    color:#245274 !important;
-}
-
 .distribution-selected-value{
     display:flex;
     align-items:center;
     justify-content:center;
-    min-height:64px;
-    font-size:26px;
+    min-height:50px;
+    font-size:22px;
     font-weight:800;
     color:#245274;
     letter-spacing:0.01em;
@@ -281,9 +304,8 @@ div[data-testid="stMetricValue"]{
 .product-info-card{
     display:flex;
     flex-direction:column;
-    gap:0.4rem;
-    padding:0.15rem 0 0;
-    min-height:210px;
+    gap:0.25rem;
+    padding:0.1rem 0 0;
 }
 
 .product-info-row{
@@ -291,7 +313,7 @@ div[data-testid="stMetricValue"]{
     grid-template-columns:minmax(0, 1fr) auto;
     align-items:center;
     gap:1rem;
-    padding:0.28rem 0;
+    padding:0.18rem 0;
 }
 
 .product-info-row + .product-info-row{
@@ -299,7 +321,7 @@ div[data-testid="stMetricValue"]{
 }
 
 .product-info-label{
-    font-size:0.74rem;
+    font-size:0.68rem;
     font-weight:700;
     text-transform:uppercase;
     letter-spacing:0.03em;
@@ -309,10 +331,10 @@ div[data-testid="stMetricValue"]{
 .product-info-value{
     justify-self:end;
     text-align:right;
-    font-size:0.98rem;
+    font-size:0.88rem;
     font-weight:800;
     color:#245274;
-    line-height:1.15;
+    line-height:1.1;
 }
 
 .city-summary-card{
@@ -325,11 +347,11 @@ div[data-testid="stMetricValue"]{
 }
 
 .city-summary-stack{
-    height:248px;
+    height:180px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    gap:0.95rem;
+    gap:0.6rem;
 }
 
 .city-summary-label{
@@ -340,7 +362,7 @@ div[data-testid="stMetricValue"]{
 }
 
 .city-summary-value{
-    font-size:22px;
+    font-size:19px;
     color:#245274;
     font-weight:800;
 }
@@ -348,24 +370,25 @@ div[data-testid="stMetricValue"]{
 .horizontal-bar-chart{
     display:flex;
     flex-direction:column;
-    gap:1rem;
-    padding-top:0.15rem;
+    gap:0.4rem;
+    padding-top:0.05rem;
     width:100%;
     max-width:100%;
+    justify-content:space-around !important;
 }
 
 .horizontal-bar-row{
     display:grid;
-    grid-template-columns:minmax(0, 2fr) minmax(72px, 1fr) max-content;
+    grid-template-columns:minmax(0, 2fr) minmax(56px, 1fr) max-content;
     align-items:center;
-    gap:0.55rem;
-    padding:0.7rem 0;
+    gap:0.4rem;
+    padding:0.28rem 0;
     width:100%;
     box-sizing:border-box;
 }
 
 .horizontal-bar-name{
-    font-size:0.94rem;
+    font-size:0.8rem;
     font-weight:800;
     color:#0A2B47;
     overflow:hidden;
@@ -376,14 +399,14 @@ div[data-testid="stMetricValue"]{
 
 .horizontal-bar-track {
     width: 100%;
-    height: 10px;
+    height: 7px;
     background: #E5EEF5;
     border-radius: 999px;
     overflow: hidden;
 }
 
 .horizontal-bar-bar {
-    height: 12px;
+    height: 9px;
     background: navy;
 }
 
@@ -393,11 +416,11 @@ div[data-testid="stMetricValue"]{
     align-items:flex-end;
     gap:0.1rem;
     white-space:nowrap;
-    min-width:76px;
+    min-width:58px;
 }
 
 .horizontal-bar-amount{
-    font-size:0.9rem;
+    font-size:0.76rem;
     font-weight:800;
     color:#245274;
 }
@@ -405,24 +428,24 @@ div[data-testid="stMetricValue"]{
 .horizontal-bar-pct{
     justify-self:end;
     text-align:right;
-    font-size:0.84rem;
+    font-size:0.72rem;
     font-weight:800;
     color:#245274;
-    min-width:56px;
+    min-width:44px;
     white-space:nowrap;
 }
 
 @media (min-width: 1101px){
     .horizontal-bar-row + .horizontal-bar-row{
-        margin-top:0.05rem;
+        margin-top:0.02rem;
     }
 }
 
 @media (max-width: 1100px){
     .horizontal-bar-row{
         grid-template-columns:1fr;
-        gap:0.45rem;
-        padding:0.65rem 0;
+        gap:0.3rem;
+        padding:0.3rem 0;
     }
 
     .horizontal-bar-pct{
@@ -433,136 +456,150 @@ div[data-testid="stMetricValue"]{
 }
 
 
-/* ---------------- GAUGE (Yarım Daire KPI) ---------------- */
+/* ---------------- GAUGE (YARIM DAİRE) - BÜYÜTME VE TAM ORTALAMA FIX ---------------- */
 
-.gauge-pair{
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 2rem;
-    width: 100%;
-    margin-top: 0.25rem;
+/* 1. Kapsayıcı Bloğu Kartın İçinde Dikey/Yatay Tam Ortalar */
+.gauge-pair {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-evenly !important; /* Daireleri kartın geneline eşit dağıtır */
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 140px !important; /* Kartın içini doldurması için yükseklik */
+    margin: 0 auto !important;
+    padding: 0.5rem 0 !important;
 }
 
-.gauge-block{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    min-width: 0;
+.gauge-block {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 1 !important; /* Her iki gauge eşit alan kaplar */
+    min-width: 0 !important;
 }
 
-/* Gauge boyutu (Yarım Daire) */
-.gauge-half-wrap{
-    position: relative;
-    width: 110px;
-    height: 55px; /* Daire yüksekliğinin tam yarısı */
-    overflow: hidden; /* Taşmaları engelle */
+/* 2. Daire Boyutları Büyütüldü (130px Çap) */
+.gauge-half-wrap {
+    position: relative !important;
+    width: 130px !important;
+    height: 65px !important;
+    overflow: hidden !important;
+    margin: 0.4rem auto !important;
 }
 
-/* Arka plan / Renkli Daire */
-.gauge-half{
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 110px;
-    height: 110px; /* Tam daire */
-    border-radius: 50%;
+.gauge-half {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 130px !important;
+    height: 130px !important;
+    border-radius: 50% !important;
 }
 
-/* Ortadaki beyaz delik (Donut etkisi için) */
-.gauge-hole{
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #ffffff;
-    /* Daireyi yarım halkanın tam alt-ortasına çakıştırır */
-    transform: translate(-50%, 50%); 
-    z-index: 1;
-    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+/* 3. İç Delik ve Yüzde Değeri Boyutları */
+.gauge-hole {
+    position: absolute !important;
+    left: 50% !important;
+    bottom: 0 !important;
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    transform: translate(-50%, 50%) !important;
+    z-index: 1 !important;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Yüzde Metni */
-.gauge-center-value{
-    position: absolute;
-    left: 50%;
-    bottom: 4px;
-    transform: translateX(-50%);
-    font-size: 16px;
-    font-weight: 800;
-    color: #245274;
-    line-height: 1;
-    z-index: 2; /* Beyaz halkanın üstünde görünmesi için */
+.gauge-center-value {
+    position: absolute !important;
+    left: 50% !important;
+    bottom: 4px !important;
+    transform: translateX(-50%) !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #245274 !important;
+    line-height: 1 !important;
+    z-index: 2 !important;
 }
 
-/* Alt açıklamalar (Legend) */
-.gauge-legend-row{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.7rem;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
+.gauge-legend-row {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    margin-top: 0.4rem !important;
+    flex-wrap: nowrap !important;
 }
 
-.gauge-legend-item{
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    white-space: nowrap;
+.gauge-legend-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.2rem !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
 }
 
-.donut-chart{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    gap:1.25rem;
-    width:100%;
+/* ---------------- DONUT CHART TAM ORTALAMA FIX ---------------- */
+
+/* Kartın içindeki Donut kapsayıcısını dikey ve yatayda tam ortalar */
+.donut-chart {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;     /* Dikeyde tam ortalama */
+    justify-content: center !important;  /* Yatayda tam ortalama */
+    gap: 1.2rem !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 140px !important;       /* Gauge kartıyla aynı yüksekliği yakalar */
+    padding: 0.5rem 0 !important;
 }
 
-.donut-chart-circle{
-    width:180px;
-    height:180px;
-    border-radius:50%;
-    position:relative;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    flex-shrink:0;
+/* Donut halkasını dikey hizada sabit tutma */
+.donut-chart-circle {
+    width: 125px !important;
+    height: 125px !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin: auto 0 !important;
 }
 
-.donut-chart-center{
-    width:104px;
-    height:104px;
-    border-radius:50%;
-    background:#FFFFFF;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+.donut-chart-center {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50% !important;
+    background: #FFFFFF !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08) !important;
 }
 
-.donut-chart-legend{
-    flex:1;
-    min-width:0;
-    display:flex;
-    flex-direction:column;
-    gap:.65rem;
+.donut-chart-legend {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important; /* Kesilmeyi önlemek için üste hizalar */
+    gap: 0.35rem !important;
+    height: 100% !important;
+    max-height: 150px !important;            /* Yüksekliği esneterek scroll ihtiyacını azaltır */
+    overflow-y: auto !important;
+    padding-top: 0.2rem !important;          /* Üstten nefes alma boşluğu */
+    padding-right: 0.4rem !important;
 }
 
-.donut-chart-row{
-    display:flex;
-    align-items:flex-start;
-    gap:.6rem;
+/* Her bir satırın dikey sıkışmasını önleme */
+.donut-chart-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    padding: 1px 0 !important;
 }
 
 .donut-chart-color{
@@ -632,10 +669,9 @@ div[data-testid="stRadio"] label[data-baseweb="radio"] div:first-child div{
 
 hr{
     border-top:1px solid var(--muted);
-    margin:1.6rem 0;
+    margin:0.6rem 0;
 }
 
-/* Top header / deploy ribbon: match page background (lighter) */
 header,
 div[data-testid="stToolbar"],
 div[data-testid="stHeader"]{
@@ -643,12 +679,10 @@ div[data-testid="stHeader"]{
     color:#0A2B47 !important;
 }
 
-/* Subtle page container tone */
 .block-container{
     background:linear-gradient(180deg,#F8FBFF,#F4F9FC);
 }
 
-/* Left accent stripe on dashboard sections to match sidebar */
 .dashboard-section{position:relative;}
 .dashboard-section::before{
     content:'';
@@ -662,7 +696,6 @@ div[data-testid="stHeader"]{
     border-bottom-left-radius:var(--radius);
 }
 
-/* Accessibility: focus outlines for sidebar controls */
 section[data-testid="stSidebar"] div[data-baseweb="select"]>div:focus,
 section[data-testid="stSidebar"] .filter-item:focus,
 section[data-testid="stSidebar"] .stButton>button:focus{
@@ -670,8 +703,9 @@ section[data-testid="stSidebar"] .stButton>button:focus{
     outline-offset:2px;
 }
 
-/* Smooth transitions helper */
 .transition-smooth{transition:all .18s cubic-bezier(.2,.8,.2,1);}
 
 </style>
-""", unsafe_allow_html=True)
+""",
+        unsafe_allow_html=True,
+    )

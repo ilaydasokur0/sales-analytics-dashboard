@@ -195,20 +195,22 @@ def render_horizontal_bar_chart(
         )
 
 def _gauge_block_html(title, share_series, color_a, color_b):
-
     if share_series.empty:
         return (
             f'<div class="gauge-block">'
             f'<div class="mini-section-title">{html.escape(title)}</div>'
             f'<div style="padding-top:1rem;">Veri bulunamadı.</div>'
-            f'</div>'
+            f"</div>"
         )
 
     label_a = html.escape(str(share_series.index[0]))
     value_a = float(share_series.iloc[0])
 
-    label_b = html.escape(str(share_series.index[1])) if len(share_series) > 1 else None
-
+    label_b = (
+        html.escape(str(share_series.index[1]))
+        if len(share_series) > 1
+        else None
+    )
 
     angle = max(0.0, min(180.0, value_a * 1.8))
 
@@ -230,12 +232,11 @@ def _gauge_block_html(title, share_series, color_a, color_b):
 
 
 def render_gauge_pair(pl_share, type_share):
-    """PL Dağılımı (pastel turuncu tonları) ve Ürün Tipi Dağılımı
-    (pastel kırmızı tonları) için iki yarım daireyi yan yana render eder."""
-
     pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#FFB078", "#F56600")
 
-    type_gauge = _gauge_block_html("Ürün Tipi Dağılımı", type_share, "#86EB43", "#B9F18A")
+    type_gauge = _gauge_block_html(
+        "Ürün Tipi Dağılımı", type_share, "#16D41F", "#8BF362"
+    )
 
     st.markdown(
         f'<div class="gauge-pair">{pl_gauge}{type_gauge}</div>',

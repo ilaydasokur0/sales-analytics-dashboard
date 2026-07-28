@@ -73,7 +73,7 @@ def render_kpi_section(
     active_filters,
     comparison_enabled,
 ):
-    with st.container(border=True):
+    with st.container(border=False):
         # 2 satır yerine tek satırda 6 sütun oluşturuyoruz
         col1, col2, col3, col4, col5, col6 = st.columns(6, gap="small")
 

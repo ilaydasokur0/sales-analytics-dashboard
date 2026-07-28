@@ -90,8 +90,6 @@ render_kpi_section(
     comparison_enabled,
 )
 
-st.markdown('<div style="height:.35rem"></div>', unsafe_allow_html=True)
-
 # ---------------- DASHBOARD GÖVDESİ (Gauge + Donut + Performans) ---------------- #
 
 render_dashboard_body(
