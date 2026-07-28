@@ -9,8 +9,9 @@ from components.charts import (
 )
 from components.city import render_city_summary_rank
 from components.customer import render_customer_invoice_summary
+from components.product import render_product_summary_rank
 from services.analysis import get_amount_share
-from utils.tables import build_city_summary_rank, build_customer_invoice_summary, build_product_revenue_share_table, build_ranked_table
+from utils.tables import build_city_summary_rank, build_customer_invoice_summary, build_product_revenue_share_table, build_product_summary_rank, build_ranked_table
 
 def render_header(
     sales_df,
@@ -48,30 +49,45 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
     # ----- 1. KART: Gauge (Yarım Daireler) -----
     with row1_col1:
         with st.container(height=ROW1_CARD_HEIGHT, border=True):
-            city_selected = active_filters["city"] != "Hepsi"
-            customer_selected = active_filters["customer"] != "Hepsi"
-            product_selected = active_filters.get("product", "Hepsi") != "Hepsi"
-
-            if city_selected and customer_selected and product_selected:
-                st.markdown('<div class="section-title section-title--large">Ürün Özellikleri</div>', unsafe_allow_html=True)
-                render_product_info_card(current_df)
-            else:
-                st.markdown('<div class="gauge-card-body">', unsafe_allow_html=True)
-                st.markdown('<div class="section-title section-title--large">Ürün Tipi ve PL Dağılımları</div>', unsafe_allow_html=True)
-                pl_share = get_amount_share(current_df, "pl_status")
-                type_share = get_amount_share(current_df, "product_type")
-                render_gauge_pair(pl_share, type_share)
-                st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown('<div class="gauge-card-body">', unsafe_allow_html=True)
+            st.markdown('<div class="section-title section-title--large">Ürün Tipi ve PL Dağılımları</div>', unsafe_allow_html=True)
+            pl_share = get_amount_share(current_df, "pl_status")
+            type_share = get_amount_share(current_df, "product_type")
+            render_gauge_pair(pl_share, type_share)
+            st.markdown('</div>', unsafe_allow_html=True)
 
     # ----- 2. KART: Donut (Ürün Ciro Dağılımı) -----
     with row1_col2:
         with st.container(height=ROW1_CARD_HEIGHT, border=True):
-            render_donut_chart(
-                title="Ürün Ciro Dağılımı",
-                chart_df=build_product_revenue_share_table(current_df, top_n=8, others_label="Diğer"),
-                label_col="product_name",
-                value_col="total_amount",
-            )
+            selected_city = active_filters["city"]
+            selected_customer = active_filters["customer"]
+            selected_product = active_filters["product"]
+
+            if selected_customer != "Hepsi":
+                title = f"{selected_customer} Ürün Ciro Sıralaması"
+
+            elif selected_city != "Hepsi":
+                title = f"{selected_city} Ürün Ciro Sıralaması"
+
+            else:
+                title = "Türkiye Geneli Ürün Ciro Sıralaması"
+
+            if selected_product != "Hepsi":
+                summary = build_product_summary_rank(current_df, selected_product)
+                if summary is not None:
+                    render_product_summary_rank(
+                        title=title,
+                        rank=summary["rank"],
+                        total=summary["total"],
+                        percentile=summary["percentile"],
+                    )
+            else:
+                render_donut_chart(
+                    title=title,
+                    chart_df=build_product_revenue_share_table(current_df, top_n=8, others_label="Diğer"),
+                    label_col="product_name",
+                    value_col="total_amount",
+                )
 
     # ==========================================
     # 2. BÖLÜM: 3 eşit sütun, yan yana, üst satıra yakın (başlık yok)
@@ -102,13 +118,10 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
         )
 
         with st.container(height=ROW2_CARD_HEIGHT, border=True):
-
             selected_customer = active_filters["customer"]
-
             if selected_customer != "Hepsi":
-
                 summary = build_customer_invoice_summary(
-                    sales_df,
+                    current_df,
                     selected_customer
                 )
 
@@ -118,9 +131,7 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
                         difference=summary["difference"],
                         status=summary["status"],
                     )
-
             else:
-
                 render_horizontal_bar_chart(
                     title="Müşteri Performansı",
                     chart_df=customer_ranking,

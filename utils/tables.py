@@ -165,14 +165,15 @@ def build_city_summary_rank(sales_df, selected_city):
         "status": status,
     }
 
-def build_customer_invoice_summary(sales_df, selected_customer):
+def build_customer_invoice_summary(current_df, selected_customer):
+
     customer_summary = (
-        sales_df.groupby("customer_name")
-          .agg(
-              total_amount=("total_amount", "sum"),
-              invoice_count=("invoice_id", "nunique")
-          )
-          .reset_index()
+        current_df.groupby("customer_name")
+        .agg(
+            total_amount=("total_amount", "sum"),
+            invoice_count=("invoice_id", "nunique"),
+        )
+        .reset_index()
     )
 
     customer_summary["avg_invoice"] = (
@@ -188,12 +189,45 @@ def build_customer_invoice_summary(sales_df, selected_customer):
         return None
 
     customer_avg = float(selected.iloc[0]["avg_invoice"])
-    national_avg = customer_summary["avg_invoice"].mean()
+    overall_avg = customer_summary["avg_invoice"].mean()
 
-    difference = ((customer_avg - national_avg) / national_avg) * 100
+    difference = (
+        (customer_avg - overall_avg) / overall_avg * 100
+        if overall_avg > 0
+        else 0
+    )
 
     return {
         "avg_invoice": customer_avg,
         "difference": abs(difference),
         "status": "Üzerinde" if difference >= 0 else "Altında",
+    }
+
+def build_product_summary_rank(current_df, selected_product):
+
+    product_summary = (
+        current_df.groupby("product_name", as_index=False)["total_amount"]
+        .sum()
+        .sort_values("total_amount", ascending=False)
+        .reset_index(drop=True)
+    )
+
+    product_summary["rank"] = product_summary.index + 1
+
+    selected = product_summary[
+        product_summary["product_name"] == selected_product
+    ]
+
+    if selected.empty:
+        return None
+
+    rank = int(selected.iloc[0]["rank"])
+    total = len(product_summary)
+
+    percentile = (rank / total) * 100
+
+    return {
+        "rank": rank,
+        "total": total,
+        "percentile": percentile,
     }
