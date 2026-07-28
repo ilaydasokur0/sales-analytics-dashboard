@@ -232,10 +232,10 @@ def _gauge_block_html(title, share_series, color_a, color_b):
 
 
 def render_gauge_pair(pl_share, type_share):
-    pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#FFB078", "#F56600")
+    pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#FCBA8B", "#FF8B38")
 
     type_gauge = _gauge_block_html(
-        "Ürün Tipi Dağılımı", type_share, "#16D41F", "#8BF362"
+        "Ürün Tipi Dağılımı", type_share, "#B3FFA9", "#3FFF59FF"
     )
 
     st.markdown(
