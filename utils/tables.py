@@ -125,3 +125,35 @@ def build_selected_product_info(filtered_df):
     ]
 
     return info_items
+
+def build_city_summary_rank(df, selected_city):
+    if selected_city is None or selected_city == "Hepsi":
+        return None
+
+    city_sales = (
+        df.groupby("city", as_index=False)["total_amount"]
+        .sum()
+        .sort_values("total_amount", ascending=False)
+        .reset_index(drop=True)
+    )
+
+    city_sales["rank"] = city_sales.index + 1
+
+    selected = city_sales[city_sales["city"] == selected_city]
+
+    if selected.empty:
+        return None
+
+    rank = int(selected.iloc[0]["rank"])
+    total = len(city_sales)
+
+    total_revenue = city_sales["total_amount"].sum()
+    city_revenue = float(selected.iloc[0]["total_amount"])
+
+    share = (city_revenue / total_revenue) * 100 if total_revenue > 0 else 0
+
+    return {
+        "rank": rank,
+        "total": total,
+        "share": share,
+    }

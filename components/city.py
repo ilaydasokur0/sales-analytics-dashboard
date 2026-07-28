@@ -34,3 +34,18 @@ def render_city_customer_product_ranking(current_df):
             value_col="Satış Adedi",
         )
 
+def render_city_summary_rank(rank, total, share):
+    progress = ((total - rank + 1) / total) * 100
+
+    html = (
+        f'<div class="city-rank-card">'
+        f'<div class="city-rank-title">Türkiye Geneli</div>'
+        f'<div class="city-rank-number">{rank} / {total}</div>'
+        f'<div class="city-rank-progress">'
+        f'<div class="city-rank-progress-fill" style="width:{progress:.1f}%;"></div>'
+        f"</div>"
+        f'<div class="city-rank-share">Toplam cironun <span>%{share:.1f}</span>\'ini oluşturuyor.</div>'
+        f"</div>"
+    )
+
+    st.markdown(html, unsafe_allow_html=True)

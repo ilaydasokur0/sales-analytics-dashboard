@@ -7,9 +7,9 @@ from components.charts import (
     render_product_info_card,
     render_gauge_pair,
 )
+from components.city import render_city_summary_rank
 from services.analysis import get_amount_share
-from utils.tables import build_product_revenue_share_table, build_ranked_table
-
+from utils.tables import build_city_summary_rank, build_product_revenue_share_table, build_ranked_table
 
 def render_header(
     sales_df,
@@ -125,19 +125,36 @@ def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
         city_value_label = "Ciro" if city_type == "Ciro" else "Satış Adedi"
         city_value_suffix = " ₺" if city_type == "Ciro" else ""
 
-        city_ranking = build_ranked_table(
-            current_df,
-            "city",
-            city_value_col,
-            group_label="İl",
-            value_label=city_value_label,
-        )
         with st.container(height=ROW2_CARD_HEIGHT, border=True):
-            render_horizontal_bar_chart(
-                title="Bölgesel Performans",
-                chart_df=city_ranking,
-                label_col="İl",
-                value_col=city_value_label,
-                value_suffix=city_value_suffix,
-                render_controls=lambda: render_chart_controls("performance_type_city"),
-            )
+
+            selected_city = active_filters["city"]
+
+            if selected_city != "Hepsi":
+
+                summary = build_city_summary_rank(current_df, selected_city)
+
+                if summary:
+                    render_city_summary_rank(
+                        rank=summary["rank"],
+                        total=summary["total"],
+                        share=summary["share"],
+                    )
+
+            else:
+
+                city_ranking = build_ranked_table(
+                    current_df,
+                    "city",
+                    city_value_col,
+                    group_label="İl",
+                    value_label=city_value_label,
+                )
+
+                render_horizontal_bar_chart(
+                    title="Bölgesel Performans",
+                    chart_df=city_ranking,
+                    label_col="İl",
+                    value_col=city_value_label,
+                    value_suffix=city_value_suffix,
+                    render_controls=lambda: render_chart_controls("performance_type_city"),
+                )

@@ -52,10 +52,6 @@ def render_product_info_card(filtered_df):
 # ---------------- AYLIK PERFORMANS GRAFİĞİ ---------------- #
 
 def render_monthly_performance_chart(chart_series, is_single_month=False, selected_month_key=None):
-    """Line/bar grafiği: birden çok ay varsa ortalama çizgisi (kesikli,
-    pastel kırmızı) ile en yüksek/en düşük ay işaretlenir. Tek ay
-    seçiliyse otomatik olarak sütun grafiğine döner; seçili ay koyu,
-    diğerleri soluk gösterilir."""
 
     chart_df = chart_series.reset_index()
     chart_df.columns = ["year_month", "value"]
@@ -132,9 +128,6 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
 
 
 def render_monthly_chart_card(chart_source_df, active_filters):
-    """Aylık Performans kartı: Ciro / Satış Adedi seçimi + grafik.
-    Tek ay seçiliyse chart_source_df tarih filtresiz (il/müşteri/ürün
-    filtreli) gelmelidir ki komşu aylar bağlam olarak (soluk) gösterilsin."""
 
     st.markdown('<div class="section-title section-title--large">Aylık Performans</div>', unsafe_allow_html=True)
     graph_type = render_chart_controls("general_graph")
@@ -235,7 +228,7 @@ def render_gauge_pair(pl_share, type_share):
     pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#FCBA8B", "#FF8B38")
 
     type_gauge = _gauge_block_html(
-        "Ürün Tipi Dağılımı", type_share, "#B3FFA9", "#3FFF59FF"
+        "Ürün Tipi Dağılımı", type_share, "#6AFF7EFF", "#3B9647FF"
     )
 
     st.markdown(

@@ -6,7 +6,6 @@ def load_css():
         """
 <style>
 
-/* En üstteki Deploy / Header barını tamamen gizleme */
 header[data-testid="stHeader"] {
     display: none !important;
 }
@@ -64,32 +63,10 @@ div[data-testid="stHeader"]{
     padding-bottom:0.35rem;
 }
 
-/* Genel dikey ritmi sıkılaştır: bölmeler arası boşlukları azalt */
 [data-testid="stVerticalBlock"]{
     gap:0.3rem !important;
 }
 
-div[data-testid="element-container"],
-.element-container{
-    margin-bottom:0 !important;
-}
-
-/* st.container(border=True) iç boşluğunu daralt ve içeriği yukarı çek */
-div[data-testid="stVerticalBlockBorderWrapper"]{
-    padding: 0.35rem 0.65rem 0.5rem 0.65rem !important;
-}
-
-div[data-testid="stVerticalBlockBorderWrapper"] > div {
-    padding-top: 0 !important;
-}
-
-div[data-testid="stVerticalBlockBorderWrapper"] .section-title,
-div[data-testid="stVerticalBlockBorderWrapper"] h3,
-div[data-testid="stVerticalBlockBorderWrapper"] h4 {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-    margin-bottom: 0.2rem !important;
-}
 
 .page-title,
 .sidebar-title,
@@ -157,7 +134,7 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
 }
 
 .page-title{
-    font-size:1.7rem;
+    font-size:2.5rem;
     line-height:1.1;
     font-weight:800;
 }
@@ -222,7 +199,7 @@ div[data-testid="stMetric"] {
     border-top: 4px solid #0F2E4F !important;
     border-radius: 8px !important;
     padding: 8px 6px !important;
-    height: 70px !important;
+    height: 82px !important;
     box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
 
     display: flex !important;
@@ -240,7 +217,7 @@ div[data-testid="stMetric"]:hover {
 div[data-testid="stMetricLabel"],
 div[data-testid="stMetricLabel"] > div,
 div[data-testid="stMetricLabel"] p {
-    font-size: 10.5px !important;
+    font-size: 12.5px !important;
     font-weight: 700 !important;
     color: #4A6E8D !important;
     text-transform: uppercase;
@@ -266,7 +243,7 @@ div[data-testid="stMetricLabel"] {
 div[data-testid="stMetricValue"],
 div[data-testid="stMetricValue"] > div,
 div[data-testid="stMetricValue"] span {
-    font-size: 17px !important;
+    font-size: 19px !important;
     font-weight: 800 !important;
     color: #0F2E4F !important;
     display: flex !important;
@@ -493,6 +470,21 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     }
 }
 
+div[data-testid="stRadio"] label p {
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+}
+
+div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    width: 11px !important;
+    height: 11px !important;
+}
+
+div[data-testid="stRadio"] > div {
+    gap: 0.6rem !important;
+    margin-top: -0.2rem !important;
+    margin-bottom: 0.1rem !important;
+}
 
 /* ---------------- GAUGE (YARIM DAİRE) - BÜYÜTME VE TAM ORTALAMA FIX ---------------- */
 
@@ -662,6 +654,59 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     font-weight:700;
     color:#245274;
     white-space:nowrap;
+}
+
+/* ---------- CITY RANK ---------- */
+
+.city-rank-card{
+    background:#fff;
+    border:1px solid #E6ECF2;
+    border-radius:14px;
+    padding:18px;
+    height:100%;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.city-rank-title{
+    font-size:0.95rem;
+    font-weight:700;
+    color:#245274;
+    margin-bottom:12px;
+}
+
+.city-rank-number{
+    font-size:2rem;
+    font-weight:800;
+    color:#173B57;
+    margin-bottom:18px;
+}
+
+.city-rank-progress{
+    width:100%;
+    height:10px;
+    background:#E9EEF5;
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:14px;
+}
+
+.city-rank-progress-fill{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg,#4A97D1,#245274);
+}
+
+.city-rank-share{
+    font-size:0.82rem;
+    color:#5D6B78;
+    line-height:1.5;
+}
+
+.city-rank-share b{
+    color:#245274;
 }
 
 div[data-testid="stDataFrame"]{
