@@ -127,6 +127,54 @@ def render_horizontal_bar_chart(
             unsafe_allow_html=True,
         )
 
+def _gauge_block_html(title, share_series, color_a, color_b):
+
+    if share_series.empty:
+        return (
+            f'<div class="gauge-block">'
+            f'<div class="mini-section-title">{html.escape(title)}</div>'
+            f'<div style="padding-top:1rem;">Veri bulunamadı.</div>'
+            f'</div>'
+        )
+
+    label_a = html.escape(str(share_series.index[0]))
+    value_a = float(share_series.iloc[0])
+
+    label_b = html.escape(str(share_series.index[1])) if len(share_series) > 1 else None
+
+   
+    angle = max(0.0, min(180.0, value_a * 1.8))
+
+    legend_html = f'<span class="gauge-legend-item" style="color:{color_a};">● {label_a}</span>'
+    if label_b is not None:
+        legend_html += f'<span class="gauge-legend-item" style="color:{color_b};">● {label_b}</span>'
+
+    return textwrap.dedent(f"""
+        <div class="gauge-block">
+            <div class="mini-section-title">{html.escape(title)}</div>
+            <div class="gauge-half-wrap">
+                <div class="gauge-half" style="background:conic-gradient(from -90deg at 50% 100%, {color_a} 0deg {angle:.1f}deg, {color_b} {angle:.1f}deg 180deg, transparent 180deg 360deg);"></div>
+                <div class="gauge-hole"></div>
+                <div class="gauge-center-value">%{value_a:.0f}</div>
+            </div>
+            <div class="gauge-legend-row">{legend_html}</div>
+        </div>
+    """).strip()
+
+
+def render_gauge_pair(pl_share, type_share):
+    """PL Dağılımı (pastel turuncu tonları) ve Ürün Tipi Dağılımı
+    (pastel kırmızı tonları) için iki yarım daireyi yan yana render eder."""
+
+    pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#E8965A", "#F7D2AE")
+
+    type_gauge = _gauge_block_html("Ürün Tipi Dağılımı", type_share, "#D97B7B", "#F3C6C6")
+
+    st.markdown(
+        f'<div class="gauge-pair">{pl_gauge}{type_gauge}</div>',
+        unsafe_allow_html=True,
+    )
+
 def render_donut_chart(
     title,
     chart_df,

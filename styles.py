@@ -432,6 +432,78 @@ div[data-testid="stMetricValue"]{
     }
 }
 
+/* ---------------- GAUGE (yarım daire KPI) ---------------- */
+.gauge-pair{
+    display:flex;
+    flex-direction:row;
+    align-items:flex-start;
+    justify-content:space-around;
+    gap:0.5rem;
+    width:100%;
+}
+
+.gauge-block{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    flex:1;
+    min-width:0;
+}
+
+.gauge-half-wrap{
+    position:relative;
+    width:150px;
+    height:78px;
+    margin-top:0.35rem;
+}
+
+.gauge-half{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    overflow:hidden;
+    clip-path:inset(0 0 50% 0);
+}
+
+.gauge-hole{
+    position:absolute;
+    left:50%;
+    bottom:0;
+    width:82px;
+    height:82px;
+    border-radius:50%;
+    background:#FFFFFF;
+    transform:translate(-50%, 41px);
+    box-shadow:inset 0 2px 6px rgba(4,23,38,0.06);
+}
+
+.gauge-center-value{
+    position:absolute;
+    left:50%;
+    bottom:2px;
+    transform:translateX(-50%);
+    font-size:20px;
+    font-weight:800;
+    color:#245274;
+}
+
+.gauge-legend-row{
+    display:flex;
+    gap:0.85rem;
+    margin-top:0.5rem;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.gauge-legend-item{
+    font-size:0.72rem;
+    font-weight:700;
+    white-space:nowrap;
+}
+
 .donut-chart{
     display:flex;
     flex-direction:row;
