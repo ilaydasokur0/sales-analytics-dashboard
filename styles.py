@@ -159,14 +159,99 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
     box-shadow:0 30px 60px rgba(4,23,38,0.12);
 }
 
-div[data-testid="stMetric"]{
-    background:linear-gradient(180deg,#FFFFFF,#F7FBFF);
-    border:1px solid var(--muted);
-    border-left:4px solid var(--navy);
-    border-radius:16px;
-    padding:12px;
-    height:110px;
-    box-shadow:0 8px 20px rgba(4,23,38,0.06);
+[data-testid="stHorizontalBlock"] {
+    gap: 0.5rem !important;
+}
+
+[data-testid="column"] {
+    padding: 0 !important;
+}
+
+div[data-testid="stMetric"] {
+    background: #FFFFFF !important;
+    border: 1px solid #D0DFEE !important;
+    border-top: 4px solid #0F2E4F !important; /* Koyu Navy Accent Çizgisi */
+    border-radius: 8px !important;
+    padding: 10px 8px !important;
+    height: 80px !important;
+    box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
+    
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    min-width: 0 !important;
+    width: 100% !important;
+}
+div[data-testid="stMetric"]:hover {
+    border-top: 4px solid #0F2E4F !important;
+    box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
+}
+div[data-testid="stMetricLabel"],
+div[data-testid="stMetricLabel"] > div,
+div[data-testid="stMetricLabel"] p {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #4A6E8D !important;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+div[data-testid="stMetricLabel"] {
+    white-space: normal !important;
+    line-height: 1.15 !important;
+    max-height: 2.3em !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 4px !important;
+}
+
+div[data-testid="stMetricValue"],
+div[data-testid="stMetricValue"] > div,
+div[data-testid="stMetricValue"] span {
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    color: #0F2E4F !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+div[data-testid="stMetricDelta"] {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    margin-top: 3px !important;
+    width: 100% !important;
+}
+
+div[data-testid="stMetricDelta"] > div[aria-label*="increase"] {
+    background-color: #E6F4EA !important;
+    color: #137333 !important;
+    padding: 1px 6px !important;
+    border-radius: 8px !important;
+}
+
+div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
+    background-color: #FCE8E6 !important;
+    color: #C5221F !important;
+    padding: 1px 6px !important;
+    border-radius: 8px !important;
 }
 
 div[data-testid="stMetricLabel"]{
