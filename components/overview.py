@@ -61,19 +61,38 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
         with st.container(height=ROW1_CARD_HEIGHT, border=True):
             selected_city = active_filters["city"]
             selected_customer = active_filters["customer"]
-            selected_product = active_filters["product"]
-
-            if selected_customer != "Hepsi":
-                title = f"{selected_customer} Ürün Ciro Sıralaması"
-
-            elif selected_city != "Hepsi":
-                title = f"{selected_city} Ürün Ciro Sıralaması"
-
-            else:
-                title = "Türkiye Geneli Ürün Ciro Sıralaması"
+            selected_product = active_filters.get("product", "Hepsi")
 
             if selected_product != "Hepsi":
-                summary = build_product_summary_rank(current_df, selected_product)
+
+                # Kart başlığı
+                if selected_customer != "Hepsi":
+                    title = f"Ürünün {selected_customer} Ciro Sıralaması"
+
+                elif selected_city != "Hepsi":
+                    title = f"Ürünün {selected_city} Ciro Sıralaması"
+
+                else:
+                    title = "Ürünün Ulusal Ciro Sıralaması"
+
+                # Ürün filtresi HARİÇ diğer filtreleri uygula
+                ranking_df = sales_df.copy()
+
+                if selected_city != "Hepsi":
+                    ranking_df = ranking_df[
+                        ranking_df["city"] == selected_city
+                    ]
+
+                if selected_customer != "Hepsi":
+                    ranking_df = ranking_df[
+                        ranking_df["customer_name"] == selected_customer
+                    ]
+
+                summary = build_product_summary_rank(
+                    ranking_df,
+                    selected_product,
+                )
+
                 if summary is not None:
                     render_product_summary_rank(
                         title=title,
@@ -81,10 +100,16 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
                         total=summary["total"],
                         percentile=summary["percentile"],
                     )
+
             else:
+
                 render_donut_chart(
-                    title=title,
-                    chart_df=build_product_revenue_share_table(current_df, top_n=8, others_label="Diğer"),
+                    title="Ürün Ciro Dağılımı",
+                    chart_df=build_product_revenue_share_table(
+                        current_df,
+                        top_n=8,
+                        others_label="Diğer",
+                    ),
                     label_col="product_name",
                     value_col="total_amount",
                 )
