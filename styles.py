@@ -12,20 +12,20 @@ header[data-testid="stHeader"] {
 }
 
 [data-testid="stMainBlockContainer"], .block-container {
-    padding-top: 2.5rem !important;
+    padding-top: 2.2rem !important;
     padding-bottom: 1rem !important;
 }
 
 [data-testid="stMainBlockContainer"] [data-testid="stHorizontalBlock"]:first-of-type {
-    margin-top: 1.2rem !important;
+    margin-top: 0.8rem !important;
 }
 .page-title {
-    margin-bottom: 0.3rem !important;
+    margin-bottom: 0.2rem !important;
 }
 
 .page-title + .stCaption, 
 .page-title + p {
-    margin-bottom: 0.8rem !important;
+    margin-bottom: 0.5rem !important;
 } 
 
 html, body, [class*="css"]{
@@ -64,8 +64,9 @@ div[data-testid="stHeader"]{
     padding-bottom:0.35rem;
 }
 
+/* Genel dikey ritmi sıkılaştır: bölmeler arası boşlukları azalt */
 [data-testid="stVerticalBlock"]{
-    gap:0.5rem !important;
+    gap:0.3rem !important;
 }
 
 div[data-testid="element-container"],
@@ -73,9 +74,21 @@ div[data-testid="element-container"],
     margin-bottom:0 !important;
 }
 
-/* st.container(border=True) iç boşluğunu daralt */
+/* st.container(border=True) iç boşluğunu daralt ve içeriği yukarı çek */
 div[data-testid="stVerticalBlockBorderWrapper"]{
-    padding:0.5rem 0.65rem !important;
+    padding: 0.35rem 0.65rem 0.5rem 0.65rem !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] > div {
+    padding-top: 0 !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] .section-title,
+div[data-testid="stVerticalBlockBorderWrapper"] h3,
+div[data-testid="stVerticalBlockBorderWrapper"] h4 {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0.2rem !important;
 }
 
 .page-title,
@@ -185,7 +198,7 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
     border:1px solid var(--muted);
     border-radius:var(--radius);
     padding: 16px 20px !important;
-    margin-bottom:12px !important;
+    margin-bottom:10px !important;
     box-shadow:var(--shadow-md);
     transition:transform .18s ease, box-shadow .18s ease;
 }
@@ -288,6 +301,31 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     color: #C5221F !important;
     padding: 1px 6px !important;
     border-radius: 8px !important;
+}
+
+/* ---------------- CARD İÇİ RADIO BUTTON KÜÇÜLTME ---------------- */
+
+div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] {
+    margin-bottom: 0.1rem !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] > div {
+    gap: 0.7rem !important;
+    margin-top: 0 !important;
+    margin-bottom: 0.1rem !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    color: #245274 !important;
+    gap: 0.25rem !important;
+    padding: 0 !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    width: 11px !important;
+    height: 11px !important;
 }
 
 .distribution-selected-value{
@@ -458,16 +496,15 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
 
 /* ---------------- GAUGE (YARIM DAİRE) - BÜYÜTME VE TAM ORTALAMA FIX ---------------- */
 
-/* 1. Kapsayıcı Bloğu Kartın İçinde Dikey/Yatay Tam Ortalar */
 .gauge-pair {
     display: flex !important;
     align-items: center !important;
-    justify-content: space-evenly !important; /* Daireleri kartın geneline eşit dağıtır */
+    justify-content: space-evenly !important;
     width: 100% !important;
     height: 100% !important;
-    min-height: 140px !important; /* Kartın içini doldurması için yükseklik */
+    min-height: 140px !important;
     margin: 0 auto !important;
-    padding: 0.5rem 0 !important;
+    padding: 0.2rem 0 !important;
 }
 
 .gauge-block {
@@ -475,17 +512,16 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    flex: 1 !important; /* Her iki gauge eşit alan kaplar */
+    flex: 1 !important;
     min-width: 0 !important;
 }
 
-/* 2. Daire Boyutları Büyütüldü (130px Çap) */
 .gauge-half-wrap {
     position: relative !important;
     width: 130px !important;
     height: 65px !important;
     overflow: hidden !important;
-    margin: 0.4rem auto !important;
+    margin: 0.3rem auto !important;
 }
 
 .gauge-half {
@@ -497,7 +533,6 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     border-radius: 50% !important;
 }
 
-/* 3. İç Delik ve Yüzde Değeri Boyutları */
 .gauge-hole {
     position: absolute !important;
     left: 50% !important;
@@ -528,7 +563,7 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     justify-content: center !important;
     align-items: center !important;
     gap: 0.6rem !important;
-    margin-top: 0.4rem !important;
+    margin-top: 0.3rem !important;
     flex-wrap: nowrap !important;
 }
 
@@ -543,20 +578,18 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
 
 /* ---------------- DONUT CHART TAM ORTALAMA FIX ---------------- */
 
-/* Kartın içindeki Donut kapsayıcısını dikey ve yatayda tam ortalar */
 .donut-chart {
     display: flex !important;
     flex-direction: row !important;
-    align-items: center !important;     /* Dikeyde tam ortalama */
-    justify-content: center !important;  /* Yatayda tam ortalama */
+    align-items: center !important;
+    justify-content: center !important;
     gap: 1.2rem !important;
     width: 100% !important;
     height: 100% !important;
-    min-height: 140px !important;       /* Gauge kartıyla aynı yüksekliği yakalar */
-    padding: 0.5rem 0 !important;
+    min-height: 140px !important;
+    padding: 0.2rem 0 !important;
 }
 
-/* Donut halkasını dikey hizada sabit tutma */
 .donut-chart-circle {
     width: 125px !important;
     height: 125px !important;
@@ -585,16 +618,15 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: flex-start !important; /* Kesilmeyi önlemek için üste hizalar */
+    justify-content: flex-start !important;
     gap: 0.35rem !important;
     height: 100% !important;
-    max-height: 150px !important;            /* Yüksekliği esneterek scroll ihtiyacını azaltır */
+    max-height: 150px !important;
     overflow-y: auto !important;
-    padding-top: 0.2rem !important;          /* Üstten nefes alma boşluğu */
+    padding-top: 0.2rem !important;
     padding-right: 0.4rem !important;
 }
 
-/* Her bir satırın dikey sıkışmasını önleme */
 .donut-chart-row {
     display: flex !important;
     align-items: center !important;
@@ -620,7 +652,6 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     font-size:.92rem;
     font-weight:700;
     color:#0A2B47;
-
     overflow:hidden;
     white-space:nowrap;
     text-overflow:ellipsis;
