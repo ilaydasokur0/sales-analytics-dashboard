@@ -4,19 +4,19 @@ import streamlit as st
 def render_product_summary_rank(title, rank, total, percentile):
 
     if percentile <= 10:
-        badge = "İlk %10"
+        badge = "İlk %10'luk dilimde"
         color = "#16A34A"
 
     elif percentile <= 25:
-        badge = "İlk %25"
+        badge = "İlk %25'luk dilimde"
         color = "#22C55E"
 
     elif percentile <= 50:
-        badge = "İlk %50"
+        badge = "İlk %50'lik dilimde"
         color = "#F59E0B"
 
     else:
-        badge = "Alt %50"
+        badge = "Alt %50'lik dilimde"
         color = "#DC2626"
 
     st.markdown(
