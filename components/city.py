@@ -1,3 +1,6 @@
+
+from turtle import color
+
 import streamlit as st
 from components import charts
 from services import analysis as sa
@@ -34,18 +37,20 @@ def render_city_customer_product_ranking(current_df):
             value_col="Satış Adedi",
         )
 
-def render_city_summary_rank(rank, total, share):
+def render_city_summary_rank(rank, total, difference, status):
     progress = ((total - rank + 1) / total) * 100
 
-    html = (
-        f'<div class="city-rank-card">'
-        f'<div class="city-rank-title">Türkiye Geneli Ciro Sıralaması</div>'
-        f'<div class="city-rank-number">{rank} / {total}</div>'
-        f'<div class="city-rank-progress">'
-        f'<div class="city-rank-progress-fill" style="width:{progress:.1f}%;"></div>'
-        f"</div>"
-        f'<div class="city-rank-share">Toplam cironun <span>%{share:.1f}</span>\'ini oluşturuyor.</div>'
-        f"</div>"
-    )
+    icon = "▲" if status == "Üzerinde" else "▼"
+    benchmark_class = "benchmark-up" if status == "Üzerinde" else "benchmark-down"
 
-    st.markdown(html, unsafe_allow_html=True)
+    st.markdown(
+        f"""<div class="city-rank-card">
+        <div class="city-rank-title">İlin Ulusal Ciro Sıralaması</div>
+        <div class="city-rank-number">#{rank} <span>/{total}</span></div>
+        <div class="city-rank-benchmark {benchmark_class}">
+        <span class="benchmark-icon">{icon}</span>
+        <span>Ulusal ortalamanın<strong>%{difference:.1f}</strong>{status.lower()}</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+)

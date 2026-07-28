@@ -126,12 +126,12 @@ def build_selected_product_info(filtered_df):
 
     return info_items
 
-def build_city_summary_rank(national_df, selected_city):
+def build_city_summary_rank(sales_df, selected_city):
     if selected_city is None or selected_city == "Hepsi":
         return None
 
     city_sales = (
-        national_df.groupby("city", as_index=False)["total_amount"]
+        sales_df.groupby("city", as_index=False)["total_amount"]
         .sum()
         .sort_values("total_amount", ascending=False)
         .reset_index(drop=True)
@@ -150,10 +150,17 @@ def build_city_summary_rank(national_df, selected_city):
     total_revenue = city_sales["total_amount"].sum()
     city_revenue = float(selected.iloc[0]["total_amount"])
 
-    share = (city_revenue / total_revenue) * 100 if total_revenue > 0 else 0
+    city_totals =(sales_df.groupby("city", as_index=False)["total_amount"].sum())
+    country_average = city_totals["total_amount"].mean()
+    city_total = float(selected.iloc[0]["total_amount"])
+
+    difference = ((city_total - country_average) / country_average) * 100
+
+    status = "Üzerinde" if difference >= 0 else "Altında"
 
     return {
         "rank": rank,
         "total": total,
-        "share": share,
+        "difference": abs(difference),
+        "status": status,
     }

@@ -128,7 +128,8 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
                     render_city_summary_rank(
                         rank=summary["rank"],
                         total=summary["total"],
-                        share=summary["share"],
+                        difference=summary["difference"],
+                        status=summary["status"],
                     )
 
             else:

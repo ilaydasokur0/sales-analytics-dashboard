@@ -659,54 +659,93 @@ div[data-testid="stRadio"] > div {
 /* ---------- CITY RANK ---------- */
 
 .city-rank-card{
-    background:#fff;
-    border:1px solid #E6ECF2;
-    border-radius:14px;
+    background:linear-gradient(180deg,#F8FCFF 0%,#EEF7FF 100%);
+    border:1px solid #D9E9F6;
+    border-radius:16px;
+    padding:20px;
+    height:100%;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    box-shadow:0 4px 12px rgba(18,67,104,.06);
+}
+
+.city-rank-card{
+    background:linear-gradient(180deg,#F8FCFF 0%,#EEF7FF 100%);
+    border:1px solid #D9E9F6;
+    border-radius:16px;
     padding:18px;
     height:100%;
 
     display:flex;
     flex-direction:column;
     justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.city-rank-card{
+    background:linear-gradient(180deg,#F8FCFF 0%,#EEF7FF 100%);
+    border:1px solid #D9E9F6;
+    border-radius:16px;
+    padding:18px;
+    height:100%;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
 }
 
 .city-rank-title{
-    font-size:0.95rem;
+    font-size:.92rem;
     font-weight:700;
-    color:#245274;
-    margin-bottom:12px;
-}
-
-.city-rank-number{
-    font-size:2rem;
-    font-weight:800;
-    color:#173B57;
+    color:#4A6782;
     margin-bottom:18px;
 }
 
-.city-rank-progress{
-    width:100%;
-    height:10px;
-    background:#E9EEF5;
-    border-radius:999px;
-    overflow:hidden;
-    margin-bottom:14px;
+.city-rank-number{
+    font-size:2.9rem;
+    font-weight:900;
+    color:#173B57;
+    line-height:1;
+    margin-bottom:22px;
 }
 
-.city-rank-progress-fill{
-    height:100%;
-    border-radius:999px;
-    background:linear-gradient(90deg,#4A97D1,#245274);
+.city-rank-number span{
+    font-size:1.15rem;
+    color:#93A6B7;
+    font-weight:600;
 }
 
-.city-rank-share{
-    font-size:0.82rem;
-    color:#5D6B78;
-    line-height:1.5;
+.city-rank-benchmark{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    font-size:.95rem;
+    font-weight:800;
+
+    white-space:nowrap;      /* Tek satır */
 }
 
-.city-rank-share b{
-    color:#245274;
+.benchmark-up{
+    color:#16A34A;
+}
+
+.benchmark-down{
+    color:#DC2626;
+}
+
+.benchmark-icon{
+    font-size:1rem;
+    font-weight:900;
 }
 
 div[data-testid="stDataFrame"]{
