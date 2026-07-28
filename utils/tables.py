@@ -126,12 +126,12 @@ def build_selected_product_info(filtered_df):
 
     return info_items
 
-def build_city_summary_rank(df, selected_city):
+def build_city_summary_rank(national_df, selected_city):
     if selected_city is None or selected_city == "Hepsi":
         return None
 
     city_sales = (
-        df.groupby("city", as_index=False)["total_amount"]
+        national_df.groupby("city", as_index=False)["total_amount"]
         .sum()
         .sort_values("total_amount", ascending=False)
         .reset_index(drop=True)

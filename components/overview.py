@@ -37,17 +37,8 @@ ROW1_CARD_HEIGHT = 205
 ROW2_CARD_HEIGHT = 195
 
 
-def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
-    """
-    Tüm dashboard ekran kartlarının düzenini (layout) yöneten tek ana gövde fonksiyonu.
-
-    Row1: [Gauge kartı] [Donut kartı] - eşit genişlik, eşit yükseklik, içerikleri
-    kendi kartlarının içinde tam ortalanmış.
-    Row2: [Aylık Performans] [Müşteri Performansı] [Bölgesel Performans] - üçü de
-    yan yana, eşit genişlikte ve aynı yükseklikte, ayrı bir başlık olmadan
-    doğrudan üst satırın altına yaslanmış.
-    """
-
+def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df=None):
+   
     # ==========================================
     # 1. BÖLÜM: ÜST KARTLAR (Eşit Genişlik: Gauge / Donut)
     # ==========================================
@@ -131,7 +122,7 @@ def render_dashboard_body(current_df, active_filters, monthly_chart_df=None):
 
             if selected_city != "Hepsi":
 
-                summary = build_city_summary_rank(current_df, selected_city)
+                summary = build_city_summary_rank(sales_df, selected_city)
 
                 if summary:
                     render_city_summary_rank(

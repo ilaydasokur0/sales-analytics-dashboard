@@ -94,6 +94,7 @@ render_kpi_section(
 
 render_dashboard_body(
     current_month_df,
+    sales_df,
     active_filters,
     monthly_chart_df=monthly_chart_df,
 )

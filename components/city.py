@@ -39,7 +39,7 @@ def render_city_summary_rank(rank, total, share):
 
     html = (
         f'<div class="city-rank-card">'
-        f'<div class="city-rank-title">Türkiye Geneli</div>'
+        f'<div class="city-rank-title">Türkiye Geneli Ciro Sıralaması</div>'
         f'<div class="city-rank-number">{rank} / {total}</div>'
         f'<div class="city-rank-progress">'
         f'<div class="city-rank-progress-fill" style="width:{progress:.1f}%;"></div>'
