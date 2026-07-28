@@ -432,76 +432,89 @@ div[data-testid="stMetricValue"]{
     }
 }
 
-/* ---------------- GAUGE (yarım daire KPI) ---------------- */
+
+/* ---------------- GAUGE (Yarım Daire KPI) ---------------- */
+
 .gauge-pair{
-    display:flex;
-    flex-direction:row;
-    align-items:flex-start;
-    justify-content:space-around;
-    gap:0.5rem;
-    width:100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    margin-top: 0.25rem;
 }
 
 .gauge-block{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    flex:1;
-    min-width:0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
 }
 
+/* Gauge boyutu (Yarım Daire) */
 .gauge-half-wrap{
-    position:relative;
-    width:150px;
-    height:78px;
-    margin-top:0.35rem;
+    position: relative;
+    width: 110px;
+    height: 55px; /* Daire yüksekliğinin tam yarısı */
+    overflow: hidden; /* Taşmaları engelle */
 }
 
+/* Arka plan / Renkli Daire */
 .gauge-half{
-    position:absolute;
-    left:0;
-    bottom:0;
-    width:150px;
-    height:150px;
-    border-radius:50%;
-    overflow:hidden;
-    clip-path:inset(0 0 50% 0);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 110px;
+    height: 110px; /* Tam daire */
+    border-radius: 50%;
 }
 
+/* Ortadaki beyaz delik (Donut etkisi için) */
 .gauge-hole{
-    position:absolute;
-    left:50%;
-    bottom:0;
-    width:82px;
-    height:82px;
-    border-radius:50%;
-    background:#FFFFFF;
-    transform:translate(-50%, 41px);
-    box-shadow:inset 0 2px 6px rgba(4,23,38,0.06);
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #ffffff;
+    /* Daireyi yarım halkanın tam alt-ortasına çakıştırır */
+    transform: translate(-50%, 50%); 
+    z-index: 1;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
 }
 
+/* Yüzde Metni */
 .gauge-center-value{
-    position:absolute;
-    left:50%;
-    bottom:2px;
-    transform:translateX(-50%);
-    font-size:20px;
-    font-weight:800;
-    color:#245274;
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    transform: translateX(-50%);
+    font-size: 16px;
+    font-weight: 800;
+    color: #245274;
+    line-height: 1;
+    z-index: 2; /* Beyaz halkanın üstünde görünmesi için */
 }
 
+/* Alt açıklamalar (Legend) */
 .gauge-legend-row{
-    display:flex;
-    gap:0.85rem;
-    margin-top:0.5rem;
-    flex-wrap:wrap;
-    justify-content:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .gauge-legend-item{
-    font-size:0.72rem;
-    font-weight:700;
-    white-space:nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 .donut-chart{

@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import altair as alt
 import services.analysis as sa
 from components.kpi import render_share_metrics
 from services.analysis import get_amount_share
@@ -47,38 +49,103 @@ def render_product_info_card(filtered_df):
             st.markdown('<div class="card-divider"></div>', unsafe_allow_html=True)
 
 
-def render_chart_section(filtered_df, active_filters):
-    graph_col, dist_col = st.columns(2, gap="small")
+# ---------------- AYLIK PERFORMANS GRAFİĞİ ---------------- #
 
-    with graph_col:
-        with st.container(border=True):
-            st.markdown('<div class="section-title section-title--large">Aylık Performans Grafiği</div>', unsafe_allow_html=True)
-            st.markdown('<div class="mini-section-title">Grafik Seçimi</div>', unsafe_allow_html=True)
-            graph_type = render_chart_controls("general_graph")
-            chart_data = get_chart_data(filtered_df, graph_type)
-            st.line_chart(chart_data, width="stretch", height=200)
+def render_monthly_performance_chart(chart_series, is_single_month=False, selected_month_key=None):
+    """Line/bar grafiği: birden çok ay varsa ortalama çizgisi (kesikli,
+    pastel kırmızı) ile en yüksek/en düşük ay işaretlenir. Tek ay
+    seçiliyse otomatik olarak sütun grafiğine döner; seçili ay koyu,
+    diğerleri soluk gösterilir."""
 
-    with dist_col:
-        with st.container(border=True):
-            city_selected = active_filters["city"] != "Hepsi"
-            customer_selected = active_filters["customer"] != "Hepsi"
-            product_selected = active_filters.get("product", "Hepsi") != "Hepsi"
+    chart_df = chart_series.reset_index()
+    chart_df.columns = ["year_month", "value"]
 
-            if city_selected and customer_selected and product_selected:
-                st.markdown('<div class="section-title section-title--large">Ürün Özellikleri</div>', unsafe_allow_html=True)
-                render_product_info_card(filtered_df)
-            else:
-                st.markdown('<div class="section-title section-title--large">Dağılımlar</div>', unsafe_allow_html=True)
+    if chart_df.empty:
+        st.info("Veri bulunamadı.")
+        return
 
-                st.markdown('<div class="mini-section-title">PL Dağılımı</div>', unsafe_allow_html=True)
-                render_share_metrics(get_amount_share(filtered_df, "pl_status"))
+    if is_single_month:
+        chart_df["highlight"] = chart_df["year_month"].apply(
+            lambda x: "Seçili Ay" if x == selected_month_key else "Diğer Aylar"
+        )
+        color_scale = alt.Scale(
+            domain=["Seçili Ay", "Diğer Aylar"],
+            range=["#0F2E4F", "#C7D6E5"],
+        )
+        bar_chart = (
+            alt.Chart(chart_df)
+            .mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4)
+            .encode(
+                x=alt.X("year_month:N", title=None, sort=None),
+                y=alt.Y("value:Q", title=None),
+                color=alt.Color("highlight:N", scale=color_scale, legend=None),
+                tooltip=["year_month", "value"],
+            )
+            .properties(height=170)
+        )
+        st.altair_chart(bar_chart, use_container_width=True)
+        return
 
-                st.markdown('<div class="card-divider"></div>', unsafe_allow_html=True)
+    average_value = chart_df["value"].mean()
+    max_row = chart_df.loc[chart_df["value"].idxmax()]
+    min_row = chart_df.loc[chart_df["value"].idxmin()]
 
-                st.markdown('<div class="mini-section-title">Ürün Dağılımı</div>', unsafe_allow_html=True)
-                render_share_metrics(get_amount_share(filtered_df, "product_type"))
+    line_chart = (
+        alt.Chart(chart_df)
+        .mark_line(color="#0F2E4F", point=alt.OverlayMarkDef(color="#0F2E4F", size=45))
+        .encode(
+            x=alt.X("year_month:N", title=None, sort=None),
+            y=alt.Y("value:Q", title=None),
+            tooltip=["year_month", "value"],
+        )
+    )
+
+    average_line = (
+        alt.Chart(pd.DataFrame({"average": [average_value]}))
+        .mark_rule(strokeDash=[6, 4], color="#E8A0A0", size=2)
+        .encode(y="average:Q")
+    )
+
+    extremes_df = pd.DataFrame(
+        [
+            {"year_month": max_row["year_month"], "value": max_row["value"], "tip": "En Yüksek"},
+            {"year_month": min_row["year_month"], "value": min_row["value"], "tip": "En Düşük"},
+        ]
+    )
+    extremes_points = (
+        alt.Chart(extremes_df)
+        .mark_point(size=150, filled=True)
+        .encode(
+            x=alt.X("year_month:N", sort=None),
+            y="value:Q",
+            color=alt.Color(
+                "tip:N",
+                scale=alt.Scale(domain=["En Yüksek", "En Düşük"], range=["#00A8B5", "#F28C8C"]),
+                legend=None,
+            ),
+            tooltip=["tip", "value"],
+        )
+    )
+
+    combined_chart = (line_chart + average_line + extremes_points).properties(height=170)
+    st.altair_chart(combined_chart, use_container_width=True)
 
 
+def render_monthly_chart_card(chart_source_df, active_filters):
+    """Aylık Performans kartı: Ciro / Satış Adedi seçimi + grafik.
+    Tek ay seçiliyse chart_source_df tarih filtresiz (il/müşteri/ürün
+    filtreli) gelmelidir ki komşu aylar bağlam olarak (soluk) gösterilsin."""
+
+    st.markdown('<div class="section-title section-title--large">Aylık Performans</div>', unsafe_allow_html=True)
+    graph_type = render_chart_controls("general_graph")
+    chart_data = get_chart_data(chart_source_df, graph_type)
+
+    is_single_month = active_filters.get("month_label", "Hepsi") != "Hepsi"
+    selected_month_key = None
+    if is_single_month:
+        selected_month_key = str(pd.Period(active_filters["start_date"], freq="M"))
+
+    render_monthly_performance_chart(chart_data, is_single_month, selected_month_key)
 
 
 def render_horizontal_bar_chart(
@@ -142,7 +209,7 @@ def _gauge_block_html(title, share_series, color_a, color_b):
 
     label_b = html.escape(str(share_series.index[1])) if len(share_series) > 1 else None
 
-   
+
     angle = max(0.0, min(180.0, value_a * 1.8))
 
     legend_html = f'<span class="gauge-legend-item" style="color:{color_a};">● {label_a}</span>'
@@ -153,7 +220,7 @@ def _gauge_block_html(title, share_series, color_a, color_b):
         <div class="gauge-block">
             <div class="mini-section-title">{html.escape(title)}</div>
             <div class="gauge-half-wrap">
-                <div class="gauge-half" style="background:conic-gradient(from -90deg at 50% 100%, {color_a} 0deg {angle:.1f}deg, {color_b} {angle:.1f}deg 180deg, transparent 180deg 360deg);"></div>
+                <div class="gauge-half" style="background:conic-gradient(from -90deg at 50% 50%, {color_a} 0deg {angle:.1f}deg, {color_b} {angle:.1f}deg 180deg, transparent 180deg 360deg);"></div>
                 <div class="gauge-hole"></div>
                 <div class="gauge-center-value">%{value_a:.0f}</div>
             </div>
@@ -166,9 +233,9 @@ def render_gauge_pair(pl_share, type_share):
     """PL Dağılımı (pastel turuncu tonları) ve Ürün Tipi Dağılımı
     (pastel kırmızı tonları) için iki yarım daireyi yan yana render eder."""
 
-    pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#E8965A", "#F7D2AE")
+    pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#FFB078", "#F56600")
 
-    type_gauge = _gauge_block_html("Ürün Tipi Dağılımı", type_share, "#D97B7B", "#F3C6C6")
+    type_gauge = _gauge_block_html("Ürün Tipi Dağılımı", type_share, "#86EB43", "#B9F18A")
 
     st.markdown(
         f'<div class="gauge-pair">{pl_gauge}{type_gauge}</div>',
