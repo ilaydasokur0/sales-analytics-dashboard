@@ -41,8 +41,6 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
     # ----- 1. KART: Gauge (Yarım Daireler) -----
     with row1_col1:
         with st.container(height=ROW1_CARD_HEIGHT, border=True):
-            st.markdown('<div class="gauge-card-body">', unsafe_allow_html=True)
-            st.markdown('<div class="section-title section-title--large">Ürün Tipi ve PL Dağılımları</div>', unsafe_allow_html=True)
             pl_share = get_amount_share(current_df, "pl_status")
             type_share = get_amount_share(current_df, "product_type")
             render_gauge_pair(pl_share, type_share)

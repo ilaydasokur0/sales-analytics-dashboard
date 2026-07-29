@@ -261,6 +261,7 @@ def _gauge_block_html(title, share_series, color_a, color_b):
 
 
 def render_gauge_pair(pl_share, type_share):
+    st.markdown('<div class="section-title section-title--large">Ürün Tipi ve PL Dağılımları</div>', unsafe_allow_html=True)
     pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#FCBA8B", "#FF8B38")
 
     type_gauge = _gauge_block_html(
