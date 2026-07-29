@@ -1,36 +1,68 @@
 import streamlit as st
 
-
 def render_product_summary_rank(title, rank, total, percentile):
-
-    if percentile <= 10:
-        badge = "İlk %10'luk dilimde"
-        color = "#16A34A"
-
-    elif percentile <= 25:
-        badge = "İlk %25'luk dilimde"
-        color = "#22C55E"
-
-    elif percentile <= 50:
-        badge = "İlk %50'lik dilimde"
-        color = "#F59E0B"
-
-    else:
-        badge = "Alt %50'lik dilimde"
-        color = "#DC2626"
+    # Üst %50 dilimde olup olmama durumuna göre renk ve ikon belirleme
+    is_above = percentile >= 50
+    icon = "▲" if is_above else "▼"
+    benchmark_class = "benchmark-up" if is_above else "benchmark-down"
+    line_color = "#16A34A" if is_above else "#DC2626"
+    status_text = "İlk %50'lik dilimde" if is_above else "Son %50'lik dilimde"
 
     st.markdown(
         f"""
         <div class="city-rank-card">
-            <div class="city-rank-title">
-                {title}
+            <div class="city-rank-title">{title}</div>
+            <div class="city-rank-number">#{rank} <span>/{total}</span></div>
+            <div class="city-rank-sparkline-wrap">
+                <svg viewBox="0 0 200 50" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="sparklineGradProd" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="{line_color}" stop-opacity="0.25" />
+                            <stop offset="100%" stop-color="{line_color}" stop-opacity="0.0" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,35 Q30,15 60,30 T120,10 T180,38 T200,20 L200,50 L0,50 Z" fill="url(#sparklineGradProd)" />
+                    <path d="M0,35 Q30,15 60,30 T120,10 T180,38 T200,20" fill="none" stroke="{line_color}" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
             </div>
-            <div class="city-rank-number">
-                #{rank}<span> / {total}</span>
+            <div class="city-rank-benchmark {benchmark_class}">
+                <span class="benchmark-icon">{icon}</span>
+                <span>{status_text}</span>
             </div>
-            <div class="city-rank-benchmark"
-                 style="color:{color};">
-                {badge}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_product_summary_rank(title, rank, total, percentile):
+    # Üst %50 dilimde olup olmama durumuna göre renk ve ikon belirleme
+    is_above = percentile >= 50
+    icon = "▲" if is_above else "▼"
+    benchmark_class = "benchmark-up" if is_above else "benchmark-down"
+    line_color = "#16A34A" if is_above else "#DC2626"
+    status_text = "İlk %50'lik dilimde" if is_above else "Son %50'lik dilimde"
+
+    st.markdown(
+        f"""
+        <div class="city-rank-card">
+            <div class="city-rank-title">{title}</div>
+            <div class="city-rank-number">#{rank} <span>/{total}</span></div>
+            <div class="city-rank-sparkline-wrap">
+                <svg viewBox="0 0 200 50" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="sparklineGradProd" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="{line_color}" stop-opacity="0.25" />
+                            <stop offset="100%" stop-color="{line_color}" stop-opacity="0.0" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,35 Q30,15 60,30 T120,10 T180,38 T200,20 L200,50 L0,50 Z" fill="url(#sparklineGradProd)" />
+                    <path d="M0,35 Q30,15 60,30 T120,10 T180,38 T200,20" fill="none" stroke="{line_color}" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="city-rank-benchmark {benchmark_class}">
+                <span class="benchmark-icon">{icon}</span>
+                <span>{status_text}</span>
             </div>
         </div>
         """,

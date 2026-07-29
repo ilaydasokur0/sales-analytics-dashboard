@@ -1,6 +1,7 @@
 from services import analysis as sa
 from services.formatters import format_currency
 import pandas as pd
+import streamlit as st
 
 
 def build_ranked_table(

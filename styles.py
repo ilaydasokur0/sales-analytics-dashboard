@@ -24,7 +24,6 @@ html, body, [class*="css"] {
     background: var(--bg);
 }
 
-/* Header barının kendisini şeffaf yapıp tıklamayı engellemiyoruz */
 header[data-testid="stHeader"] {
     background: transparent !important;
     height: 0px !important;
@@ -37,7 +36,6 @@ div[data-testid="stDecoration"] {
     display: none !important;
 }
 
-/* SİDEBAR KAPALIYKEN GELEN OK KONTROLÜNÜ EKRANA SABİTLE */
 [data-testid="stSidebarCollapsedControl"],
 [data-testid="stSidebarHeader"] {
     display: block !important;
@@ -47,7 +45,6 @@ div[data-testid="stDecoration"] {
     z-index: 9999999 !important;
 }
 
-/* Sol Üst Buton Görünümü */
 [data-testid="stSidebarCollapsedControl"] button,
 button[data-testid="stSidebarCollapseButton"] {
     display: flex !important;
@@ -119,6 +116,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 
 div[data-testid="stVerticalBlockBorderWrapper"] > div {
     box-sizing: border-box !important;
+    height: 100% !important;
     padding: 0 !important;
 }
 
@@ -185,6 +183,7 @@ section[data-testid="stSidebar"] > div:first-child {
     text-transform: uppercase;
     margin: 1rem 0 0.8rem 0.2rem !important;
 }
+
 .sidebar-comparison-status {
     display: none !important;
 }
@@ -667,6 +666,21 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     height: 100% !important;
 }
 
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stVerticalBlock"] {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100% !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stElementContainer"]:has(.city-rank-card) {
+    display: flex !important;
+    width: 100% !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
 div[data-testid="stVerticalBlockBorderWrapper"]:has(.gauge-pair) [data-testid="stElementContainer"]:has(.gauge-pair),
 div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="stElementContainer"]:has(.donut-chart) {
     display: flex !important;
@@ -745,15 +759,17 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
 .city-rank-card {
     background: #FFFFFF !important;
     border: 1px solid rgba(10, 43, 71, 0.08) !important;
-    border-radius: 18px !important;
-    padding: 18px 20px !important;
-    height: 100% !important;
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: auto 0 !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
     align-items: center !important;
     text-align: center !important;
-    box-shadow: 0 18px 40px rgba(4, 23, 38, 0.08) !important;
+    box-shadow: 0 12px 28px rgba(4, 23, 38, 0.07) !important;
     position: relative !important;
     overflow: hidden !important;
 }
@@ -764,45 +780,45 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     left: 0 !important;
     top: 0 !important;
     bottom: 0 !important;
-    width: 6px !important;
+    width: 5px !important;
     background: #0A2B47 !important;
-    border-top-left-radius: 18px !important;
-    border-bottom-left-radius: 18px !important;
+    border-top-left-radius: 16px !important;
+    border-bottom-left-radius: 16px !important;
 }
 
 .city-rank-title {
-    font-size: 0.85rem !important;
+    font-size: 0.72rem !important;
     font-weight: 800 !important;
     color: #0A2B47 !important;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 0.2rem !important;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.1rem !important;
     z-index: 2 !important;
 }
 
 .city-rank-number {
-    font-size: 3.2rem !important;
+    font-size: 2.05rem !important;
     font-weight: 900 !important;
     color: #0A2B47 !important;
     line-height: 1 !important;
     display: flex !important;
     align-items: baseline !important;
     justify-content: center !important;
-    gap: 4px !important;
-    margin: 0.2rem 0 !important;
+    gap: 3px !important;
+    margin: 0.1rem 0 !important;
     z-index: 2 !important;
 }
 
 .city-rank-number span {
-    font-size: 1.2rem !important;
+    font-size: 0.85rem !important;
     color: #8CA0B3 !important;
     font-weight: 700 !important;
 }
 
 .city-rank-sparkline-wrap {
     width: 100% !important;
-    height: 60px !important;
-    margin: 0.2rem 0 !important;
+    height: 38px !important;
+    margin: 0.1rem 0 !important;
     z-index: 1 !important;
     display: flex !important;
     align-items: center !important;
@@ -819,11 +835,11 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 6px !important;
-    font-size: 0.78rem !important;
+    gap: 5px !important;
+    font-size: 0.68rem !important;
     font-weight: 800 !important;
-    padding: 6px 14px !important;
-    border-radius: 20px !important;
+    padding: 4px 10px !important;
+    border-radius: 16px !important;
     white-space: nowrap !important;
     z-index: 2 !important;
 }
