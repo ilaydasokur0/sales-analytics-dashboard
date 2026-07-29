@@ -12,7 +12,7 @@ FILTER_WIDGET_KEYS = (
 )
 
 TURKISH_MONTH_ABBR = [
-    "Oca", "Şub", "Mar", "Nis", "May", "Haz","Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara",
+    "Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara",
 ]
 
 MONTH_GRID_ROWS = 1
@@ -51,8 +51,13 @@ def _render_month_grid(month_periods):
                     type="primary" if is_selected else "secondary",
                     use_container_width=True,
                 )
-                if clicked and not is_selected:
-                    st.session_state["filter_month"] = period_key
+                if clicked:
+                    # Seçili olan aya tekrar basılırsa filtreyi kaldır, değilse yeni ayı atayıp sayfayı yenile
+                    if is_selected:
+                        st.session_state["filter_month"] = ""
+                    else:
+                        st.session_state["filter_month"] = period_key
+                    st.rerun()
 
     selected_key = st.session_state["filter_month"]
     if not selected_key:
