@@ -63,7 +63,6 @@ def _render_month_grid(month_periods):
                 )
                 if clicked and not is_selected:
                     st.session_state["filter_month"] = period_key
-                    st.rerun()
 
     selected_key = st.session_state["filter_month"]
     if not selected_key:
