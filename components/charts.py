@@ -235,17 +235,19 @@ def _gauge_block_html(title, share_series, color_a, color_b):
     label_a = html.escape(str(share_series.index[0]))
     value_a = float(share_series.iloc[0])
 
-    label_b = (
-        html.escape(str(share_series.index[1]))
-        if len(share_series) > 1
-        else None
-    )
+    if len(share_series) > 1:
+        label_b = html.escape(str(share_series.index[1]))
+        value_b = float(share_series.iloc[1])
+    else:
+        label_b = "Diğer"
+        value_b = max(0.0, 100.0 - value_a)
 
     angle = max(0.0, min(180.0, value_a * 1.8))
 
-    legend_html = f'<span class="gauge-legend-item" style="color:{color_a};">● {label_a}</span>'
+    # Alt kısımdaki yazı boyutu (0.85rem) ve kalınlığı artırıldı
+    legend_html = f'<span class="gauge-legend-item" style="color:{color_a}; font-size: 0.85rem; font-weight: 800;">● {label_a}: %{value_a:.0f}</span>'
     if label_b is not None:
-        legend_html += f'<span class="gauge-legend-item" style="color:{color_b};">● {label_b}</span>'
+        legend_html += f'<span class="gauge-legend-item" style="color:{color_b}; font-size: 0.85rem; font-weight: 800; margin-left: 10px;">● {label_b}: %{value_b:.0f}</span>'
 
     return textwrap.dedent(f"""
         <div class="gauge-block">
@@ -253,9 +255,8 @@ def _gauge_block_html(title, share_series, color_a, color_b):
             <div class="gauge-half-wrap">
                 <div class="gauge-half" style="background:conic-gradient(from -90deg at 50% 50%, {color_a} 0deg {angle:.1f}deg, {color_b} {angle:.1f}deg 180deg, transparent 180deg 360deg);"></div>
                 <div class="gauge-hole"></div>
-                <div class="gauge-center-value">%{value_a:.0f}</div>
             </div>
-            <div class="gauge-legend-row">{legend_html}</div>
+            <div class="gauge-legend-row" style="margin-top: 6px;">{legend_html}</div>
         </div>
     """).strip()
 
@@ -272,7 +273,7 @@ def render_gauge_pair(pl_share, type_share):
         f'<div class="gauge-pair">{pl_gauge}{type_gauge}</div>',
         unsafe_allow_html=True,
     )
-
+    
 def render_donut_chart(
     title,
     chart_df,
