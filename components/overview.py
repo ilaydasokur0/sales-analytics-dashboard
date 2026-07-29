@@ -30,17 +30,11 @@ def render_header(
         st.warning("Seçilen filtrelerde veri bulunamadı. Filtreleri genişletip tekrar deneyin.")
         st.stop()
 
-
-# Row1 ve Row2 kartlarının hepsi bu sabit yüksekliklerle hizalanır.
 ROW1_CARD_HEIGHT = 210
 ROW2_CARD_HEIGHT = 250
 
 
 def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df=None):
-   
-    # ==========================================
-    # 1. BÖLÜM: ÜST KARTLAR (Eşit Genişlik: Gauge / Donut)
-    # ==========================================
     row1_col1, row1_col2 = st.columns(2, gap="small")
 
     # ----- 1. KART: Gauge (Yarım Daireler) -----

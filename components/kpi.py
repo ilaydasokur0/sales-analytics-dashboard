@@ -38,7 +38,6 @@ def render_share_metrics(share_series):
         st.info("Veri bulunamadı.")
         return
 
-    # If there's only one category (e.g., a single product selected), show only the label
     if len(share_series) == 1:
         label = share_series.index[0]
         col = st.columns(1, gap="small")[0]
@@ -74,10 +73,8 @@ def render_kpi_section(
     comparison_enabled,
 ):
     with st.container(border=False, key="kpi_section"):
-        # 2 satır yerine tek satırda 6 sütun oluşturuyoruz
         col1, col2, col3, col4, col5, col6 = st.columns(6, gap="small")
 
-        # Koşul kontrolleri (if-else mantığı birebir korundu)
         city_and_customer_selected = (
             active_filters["city"] != "Hepsi" and active_filters["customer"] != "Hepsi"
         )
