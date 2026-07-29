@@ -86,11 +86,31 @@ def _render_filter_summary(city, customer, product, start_date, end_date):
     )
 
 
+def _render_comparison_status(selected_period, month_periods):
+    if selected_period is None:
+        return
+
+    previous_period = selected_period - 1
+    if str(previous_period) in {str(period) for period in month_periods}:
+        message = f"Karşılaştırma: {previous_period} / {selected_period}"
+    else:
+        message = "Seçilen ay için karşılaştırma yapılamıyor."
+
+    st.sidebar.markdown(
+        f'<div class="sidebar-comparison-status">{message}</div>',
+        unsafe_allow_html=True,
+    )
+
+
 def apply_sidebar_filters(df):
     min_date = df["invoice_date"].dropna().min().date()
     max_date = df["invoice_date"].dropna().max().date()
 
-    st.sidebar.markdown('<div class="sidebar-title">Filtreler</div>', unsafe_allow_html=True)
+    st.sidebar.markdown(
+        '<div class="sidebar-title">Satış Analiz ve Raporlama Sistemi</div>',
+        unsafe_allow_html=True,
+    )
+    st.sidebar.markdown('<div class="sidebar-filter-heading">Filtreler</div>', unsafe_allow_html=True)
     st.sidebar.button(
         "Filtreleri Temizle",
         on_click=clear_sidebar_filters,
@@ -99,6 +119,7 @@ def apply_sidebar_filters(df):
 
     month_periods = list(pd.period_range(start=min_date, end=max_date, freq="M"))
     selected_period = _render_month_grid(month_periods)
+    _render_comparison_status(selected_period, month_periods)
 
     if selected_period is None:
         start_date = min_date

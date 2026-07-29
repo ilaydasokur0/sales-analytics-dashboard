@@ -21,22 +21,14 @@ def render_header(
     previous_period,
     current_month_df,
 ):
-    st.markdown('<div class="page-title">Satış Analiz ve Raporlama Sistemi</div>', unsafe_allow_html=True)
-
-    if comparison_enabled:
-        st.caption(f"Karşılaştırma: {current_period} / {previous_period}")
-
-    if active_filters["month_label"] != "Hepsi" and not active_filters["comparison_available"]:
-        st.caption("Seçilen ay için karşılaştırma yapılamıyor.")
-
     if current_month_df.empty:
         st.warning("Seçilen filtrelerde veri bulunamadı. Filtreleri genişletip tekrar deneyin.")
         st.stop()
 
 
 # Row1 ve Row2 kartlarının hepsi bu sabit yüksekliklerle hizalanır.
-ROW1_CARD_HEIGHT = 170
-ROW2_CARD_HEIGHT = 288
+ROW1_CARD_HEIGHT = 205
+ROW2_CARD_HEIGHT = 230
 
 
 def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df=None):

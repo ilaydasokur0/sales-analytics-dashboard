@@ -99,11 +99,30 @@ section[data-testid="stSidebar"] .mini-section-title{
     color:rgba(230,251,250,0.95) !important;
 }
 .sidebar-title{
-    font-size: 1.6rem;
+    font-size: 1.28rem;
     font-weight: 800;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     line-height: 1.2;
-}                
+}
+
+.sidebar-comparison-status{
+    font-size:0.72rem;
+    line-height:1.35;
+    color:#CBEFF0;
+    font-weight:700;
+    margin:0 0 0.75rem;
+}
+
+.sidebar-filter-heading{
+    margin:0.85rem 0 0.35rem;
+    padding-top:0.75rem;
+    border-top:1px solid rgba(255,255,255,0.14);
+    color:#E6FBFA;
+    font-size:0.72rem;
+    font-weight:800;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+}
 
 section[data-testid="stSidebar"] div[data-baseweb="select"]>div{
     border-color:rgba(255,255,255,0.08) !important;
@@ -175,8 +194,8 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
     font-size:15px;
     line-height:18px;
     font-weight:800;
-    margin:0 0 6px;
-    padding:0 0 4px;
+    margin:0 0 10px;
+    padding:0 0 6px;
     border-bottom:3px solid #DCEFFA;
 }
 
@@ -209,6 +228,10 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
     gap: 0.5rem !important;
 }
 
+.st-key-kpi_section [data-testid="stHorizontalBlock"] {
+    gap: 0.35rem !important;
+}
+
 [data-testid="column"] {
     padding: 0 !important;
 }
@@ -218,8 +241,8 @@ div[data-testid="stMetric"] {
     border: 1px solid #D0DFEE !important;
     border-top: 4px solid #0F2E4F !important;
     border-radius: 8px !important;
-    padding: 5px 6px !important;
-    height: 70px !important;
+    padding: 9px 6px !important;
+    height: 94px !important;
     box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
 
     display: flex !important;
@@ -263,7 +286,7 @@ div[data-testid="stMetricLabel"] {
 div[data-testid="stMetricValue"],
 div[data-testid="stMetricValue"] > div,
 div[data-testid="stMetricValue"] span {
-    font-size: 19px !important;
+    font-size: 22px !important;
     font-weight: 800 !important;
     color: #0F2E4F !important;
     display: flex !important;
@@ -513,7 +536,8 @@ div[data-testid="stRadio"] > div {
     align-items: center !important;
     justify-content: space-evenly !important;
     width: 100% !important;
-    height: 108px !important;
+    height: 100% !important;
+    flex: 1 !important;
     min-height: 0 !important;
     margin: 0 auto !important;
     padding: 0 !important;
@@ -530,18 +554,18 @@ div[data-testid="stRadio"] > div {
 
 .gauge-half-wrap {
     position: relative !important;
-    width: 120px !important;
-    height: 60px !important;
+    width: 156px !important;
+    height: 78px !important;
     overflow: hidden !important;
-    margin: 0 auto !important;
+    margin: 0.15rem auto 0 auto !important;
 }
 
 .gauge-half {
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
-    width: 120px !important;
-    height: 120px !important;
+    width: 156px !important;
+    height: 156px !important;
     border-radius: 50% !important;
 }
 
@@ -549,8 +573,8 @@ div[data-testid="stRadio"] > div {
     position: absolute !important;
     left: 50% !important;
     bottom: 0 !important;
-    width: 66px !important;
-    height: 66px !important;
+    width: 86px !important;
+    height: 86px !important;
     border-radius: 50% !important;
     background: #ffffff !important;
     transform: translate(-50%, 50%) !important;
@@ -563,7 +587,7 @@ div[data-testid="stRadio"] > div {
     left: 50% !important;
     bottom: 4px !important;
     transform: translateX(-50%) !important;
-    font-size: 16px !important;
+    font-size: 19px !important;
     font-weight: 800 !important;
     color: #245274 !important;
     line-height: 1 !important;
@@ -575,7 +599,7 @@ div[data-testid="stRadio"] > div {
     justify-content: center !important;
     align-items: center !important;
     gap: 0.6rem !important;
-    margin-top: 0 !important;
+    margin-top: 0.15rem !important;
     flex-wrap: nowrap !important;
 }
 
@@ -583,7 +607,7 @@ div[data-testid="stRadio"] > div {
     display: flex !important;
     align-items: center !important;
     gap: 0.2rem !important;
-    font-size: 0.72rem !important;
+    font-size: 0.76rem !important;
     font-weight: 700 !important;
     white-space: nowrap !important;
 }
@@ -597,14 +621,15 @@ div[data-testid="stRadio"] > div {
     justify-content: center !important;
     gap: 0.55rem !important;
     width: 100% !important;
-    height: 116px !important;
+    height: 132px !important;
+    flex: 1 !important;
     min-height: 0 !important;
     padding: 0 !important;
 }
 
 .donut-chart-circle {
-    width: 116px !important;
-    height: 116px !important;
+    width: 130px !important;
+    height: 130px !important;
     border-radius: 50% !important;
     position: relative !important;
     display: flex !important;
@@ -614,9 +639,14 @@ div[data-testid="stRadio"] > div {
     margin: auto 0 !important;
 }
 
+.donut-chart-circle svg {
+    width: 100% !important;
+    height: 100% !important;
+}
+
 .donut-chart-center {
-    width: 64px !important;
-    height: 64px !important;
+    width: 72px !important;
+    height: 72px !important;
     border-radius: 50% !important;
     background: #FFFFFF !important;
     display: flex !important;
@@ -630,27 +660,46 @@ div[data-testid="stRadio"] > div {
     min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
-    gap: 0.15rem !important;
-    height: 116px !important;
-    max-height: 116px !important;
+    justify-content: flex-start !important;
+    gap: 0.28rem !important;
+    align-self: stretch !important;
+    height: 100% !important;
+    max-height: 100% !important;
     overflow-y: auto !important;
-    padding-top: 0 !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    padding-top: 4px !important;
     padding-right: 0.2rem !important;
 }
 
 .donut-chart-row {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.45rem !important;
+    display: grid !important;
+    grid-template-columns: 12px minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 0.5rem !important;
+    min-height: 26px !important;
     padding: 0 !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.gauge-pair) [data-testid="stVerticalBlock"],
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="stVerticalBlock"] {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.gauge-pair) [data-testid="stElementContainer"]:has(.gauge-pair),
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="stElementContainer"]:has(.donut-chart) {
+    display: flex !important;
+    flex: 1 !important;
+    min-height: 0 !important;
 }
 
 .donut-chart-color{
     width:12px;
     height:12px;
     border-radius:50%;
-    margin-top:.2rem;
+    margin-top:.15rem;
     flex-shrink:0;
 }
 
@@ -658,22 +707,25 @@ div[data-testid="stRadio"] > div {
     display:flex;
     flex-direction:column;
     min-width:0;
+    justify-content:center;
 }
 
 .donut-chart-label{
-    font-size:.92rem;
+    font-size:.84rem;
     font-weight:700;
     color:#0A2B47;
     overflow:hidden;
     white-space:nowrap;
     text-overflow:ellipsis;
+    line-height:1.1;
 }
 
 .donut-chart-value{
-    font-size:.78rem;
+    font-size:.76rem;
     font-weight:700;
     color:#245274;
     white-space:nowrap;
+    line-height:1.1;
 }
 
 /* ---------- CITY RANK ---------- */

@@ -72,15 +72,26 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
             alt.Chart(chart_df)
             .mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4)
             .encode(
-                x=alt.X("year_month:N", title=None, sort=None),
-                y=alt.Y("value:Q", title=None),
+                x=alt.X(
+                    "year_month:N",
+                    title=None,
+                    sort=None,
+                    axis=alt.Axis(labelAngle=0, labelFontSize=8, labelPadding=1),
+                ),
+                y=alt.Y(
+                    "value:Q",
+                    title=None,
+                    axis=alt.Axis(labelFontSize=8, labelPadding=1, tickCount=3),
+                ),
                 color=alt.Color("highlight:N", scale=color_scale, legend=None),
                 tooltip=["year_month", "value"],
             )
             .properties(
-                height=212,
-                padding={"top": 4, "right": 0, "bottom": 0, "left": 0},
+                height=160,
+                padding={"left": 2, "right": 2, "top": 2, "bottom": 0},
             )
+            .configure_view(strokeWidth=0)
+            .configure_axis(grid=False)
         )
         st.altair_chart(bar_chart, use_container_width=True)
         return
@@ -91,10 +102,23 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
 
     line_chart = (
         alt.Chart(chart_df)
-        .mark_line(color="#0F2E4F", point=alt.OverlayMarkDef(color="#0F2E4F", size=45))
+        .mark_line(
+            color="#0F2E4F",
+            strokeWidth=1.4,
+            point=alt.OverlayMarkDef(color="#0F2E4F", size=28),
+        )
         .encode(
-            x=alt.X("year_month:N", title=None, sort=None),
-            y=alt.Y("value:Q", title=None),
+            x=alt.X(
+                "year_month:N",
+                title=None,
+                sort=None,
+                axis=alt.Axis(labelAngle=0, labelFontSize=8, labelPadding=1),
+            ),
+            y=alt.Y(
+                "value:Q",
+                title=None,
+                axis=alt.Axis(labelFontSize=8, labelPadding=1, tickCount=3),
+            ),
             tooltip=["year_month", "value"],
         )
     )
@@ -113,7 +137,7 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
     )
     extremes_points = (
         alt.Chart(extremes_df)
-        .mark_point(size=150, filled=True)
+        .mark_point(size=90, filled=True)
         .encode(
             x=alt.X("year_month:N", sort=None),
             y="value:Q",
@@ -127,9 +151,10 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
     )
 
     combined_chart = (line_chart + average_line + extremes_points).properties(
-        height=212,
-        padding={"top": 4, "right": 0, "bottom": 0, "left": 0},
+        height=160,
+        padding={"left": 2, "right": 2, "top": 2, "bottom": 0},
     )
+    combined_chart = combined_chart.configure_view(strokeWidth=0).configure_axis(grid=False)
     st.altair_chart(combined_chart, use_container_width=True)
 
 
