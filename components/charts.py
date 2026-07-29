@@ -77,7 +77,10 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
                 color=alt.Color("highlight:N", scale=color_scale, legend=None),
                 tooltip=["year_month", "value"],
             )
-            .properties(height=170)
+            .properties(
+                height=212,
+                padding={"top": 4, "right": 0, "bottom": 0, "left": 0},
+            )
         )
         st.altair_chart(bar_chart, use_container_width=True)
         return
@@ -123,7 +126,10 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
         )
     )
 
-    combined_chart = (line_chart + average_line + extremes_points).properties(height=170)
+    combined_chart = (line_chart + average_line + extremes_points).properties(
+        height=212,
+        padding={"top": 4, "right": 0, "bottom": 0, "left": 0},
+    )
     st.altair_chart(combined_chart, use_container_width=True)
 
 
@@ -164,6 +170,7 @@ def render_horizontal_bar_chart(
 
     max_value = chart_df[value_col].max()
 
+    rows_html = []
     for _, row in chart_df.iterrows():
         label = html.escape(str(row[label_col]))
         value = float(row[value_col])
@@ -172,7 +179,7 @@ def render_horizontal_bar_chart(
         if max_value != 0:
             width = (value / max_value) * 100
 
-        st.markdown(
+        rows_html.append(
             textwrap.dedent(f"""
                 <div class="horizontal-bar-row">
                     <div class="horizontal-bar-name" title="{label}">{label}</div>
@@ -184,8 +191,12 @@ def render_horizontal_bar_chart(
                     </div>
                 </div>
             """).strip(),
-            unsafe_allow_html=True,
         )
+
+    st.markdown(
+        f'<div class="horizontal-bar-chart">{"".join(rows_html)}</div>',
+        unsafe_allow_html=True,
+    )
 
 def _gauge_block_html(title, share_series, color_a, color_b):
     if share_series.empty:

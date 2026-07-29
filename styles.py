@@ -11,12 +11,12 @@ header[data-testid="stHeader"] {
 }
 
 [data-testid="stMainBlockContainer"], .block-container {
-    padding-top: 2.2rem !important;
-    padding-bottom: 1rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.25rem !important;
 }
 
 [data-testid="stMainBlockContainer"] [data-testid="stHorizontalBlock"]:first-of-type {
-    margin-top: 0.8rem !important;
+    margin-top: 0.3rem !important;
 }
 .page-title {
     margin-bottom: 0.2rem !important;
@@ -65,6 +65,23 @@ div[data-testid="stHeader"]{
 
 [data-testid="stVerticalBlock"]{
     gap:0.3rem !important;
+}
+
+/* Override Streamlit's border-container padding at the element that owns it. */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    box-sizing: border-box !important;
+    height: 100% !important;
+    padding: 6px 8px !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] > div {
+    box-sizing: border-box !important;
+    padding: 0 !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] {
+    height: 100% !important;
+    gap: 0 !important;
 }
 
 
@@ -134,7 +151,7 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
 }
 
 .page-title{
-    font-size:2.5rem;
+    font-size:2.15rem;
     line-height:1.1;
     font-weight:800;
 }
@@ -153,10 +170,13 @@ section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover
 }
 
 .section-title{
-    font-size:13px;
+    box-sizing:border-box;
+    min-height:27px;
+    font-size:15px;
+    line-height:18px;
     font-weight:800;
-    margin-bottom:.25rem;
-    padding-bottom:.2rem;
+    margin:0 0 6px;
+    padding:0 0 4px;
     border-bottom:3px solid #DCEFFA;
 }
 
@@ -198,8 +218,8 @@ div[data-testid="stMetric"] {
     border: 1px solid #D0DFEE !important;
     border-top: 4px solid #0F2E4F !important;
     border-radius: 8px !important;
-    padding: 8px 6px !important;
-    height: 82px !important;
+    padding: 5px 6px !important;
+    height: 70px !important;
     box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
 
     display: flex !important;
@@ -237,7 +257,7 @@ div[data-testid="stMetricLabel"] {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    margin-bottom: 2px !important;
+    margin-bottom: 0 !important;
 }
 
 div[data-testid="stMetricValue"],
@@ -262,7 +282,7 @@ div[data-testid="stMetricDelta"] {
     align-items: center !important;
     font-size: 9.5px !important;
     font-weight: 700 !important;
-    margin-top: 2px !important;
+    margin-top: 0 !important;
     width: 100% !important;
 }
 
@@ -289,7 +309,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] {
 div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] > div {
     gap: 0.7rem !important;
     margin-top: 0 !important;
-    margin-bottom: 0.1rem !important;
+    margin-bottom: 0 !important;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label {
@@ -385,11 +405,11 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
 .horizontal-bar-chart{
     display:flex;
     flex-direction:column;
-    gap:0.4rem;
-    padding-top:0.05rem;
+    gap:0.15rem;
+    padding:0;
     width:100%;
     max-width:100%;
-    justify-content:space-around !important;
+    justify-content:flex-start !important;
 }
 
 .horizontal-bar-row{
@@ -397,7 +417,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     grid-template-columns:minmax(0, 2fr) minmax(56px, 1fr) max-content;
     align-items:center;
     gap:0.4rem;
-    padding:0.28rem 0;
+    padding:0.2rem 0;
     width:100%;
     box-sizing:border-box;
 }
@@ -482,8 +502,8 @@ div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
 
 div[data-testid="stRadio"] > div {
     gap: 0.6rem !important;
-    margin-top: -0.2rem !important;
-    margin-bottom: 0.1rem !important;
+    margin-top: -0.1rem !important;
+    margin-bottom: 0.25rem !important;
 }
 
 /* ---------------- GAUGE (YARIM DAİRE) - BÜYÜTME VE TAM ORTALAMA FIX ---------------- */
@@ -493,10 +513,10 @@ div[data-testid="stRadio"] > div {
     align-items: center !important;
     justify-content: space-evenly !important;
     width: 100% !important;
-    height: 100% !important;
-    min-height: 140px !important;
+    height: 108px !important;
+    min-height: 0 !important;
     margin: 0 auto !important;
-    padding: 0.2rem 0 !important;
+    padding: 0 !important;
 }
 
 .gauge-block {
@@ -510,18 +530,18 @@ div[data-testid="stRadio"] > div {
 
 .gauge-half-wrap {
     position: relative !important;
-    width: 130px !important;
-    height: 65px !important;
+    width: 120px !important;
+    height: 60px !important;
     overflow: hidden !important;
-    margin: 0.3rem auto !important;
+    margin: 0 auto !important;
 }
 
 .gauge-half {
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
-    width: 130px !important;
-    height: 130px !important;
+    width: 120px !important;
+    height: 120px !important;
     border-radius: 50% !important;
 }
 
@@ -529,8 +549,8 @@ div[data-testid="stRadio"] > div {
     position: absolute !important;
     left: 50% !important;
     bottom: 0 !important;
-    width: 72px !important;
-    height: 72px !important;
+    width: 66px !important;
+    height: 66px !important;
     border-radius: 50% !important;
     background: #ffffff !important;
     transform: translate(-50%, 50%) !important;
@@ -555,7 +575,7 @@ div[data-testid="stRadio"] > div {
     justify-content: center !important;
     align-items: center !important;
     gap: 0.6rem !important;
-    margin-top: 0.3rem !important;
+    margin-top: 0 !important;
     flex-wrap: nowrap !important;
 }
 
@@ -575,16 +595,16 @@ div[data-testid="stRadio"] > div {
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 1.2rem !important;
+    gap: 0.55rem !important;
     width: 100% !important;
-    height: 100% !important;
-    min-height: 140px !important;
-    padding: 0.2rem 0 !important;
+    height: 116px !important;
+    min-height: 0 !important;
+    padding: 0 !important;
 }
 
 .donut-chart-circle {
-    width: 125px !important;
-    height: 125px !important;
+    width: 116px !important;
+    height: 116px !important;
     border-radius: 50% !important;
     position: relative !important;
     display: flex !important;
@@ -595,8 +615,8 @@ div[data-testid="stRadio"] > div {
 }
 
 .donut-chart-center {
-    width: 70px !important;
-    height: 70px !important;
+    width: 64px !important;
+    height: 64px !important;
     border-radius: 50% !important;
     background: #FFFFFF !important;
     display: flex !important;
@@ -610,20 +630,20 @@ div[data-testid="stRadio"] > div {
     min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: flex-start !important;
-    gap: 0.35rem !important;
-    height: 100% !important;
-    max-height: 150px !important;
+    justify-content: center !important;
+    gap: 0.15rem !important;
+    height: 116px !important;
+    max-height: 116px !important;
     overflow-y: auto !important;
-    padding-top: 0.2rem !important;
-    padding-right: 0.4rem !important;
+    padding-top: 0 !important;
+    padding-right: 0.2rem !important;
 }
 
 .donut-chart-row {
     display: flex !important;
     align-items: center !important;
     gap: 0.45rem !important;
-    padding: 1px 0 !important;
+    padding: 0 !important;
 }
 
 .donut-chart-color{

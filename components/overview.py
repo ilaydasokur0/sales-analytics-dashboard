@@ -35,8 +35,8 @@ def render_header(
 
 
 # Row1 ve Row2 kartlarının hepsi bu sabit yüksekliklerle hizalanır.
-ROW1_CARD_HEIGHT = 205
-ROW2_CARD_HEIGHT = 195
+ROW1_CARD_HEIGHT = 170
+ROW2_CARD_HEIGHT = 288
 
 
 def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df=None):
