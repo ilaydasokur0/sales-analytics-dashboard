@@ -78,11 +78,15 @@ def generate_invoice_details():
 
         for _, product in selected_products.iterrows():
 
-            quantity = random.randint(1, 100)
+            # quantity artık "adet" değil, kilogram (ondalıklı) olarak üretiliyor.
+            # Aralık: 300 kg - 3000 kg arası, 2 ondalık basamağa yuvarlanmış.
+            # (Ürün tipine göre farklı aralıklar istersen bu satırı ürün
+            # başına değişken bir aralıkla değiştirebilirsin.)
+            quantity = round(random.uniform(300.0, 3000.0), 2)
 
             unit_price = random.randint(50, 1000)
 
-            total_amount = quantity * unit_price
+            total_amount = round(quantity * unit_price, 2)
 
             detail = {
                 "detail_id": str(uuid.uuid4()),
