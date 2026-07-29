@@ -12,8 +12,10 @@ from components.kpi import render_kpi_section
 st.set_page_config(
     page_title="Satış Raporu",
     page_icon="📊",
+    initial_sidebar_state="expanded",
     layout="wide",
 )
+
 
 # ---------------- VERİ ---------------- #
 load_css()

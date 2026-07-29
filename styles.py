@@ -5,7 +5,6 @@ def load_css():
     st.markdown(
         """
 <style>
-/* ---------------- 1. TİPOGRAFİ VE ROOT DEĞİŞKENLERİ ---------------- */
 :root {
     --bg: #F4F9FC;
     --navy: #0A2B47;
@@ -18,31 +17,70 @@ def load_css():
 }
 
 html, body, [class*="css"] {
-    font-family: "Segoe UI", sans-serif;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .stApp {
     background: var(--bg);
 }
 
-/* ---------------- 2. LAYOUT & CONTAINER OPTİMİZASYONU ---------------- */
-header[data-testid="stHeader"],
-div[data-testid="stToolbar"] {
-    display: none !important;
-    background: var(--bg) !important;
-    color: var(--navy) !important;
+/* Header barının kendisini şeffaf yapıp tıklamayı engellemiyoruz */
+header[data-testid="stHeader"] {
+    background: transparent !important;
+    height: 0px !important;
+    min-height: 0px !important;
+    z-index: 99999 !important;
 }
 
-/* Ana konteynır: Üst boşluk optimize edildi ve tekrarlayan selector'lar birleştirildi */
+div[data-testid="stToolbar"], 
+div[data-testid="stDecoration"] {
+    display: none !important;
+}
+
+/* SİDEBAR KAPALIYKEN GELEN OK KONTROLÜNÜ EKRANA SABİTLE */
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="stSidebarHeader"] {
+    display: block !important;
+    position: fixed !important;
+    top: 12px !important;
+    left: 12px !important;
+    z-index: 9999999 !important;
+}
+
+/* Sol Üst Buton Görünümü */
+[data-testid="stSidebarCollapsedControl"] button,
+button[data-testid="stSidebarCollapseButton"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: #0A2B47 !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    padding: 4px 8px !important;
+}
+
+[data-testid="stSidebarCollapsedControl"] button:hover,
+button[data-testid="stSidebarCollapseButton"]:hover {
+    background: #00A8B5 !important;
+    color: #FFFFFF !important;
+}
+
+[data-testid="stSidebarCollapsedControl"] svg,
+button[data-testid="stSidebarCollapseButton"] svg {
+    fill: #FFFFFF !important;
+    color: #FFFFFF !important;
+}
+
 [data-testid="stMainBlockContainer"], 
 .block-container {
     max-width: 1880px;
     padding-top: 1.2rem !important;
     padding-bottom: 0.5rem !important;
-    background: linear-gradient(180deg, #F8FBFF, #F4F9FC);
+    background: linear-gradient(180deg, #F8FBFF 0%, #F4F9FC 100%);
 }
 
-/* Sayfa başlığı ve alt metin boşlukları */
 .page-title {
     font-size: 2.15rem;
     line-height: 1.1;
@@ -61,7 +99,6 @@ div[data-testid="stToolbar"] {
     margin-bottom: 0.25rem !important;
 }
 
-/* Dikey Spacing Yönetimi */
 [data-testid="stVerticalBlock"] {
     gap: 0.75rem !important;
 }
@@ -74,7 +111,6 @@ div[data-testid="stToolbar"] {
     padding: 0 !important;
 }
 
-/* Streamlit Kart Kenarlıkları ve Boşluk Düzenlemeleri */
 div[data-testid="stVerticalBlockBorderWrapper"] {
     box-sizing: border-box !important;
     height: 100% !important;
@@ -91,7 +127,174 @@ div[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] 
     gap: 0.25rem !important;
 }
 
-/* ---------------- 3. KOMPAKT KPI & METRİK KARTLARI ---------------- */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #071E33 0%, #041423 100%) !important;
+    border-right: 1px solid rgba(0, 168, 181, 0.15) !important;
+}
+
+section[data-testid="stSidebar"] > div:first-child {
+    padding-top: 0.5rem !important;
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+}
+
+.sidebar-brand-wrapper {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 0.2rem !important;
+    margin-bottom: 2rem !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-brand-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent);
+}
+
+.sidebar-title {
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em;
+}
+
+.sidebar-subtitle {
+    font-size: 0.72rem;
+    color: #8CA0B3;
+    font-weight: 600;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sidebar-filter-heading {
+    color: #00A8B5 !important;
+    font-size: 0.90rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase;
+    margin: 1rem 0 0.8rem 0.2rem !important;
+}
+
+section[data-testid="stSidebar"] label p,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span {
+    color: #C2D5E5 !important;
+    font-size: 0.80rem !important;
+    font-weight: 700 !important;
+}
+
+.sidebar-filter-summary {
+    font-size: 0.78rem;
+    color: #E6FBFA;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+section[data-testid="stSidebar"] .st-key-month_grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 4px !important;
+    margin-bottom: 1rem !important;
+}
+
+section[data-testid="stSidebar"] .st-key-month_grid .stButton {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+section[data-testid="stSidebar"] .st-key-month_grid .stButton > button {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    border-radius: 6px !important;
+    color: #A3B8CC !important;
+    font-size: 0.70rem !important;
+    font-weight: 700 !important;
+    padding: 0.3rem 0 !important;
+    min-height: 1.9rem !important;
+    transition: all 0.2s ease !important;
+}
+
+section[data-testid="stSidebar"] .st-key-month_grid .stButton > button:hover {
+    background: rgba(0, 168, 181, 0.15) !important;
+    border-color: rgba(0, 168, 181, 0.4) !important;
+    color: #FFFFFF !important;
+    transform: translateY(-1px);
+}
+
+section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"] {
+    background: linear-gradient(135deg, #00A8B5 0%, #00828C 100%) !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 10px rgba(0, 168, 181, 0.35) !important;
+}
+
+section[data-testid="stSidebar"] div[data-baseweb="select"] > div {
+    background: rgba(10, 35, 58, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 10px !important;
+    color: #FFFFFF !important;
+    font-size: 0.82rem !important;
+    transition: all 0.2s ease !important;
+}
+
+section[data-testid="stSidebar"] div[data-baseweb="select"] > div:hover,
+section[data-testid="stSidebar"] div[data-baseweb="select"] > div:focus {
+    border-color: #00A8B5 !important;
+    background: rgba(14, 45, 74, 0.9) !important;
+}
+
+section[data-testid="stSidebar"] div[data-baseweb="select"] span {
+    color: #E6FBFA !important;
+    font-weight: 600 !important;
+}
+
+section[data-testid="stSidebar"] div[data-baseweb="select"] svg {
+    fill: #00A8B5 !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stRadio"] label[data-baseweb="radio"] div:first-child {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stRadio"] label[data-baseweb="radio"] div:first-child div {
+    background: var(--accent) !important;
+}
+
+section[data-testid="stSidebar"] .filter-item:hover {
+    color: var(--accent) !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid button) {
+    background: rgba(220, 38, 38, 0.1) !important;
+    border: 1px solid rgba(220, 38, 38, 0.3) !important;
+    color: #F87171 !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    padding: 0.45rem 0.8rem !important;
+    width: 100% !important;
+    transition: all 0.2s ease !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid button):hover {
+    background: rgba(220, 38, 38, 0.25) !important;
+    border-color: #EF4444 !important;
+    color: #FFFFFF !important;
+}
+
 .st-key-kpi_section [data-testid="stHorizontalBlock"] {
     gap: 0.4rem !important;
 }
@@ -104,7 +307,6 @@ div[data-testid="stMetric"] {
     padding: 6px 4px !important;
     height: 80px !important;
     box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
-
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -185,111 +387,6 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     border-radius: 6px !important;
 }
 
-/* ---------------- 4. SİDEBAR BİLEŞENLERİ ---------------- */
-section[data-testid="stSidebar"] {
-    background: var(--navy);
-    border-right: 1px solid rgba(4, 23, 38, 0.6);
-}
-
-.sidebar-title {
-    font-size: 1.65rem;
-    font-weight: 800;
-    margin-bottom: 0.25rem;
-    line-height: 1.2;
-    color: #FFFFFF !important;
-}
-
-.sidebar-comparison-status {
-    font-size: 0.72rem;
-    line-height: 1.35;
-    color: #CBEFF0;
-    font-weight: 700;
-    margin: 0 0 0.75rem;
-}
-
-.sidebar-filter-heading {
-    margin: 0.85rem 0 0.35rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
-    color: #E6FBFA;
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-
-.sidebar-filter-summary {
-    font-size: 0.78rem;
-    color: #E6FBFA;
-    font-weight: 700;
-    margin-top: 0.5rem;
-    margin-bottom: 1.2rem;
-}
-
-section[data-testid="stSidebar"] div[data-baseweb="select"] > div {
-    border-color: rgba(255, 255, 255, 0.08) !important;
-    background: rgba(255, 255, 255, 0.02) !important;
-    color: #FFFFFF !important;
-}
-
-section[data-testid="stSidebar"] div[data-baseweb="select"] > div:hover,
-section[data-testid="stSidebar"] div[data-baseweb="select"] > div:focus {
-    border-color: var(--accent) !important;
-    color: var(--accent) !important;
-}
-
-section[data-testid="stSidebar"] div[data-testid="stRadio"] label[data-baseweb="radio"] div:first-child {
-    border-color: rgba(255, 255, 255, 0.12) !important;
-}
-
-section[data-testid="stSidebar"] div[data-testid="stRadio"] label[data-baseweb="radio"] div:first-child div {
-    background: #00A8B5 !important;
-}
-
-section[data-testid="stSidebar"] .filter-item:hover {
-    color: var(--accent) !important;
-}
-
-section[data-testid="stSidebar"] .stButton > button,
-section[data-testid="stSidebar"] button {
-    background: transparent !important;
-    border: 0.5px solid rgba(255, 255, 255, 0.08) !important;
-    color: #FFFFFF !important;
-}
-
-section[data-testid="stSidebar"] p,
-section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] span {
-    color: #E6FBFA !important;
-}
-
-section[data-testid="stSidebar"] .st-key-month_grid .stButton > button {
-    padding: 0.2rem 0.3rem !important;
-    min-height: 1.8rem !important;
-    font-size: 0.78rem !important;
-}
-
-section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"] {
-    background: var(--accent) !important;
-    border: 0.5px solid var(--accent) !important;
-    color: #FFFFFF !important;
-    font-weight: 700 !important;
-}
-
-section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"]:hover {
-    background: var(--accent) !important;
-    border-color: var(--accent) !important;
-    opacity: 0.9;
-}
-
-section[data-testid="stSidebar"] div[data-baseweb="select"] > div:focus,
-section[data-testid="stSidebar"] .filter-item:focus,
-section[data-testid="stSidebar"] .stButton > button:focus {
-    outline: 3px solid rgba(0, 168, 181, 0.18);
-    outline-offset: 2px;
-}
-
-/* ---------------- 5. DÖKÜMAN BÖLÜMLERİ VE GENEL KARTLAR ---------------- */
 .section-title {
     box-sizing: border-box;
     min-height: 27px;
@@ -302,9 +399,7 @@ section[data-testid="stSidebar"] .stButton > button:focus {
     border-bottom: 3px solid #DCEFFA;
 }
 
-.section-title--large {
-    font-size: 15px;
-}
+.section-title--large { font-size: 15px; }
 
 .mini-section-title {
     font-size: 10px;
@@ -312,10 +407,6 @@ section[data-testid="stSidebar"] .stButton > button:focus {
     text-transform: uppercase;
     color: #6787A5;
     margin-bottom: .2rem;
-}
-
-section[data-testid="stSidebar"] .mini-section-title {
-    color: rgba(230, 251, 250, 0.95) !important;
 }
 
 .dashboard-section {
@@ -346,7 +437,6 @@ section[data-testid="stSidebar"] .mini-section-title {
     box-shadow: 0 24px 48px rgba(4, 23, 38, 0.10);
 }
 
-/* Radio Button Özelleştirmeleri */
 div[data-testid="stRadio"] label p {
     font-size: 0.75rem !important;
     font-weight: 700 !important;
@@ -386,8 +476,6 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     padding: 0 !important;
 }
 
-/* ---------------- 6. ÖZEL BİLEŞENLER (GAUGE, DONUT, BAR, RANK) ---------------- */
-/* Gauge Bileşeni */
 .gauge-pair {
     display: flex !important;
     align-items: center !important;
@@ -469,7 +557,6 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     white-space: nowrap !important;
 }
 
-/* Donut Chart Bileşeni */
 .donut-chart {
     display: flex !important;
     flex-direction: row !important;
@@ -584,7 +671,6 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     min-height: 0 !important;
 }
 
-/* Horizontal Bar Chart */
 .horizontal-bar-chart {
     display: flex;
     flex-direction: column;
@@ -653,7 +739,6 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     white-space: nowrap;
 }
 
-/* City Rank Card - (3 kez tekrarlanan tanım teke düşürüldü) */
 .city-rank-card {
     background: linear-gradient(180deg, #F8FCFF 0%, #EEF7FF 100%);
     border: 1px solid #D9E9F6;
@@ -703,7 +788,6 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
 .benchmark-down { color: #DC2626; }
 .benchmark-icon { font-size: 1rem; font-weight: 900; }
 
-/* Dynamic Info Cards */
 .distribution-selected-value {
     display: flex;
     align-items: center;
@@ -781,7 +865,6 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     font-weight: 800;
 }
 
-/* ---------------- 7. DİĞER BİLEŞENLER VE MEDIA QUERIES ---------------- */
 div[data-testid="stDataFrame"] {
     border: 1px solid #DCE8F3;
     border-radius: 14px;

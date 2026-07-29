@@ -65,7 +65,6 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
                 else:
                     title = "Ürünün Ulusal Ciro Sıralaması"
 
-                # Ürün filtresi HARİÇ diğer filtreleri uygula
                 ranking_df = sales_df.copy()
 
                 if selected_city != "Hepsi":
