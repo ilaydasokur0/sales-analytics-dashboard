@@ -103,7 +103,7 @@ def render_kpi_section(
                 "Toplam Kilogram",
                 sa.get_total_quantity(current_month_df),
                 sa.get_total_quantity(previous_month_df),
-                lambda value: f"{value:,}",
+                lambda value: f"{value:,.0f} kg",
                 comparison_enabled=comparison_enabled,
             )
 
