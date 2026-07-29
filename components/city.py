@@ -44,7 +44,7 @@ def render_city_summary_rank(rank, total, difference, status):
 
     st.markdown(
         f"""<div class="city-rank-card">
-            <div class="city-rank-title">İlin Ulusal Ciro Sıralaması</div>
+            <div class="city-rank-title">İlİn Ulusal Cİro Sıralaması</div>
             <div class="city-rank-number">#{rank} <span>/{total}</span></div>
             <div class="city-rank-sparkline-wrap">
                 <svg viewBox="0 0 200 50" preserveAspectRatio="none">

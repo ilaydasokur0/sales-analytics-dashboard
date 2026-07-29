@@ -29,7 +29,7 @@ def render_customer_invoice_summary(avg_invoice, difference, status):
     st.markdown(
         f"""
         <div class="city-rank-card">
-            <div class="city-rank-title">Müşterinin Ortalama Fatura Tutarı</div>
+            <div class="city-rank-title">Müşterİnİn Ortalama Fatura Tutarı</div>
             <div class="city-rank-number">₺{avg_invoice:,.0f}</div>
             <div class="city-rank-sparkline-wrap">
                 <svg viewBox="0 0 200 50" preserveAspectRatio="none">

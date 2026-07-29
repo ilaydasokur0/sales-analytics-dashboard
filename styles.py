@@ -756,14 +756,31 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     white-space: nowrap;
 }
 
+/* ---------------- RANK / ÖZET KARTLARI (KONTROLLÜ BOYUT VE ORTALAMA) ---------------- */
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stVerticalBlock"] {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100% !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stElementContainer"]:has(.city-rank-card) {
+    display: flex !important;
+    width: 100% !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
 .city-rank-card {
     background: #FFFFFF !important;
     border: 1px solid rgba(10, 43, 71, 0.08) !important;
     border-radius: 16px !important;
-    padding: 14px 16px !important;
+    padding: 12px 16px !important;
     width: 100% !important;
+    max-width: 420px !important; /* Geniş alanlarda kartın yayılmasını engeller */
     box-sizing: border-box !important;
-    margin: auto 0 !important;
+    margin: auto !important; /* Dikey ve yatayda tam merkeze sabitler */
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;

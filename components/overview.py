@@ -61,13 +61,13 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
 
                 # Kart başlığı
                 if selected_customer != "Hepsi":
-                    title = f"Ürünün {selected_customer} Ciro Sıralaması"
+                    title = f"Ürünün {selected_customer} Cİro Sıralaması"
 
                 elif selected_city != "Hepsi":
-                    title = f"Ürünün {selected_city} Ciro Sıralaması"
+                    title = f"Ürünün {selected_city} Cİro Sıralaması"
 
                 else:
-                    title = "Ürünün Ulusal Ciro Sıralaması"
+                    title = "Ürünün Ulusal Cİro Sıralaması"
 
                 ranking_df = sales_df.copy()
 
