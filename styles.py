@@ -185,6 +185,9 @@ section[data-testid="stSidebar"] > div:first-child {
     text-transform: uppercase;
     margin: 1rem 0 0.8rem 0.2rem !important;
 }
+.sidebar-comparison-status {
+    display: none !important;
+}
 
 section[data-testid="stSidebar"] label p,
 section[data-testid="stSidebar"] p,
@@ -740,63 +743,104 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
 }
 
 .city-rank-card {
-    background: linear-gradient(180deg, #F8FCFF 0%, #EEF7FF 100%);
-    border: 1px solid #D9E9F6;
-    border-radius: 16px;
-    padding: 18px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(18, 67, 104, .06);
+    background: #FFFFFF !important;
+    border: 1px solid rgba(10, 43, 71, 0.08) !important;
+    border-radius: 18px !important;
+    padding: 18px 20px !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    text-align: center !important;
+    box-shadow: 0 18px 40px rgba(4, 23, 38, 0.08) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.city-rank-card::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 6px !important;
+    background: #0A2B47 !important;
+    border-top-left-radius: 18px !important;
+    border-bottom-left-radius: 18px !important;
 }
 
 .city-rank-title {
-    font-size: .92rem;
-    font-weight: 700;
-    color: #4A6782;
-    margin-bottom: 18px;
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    color: #0A2B47 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.2rem !important;
+    z-index: 2 !important;
 }
 
 .city-rank-number {
-    font-size: 2.9rem;
-    font-weight: 900;
-    color: #173B57;
-    line-height: 1;
-    margin-bottom: 22px;
+    font-size: 3.2rem !important;
+    font-weight: 900 !important;
+    color: #0A2B47 !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    margin: 0.2rem 0 !important;
+    z-index: 2 !important;
 }
 
 .city-rank-number span {
-    font-size: 1.15rem;
-    color: #93A6B7;
-    font-weight: 600;
+    font-size: 1.2rem !important;
+    color: #8CA0B3 !important;
+    font-weight: 700 !important;
+}
+
+.city-rank-sparkline-wrap {
+    width: 100% !important;
+    height: 60px !important;
+    margin: 0.2rem 0 !important;
+    z-index: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.city-rank-sparkline-wrap svg {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: visible !important;
 }
 
 .city-rank-benchmark {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: .95rem;
-    font-weight: 800;
-    white-space: nowrap;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    font-size: 0.78rem !important;
+    font-weight: 800 !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    white-space: nowrap !important;
+    z-index: 2 !important;
 }
 
-.benchmark-up { color: #16A34A; }
-.benchmark-down { color: #DC2626; }
-.benchmark-icon { font-size: 1rem; font-weight: 900; }
+.benchmark-up {
+    color: #137333 !important;
+    background-color: #E6F4EA !important;
+}
 
-.distribution-selected-value {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 50px;
-    font-size: 22px;
-    font-weight: 800;
-    color: #245274;
-    letter-spacing: 0.01em;
+.benchmark-down {
+    color: #C5221F !important;
+    background-color: #FCE8E6 !important;
+}
+
+.benchmark-icon {
+    font-size: 0.85rem !important;
+    font-weight: 900 !important;
 }
 
 .product-info-card {

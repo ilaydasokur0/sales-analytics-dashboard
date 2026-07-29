@@ -12,11 +12,10 @@ FILTER_WIDGET_KEYS = (
 )
 
 TURKISH_MONTH_ABBR = [
-    "Oca", "Şub", "Mar", "Nis", "May", "Haz",
-    "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara",
+    "Oca", "Şub", "Mar", "Nis", "May", "Haz","Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara",
 ]
 
-MONTH_GRID_COLS = 4
+MONTH_GRID_ROWS = 1
 
 
 def clear_sidebar_filters():
@@ -41,9 +40,9 @@ def _render_month_grid(month_periods):
     st.sidebar.markdown('<div class="mini-section-title">Ay</div>', unsafe_allow_html=True)
 
     with st.sidebar.container(key="month_grid"):
-        for row_start in range(0, len(month_periods), MONTH_GRID_COLS):
-            row = list(zip(period_keys, month_periods))[row_start:row_start + MONTH_GRID_COLS]
-            cols = st.columns(MONTH_GRID_COLS, gap="small")
+        for row_start in range(0, len(month_periods), MONTH_GRID_ROWS):
+            row = list(zip(period_keys, month_periods))[row_start:row_start + MONTH_GRID_ROWS]
+            cols = st.columns(MONTH_GRID_ROWS, gap="small")
             for col, (period_key, period) in zip(cols, row):
                 is_selected = period_key == selected_key
                 clicked = col.button(
