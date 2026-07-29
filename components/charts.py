@@ -87,7 +87,7 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
                 tooltip=["year_month", "value"],
             )
             .properties(
-                height=175,
+                height=140,
                 padding={"left": 2, "right": 2, "top": 2, "bottom": 0},
             )
             .configure_view(strokeWidth=0)
@@ -151,7 +151,7 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
     )
 
     combined_chart = (line_chart + average_line + extremes_points).properties(
-        height=175,
+        height=140,
         padding={"left": 2, "right": 2, "top": 2, "bottom": 0},
     )
     combined_chart = combined_chart.configure_view(strokeWidth=0).configure_axis(grid=False)
