@@ -147,6 +147,7 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
             if selected_customer != "Hepsi":
                 summary = build_customer_invoice_summary(
                     current_df,
+                    sales_df,
                     selected_customer
                 )
 
@@ -175,7 +176,7 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
 
         selected_product = active_filters.get("product", "Hepsi")
         if selected_product != "Hepsi":
-            pass
+            row2_col1, row2_col2 = st.columns(2, gap="small")
         else:
             with st.container(height=ROW2_CARD_HEIGHT, border=True):
 

@@ -165,7 +165,7 @@ def build_city_summary_rank(sales_df, selected_city):
         "status": status,
     }
 
-def build_customer_invoice_summary(current_df, selected_customer):
+def build_customer_invoice_summary(current_df, sales_df, selected_customer):
 
     customer_summary = (
         current_df.groupby("customer_name")
@@ -181,6 +181,20 @@ def build_customer_invoice_summary(current_df, selected_customer):
         customer_summary["invoice_count"]
     )
 
+    national_summary = (
+        sales_df.groupby("customer_name")
+        .agg(
+            total_amount=("total_amount", "sum"),
+            invoice_count=("invoice_id", "nunique"),
+        )
+        .reset_index()
+    )
+
+    national_summary["avg_invoice"] = (
+        national_summary["total_amount"] /
+        national_summary["invoice_count"]
+    )
+
     selected = customer_summary[
         customer_summary["customer_name"] == selected_customer
     ]
@@ -189,7 +203,9 @@ def build_customer_invoice_summary(current_df, selected_customer):
         return None
 
     customer_avg = float(selected.iloc[0]["avg_invoice"])
-    overall_avg = customer_summary["avg_invoice"].mean()
+
+    # Türkiye genelindeki müşteri ortalaması
+    overall_avg = national_summary["avg_invoice"].mean()
 
     difference = (
         (customer_avg - overall_avg) / overall_avg * 100
