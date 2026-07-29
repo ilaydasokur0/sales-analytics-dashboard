@@ -297,8 +297,8 @@ def render_donut_chart(
         "#00A8B5",
         "#3FBEC9",
         "#7CC6D6",
-        "#A8D8E0",
-        "#B8E3EA",
+        "#ABDBE4",
+        "#CDE8EC",
     ]
 
     size = 180

@@ -25,21 +25,12 @@ def clear_sidebar_filters():
 
 
 def _validated_select(label, options, key):
-    """Session_state'teki eski seçim artık güncel seçenekler arasında
-    değilse (ör. üst filtre değiştiği veya Temizle'ye basıldığı için)
-    widget oluşturulmadan ÖNCE değeri açıkça 'Hepsi'ye düşürür.
-    Streamlit'in üstü kapalı varsayılan davranışına güvenmek yerine
-    tüm filtrelerde aynı, garantili sıfırlama davranışını sağlar."""
     if st.session_state.get(key) not in options:
         st.session_state[key] = "Hepsi"
     return st.sidebar.selectbox(label, options, key=key)
 
 
 def _render_month_grid(month_periods):
-    """Ayları 4'lü satırlar halinde buton grid'i olarak çizer.
-    Seçili ay filtre kaldırılana kadar mavi (primary) kalır.
-    Hiçbir ay seçilmemişse (ör. filtreler temizlendiğinde) genel
-    toplam veriler gösterilir."""
     period_keys = [str(p) for p in month_periods]
 
     if st.session_state.get("filter_month") not in period_keys:
@@ -107,7 +98,7 @@ def apply_sidebar_filters(df):
     max_date = df["invoice_date"].dropna().max().date()
 
     st.sidebar.markdown(
-        '<div class="sidebar-title">Satış Analiz ve Raporlama Sistemi</div>',
+        '<div class="sidebar-title">Satış Analiz Dashboard</div>',
         unsafe_allow_html=True,
     )
     st.sidebar.markdown('<div class="sidebar-filter-heading">Filtreler</div>', unsafe_allow_html=True)
@@ -142,11 +133,6 @@ def apply_sidebar_filters(df):
         values = sorted(series.dropna().unique().tolist())
         return ["Hepsi"] + values if values else ["Hepsi"]
 
-    # İl / Müşteri / Ürün seçenekleri kasıtlı olarak AY filtresinden
-    # bağımsız, tüm veri (df) üzerinden ve yalnızca kendi aralarında
-    # (İl -> Müşteri -> Ürün) kademeli hesaplanır. Böylece ay değiştirildiğinde
-    # bu seçimler bozulmaz; sadece kendi aralarındaki gerçek bağımlılık
-    # (ör. seçili İl'de artık o Müşteri yoksa) filtreyi sıfırlar.
     city_options = make_options(df["city"])
     city = _validated_select("İl", city_options, "filter_city")
 
