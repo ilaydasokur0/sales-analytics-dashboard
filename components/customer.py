@@ -10,7 +10,7 @@ def render_customer_product_ranking(current_df):
         "product_name",
         "quantity",
         group_label="Ürün",
-        value_label="Satış Adedi",
+        value_label="Kilogram",
     )
 
     with st.container(height=320):
@@ -18,7 +18,7 @@ def render_customer_product_ranking(current_df):
             title="Ürün Sıralaması",
             chart_df=chart_df,
             label_col="Ürün",
-            value_col="Satış Adedi",
+            value_col="Kilogram",
         )
 
 def render_customer_invoice_summary(avg_invoice, difference, status):

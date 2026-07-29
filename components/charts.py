@@ -12,7 +12,7 @@ import textwrap
 def render_chart_controls(graph_key):
     return st.radio(
         "Grafik Türü",
-        ["Ciro", "Satış Adedi"],
+        ["Ciro", "Kilogram"],
         horizontal=True,
         key=graph_key,
         label_visibility="collapsed",

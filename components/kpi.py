@@ -100,7 +100,7 @@ def render_kpi_section(
         # 2. KPI: Toplam Satış Adedi
         with col2:
             render_delta_metric(
-                "Toplam Satış Adedi",
+                "Toplam Kilogram",
                 sa.get_total_quantity(current_month_df),
                 sa.get_total_quantity(previous_month_df),
                 lambda value: f"{value:,}",

@@ -71,17 +71,11 @@ def generate_invoice_details():
         try:
             selected_indices = rng.choice(len(product_ids), size=k, replace=False, p=probs)
         except Exception:
-            # fallback to uniform sample if probabilities problematic
             selected_indices = rng.choice(len(product_ids), size=k, replace=False)
 
         selected_products = products.loc[selected_indices]
 
         for _, product in selected_products.iterrows():
-
-            # quantity artık "adet" değil, kilogram (ondalıklı) olarak üretiliyor.
-            # Aralık: 300 kg - 3000 kg arası, 2 ondalık basamağa yuvarlanmış.
-            # (Ürün tipine göre farklı aralıklar istersen bu satırı ürün
-            # başına değişken bir aralıkla değiştirebilirsin.)
             quantity = round(random.uniform(300.0, 3000.0), 2)
 
             unit_price = random.randint(50, 1000)

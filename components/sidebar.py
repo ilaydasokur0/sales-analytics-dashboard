@@ -4,7 +4,7 @@ import streamlit as st
 from services import analysis as sa
 
 
-FILTER_WIDGET_KEYS = (
+FILTER_WIDGET_KEYS = ( 
     "filter_month",
     "filter_city",
     "filter_customer",

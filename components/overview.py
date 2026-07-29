@@ -120,7 +120,7 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
     with row2_col2:
         customer_type = st.session_state.get("performance_type_customer", "Ciro")
         customer_value_col = "total_amount" if customer_type == "Ciro" else "quantity"
-        customer_value_label = "Ciro" if customer_type == "Ciro" else "Satış Adedi"
+        customer_value_label = "Ciro" if customer_type == "Ciro" else "Kilogram"
         customer_value_suffix = " ₺" if customer_type == "Ciro" else ""
 
         customer_ranking = build_ranked_table(
@@ -160,7 +160,7 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
     with row2_col3:
         city_type = st.session_state.get("performance_type_city", "Ciro")
         city_value_col = "total_amount" if city_type == "Ciro" else "quantity"
-        city_value_label = "Ciro" if city_type == "Ciro" else "Satış Adedi"
+        city_value_label = "Ciro" if city_type == "Ciro" else "Kilogram"
         city_value_suffix = " ₺" if city_type == "Ciro" else ""
 
         selected_product = active_filters.get("product", "Hepsi")
