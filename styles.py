@@ -11,12 +11,12 @@ header[data-testid="stHeader"] {
 }
 
 [data-testid="stMainBlockContainer"], .block-container {
-    padding-top: 0.75rem !important;
-    padding-bottom: 0.25rem !important;
+    padding-top: 0.95rem !important;
+    padding-bottom: 0.1rem !important;
 }
 
 [data-testid="stMainBlockContainer"] [data-testid="stHorizontalBlock"]:first-of-type {
-    margin-top: 0.3rem !important;
+    margin-top: 0.4rem !important;
 }
 .page-title {
     margin-bottom: 0.2rem !important;
@@ -58,20 +58,20 @@ div[data-testid="stHeader"]{
     color:var(--navy) !important;
 }
 .block-container{
-    max-width:1800px;
+    max-width:1880px;
     padding-top:2.4rem;
     padding-bottom:0.35rem;
 }
 
 [data-testid="stVerticalBlock"]{
-    gap:0.3rem !important;
+    gap:0.45rem !important;
 }
 
 /* Override Streamlit's border-container padding at the element that owns it. */
 div[data-testid="stVerticalBlockBorderWrapper"] {
     box-sizing: border-box !important;
     height: 100% !important;
-    padding: 6px 8px !important;
+    padding: 5px 8px !important;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] > div {
@@ -241,8 +241,8 @@ div[data-testid="stMetric"] {
     border: 1px solid #D0DFEE !important;
     border-top: 4px solid #0F2E4F !important;
     border-radius: 8px !important;
-    padding: 9px 6px !important;
-    height: 94px !important;
+    padding: 10px 6px !important;
+    height: 96px !important;
     box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
 
     display: flex !important;
@@ -554,8 +554,8 @@ div[data-testid="stRadio"] > div {
 
 .gauge-half-wrap {
     position: relative !important;
-    width: 156px !important;
-    height: 78px !important;
+    width: 164px !important;
+    height: 82px !important;
     overflow: hidden !important;
     margin: 0.15rem auto 0 auto !important;
 }
@@ -564,8 +564,8 @@ div[data-testid="stRadio"] > div {
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
-    width: 156px !important;
-    height: 156px !important;
+    width: 164px !important;
+    height: 164px !important;
     border-radius: 50% !important;
 }
 
@@ -573,8 +573,8 @@ div[data-testid="stRadio"] > div {
     position: absolute !important;
     left: 50% !important;
     bottom: 0 !important;
-    width: 86px !important;
-    height: 86px !important;
+    width: 90px !important;
+    height: 90px !important;
     border-radius: 50% !important;
     background: #ffffff !important;
     transform: translate(-50%, 50%) !important;
@@ -587,7 +587,7 @@ div[data-testid="stRadio"] > div {
     left: 50% !important;
     bottom: 4px !important;
     transform: translateX(-50%) !important;
-    font-size: 19px !important;
+    font-size: 20px !important;
     font-weight: 800 !important;
     color: #245274 !important;
     line-height: 1 !important;
@@ -619,7 +619,7 @@ div[data-testid="stRadio"] > div {
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.55rem !important;
+    gap: 0.75rem !important;
     width: 100% !important;
     height: 132px !important;
     flex: 1 !important;
@@ -661,14 +661,14 @@ div[data-testid="stRadio"] > div {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    gap: 0.28rem !important;
+    gap: 0.32rem !important;
     align-self: stretch !important;
     height: 100% !important;
     max-height: 100% !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     box-sizing: border-box !important;
-    padding-top: 4px !important;
+    padding-top: 6px !important;
     padding-right: 0.2rem !important;
 }
 
@@ -677,7 +677,7 @@ div[data-testid="stRadio"] > div {
     grid-template-columns: 12px minmax(0, 1fr) !important;
     align-items: start !important;
     gap: 0.5rem !important;
-    min-height: 26px !important;
+    min-height: 28px !important;
     padding: 0 !important;
 }
 
@@ -714,9 +714,9 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     font-size:.84rem;
     font-weight:700;
     color:#0A2B47;
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
+    overflow:visible;
+    white-space:normal;
+    overflow-wrap:anywhere;
     line-height:1.1;
 }
 
