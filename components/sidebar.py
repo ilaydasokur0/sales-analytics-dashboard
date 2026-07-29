@@ -24,6 +24,17 @@ def clear_sidebar_filters():
         st.session_state.pop(key, None)
 
 
+def _validated_select(label, options, key):
+    """Session_state'teki eski seçim artık güncel seçenekler arasında
+    değilse (ör. üst filtre değiştiği veya Temizle'ye basıldığı için)
+    widget oluşturulmadan ÖNCE değeri açıkça 'Hepsi'ye düşürür.
+    Streamlit'in üstü kapalı varsayılan davranışına güvenmek yerine
+    tüm filtrelerde aynı, garantili sıfırlama davranışını sağlar."""
+    if st.session_state.get(key) not in options:
+        st.session_state[key] = "Hepsi"
+    return st.sidebar.selectbox(label, options, key=key)
+
+
 def _render_month_grid(month_periods):
     """Ayları 4'lü satırlar halinde buton grid'i olarak çizer.
     Seçili ay filtre kaldırılana kadar mavi (primary) kalır.
@@ -93,8 +104,8 @@ def apply_sidebar_filters(df):
     if selected_period is None:
         start_date = min_date
         end_date = max_date
-        prev_start_date = None
-        prev_end_date = None
+        prev_start_date = min_date
+        prev_end_date = max_date
         comparison_available = False
         month_label = "Hepsi"
     else:
@@ -111,19 +122,19 @@ def apply_sidebar_filters(df):
         values = sorted(series.dropna().unique().tolist())
         return ["Hepsi"] + values if values else ["Hepsi"]
 
-    df_date = sa.filter_data(df, start_date=start_date, end_date=end_date)
-    city_options = make_options(df_date["city"]) if not df_date.empty else ["Hepsi"]
-    city = st.sidebar.selectbox("İl", city_options, key="filter_city")
+    # İl / Müşteri / Ürün seçenekleri kasıtlı olarak AY filtresinden
+    # bağımsız, tüm veri (df) üzerinden ve yalnızca kendi aralarında
+    # (İl -> Müşteri -> Ürün) kademeli hesaplanır. Böylece ay değiştirildiğinde
+    # bu seçimler bozulmaz; sadece kendi aralarındaki gerçek bağımlılık
+    # (ör. seçili İl'de artık o Müşteri yoksa) filtreyi sıfırlar.
+    city_options = make_options(df["city"])
+    city = _validated_select("İl", city_options, "filter_city")
 
-    df_city = df_date if city == "Hepsi" else df_date[df_date["city"] == city]
+    df_city = df if city == "Hepsi" else df[df["city"] == city]
     customer_options = (
         make_options(df_city["customer_name"]) if not df_city.empty else ["Hepsi"]
     )
-    customer = st.sidebar.selectbox(
-        "Müşteri",
-        customer_options,
-        key="filter_customer",
-    )
+    customer = _validated_select("Müşteri", customer_options, "filter_customer")
 
     df_customer = (
         df_city if customer == "Hepsi" else df_city[df_city["customer_name"] == customer]
@@ -133,7 +144,7 @@ def apply_sidebar_filters(df):
         if not df_customer.empty
         else ["Hepsi"]
     )
-    product = st.sidebar.selectbox("Ürün", product_options, key="filter_product")
+    product = _validated_select("Ürün", product_options, "filter_product")
 
     _render_filter_summary(city, customer, product, start_date, end_date)
 
