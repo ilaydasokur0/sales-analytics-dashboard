@@ -16,7 +16,7 @@ TURKISH_MONTH_ABBR = [
     "Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara",
 ]
 
-QUARTER_LABELS = ["Ç1", "Ç2", "Ç3", "Ç4"]
+QUARTER_LABELS = ["Q1", "Q2", "Q3", "Q4"]
 
 MONTH_GRID_ROWS = 1
 QUARTER_GRID_ROWS = 1
