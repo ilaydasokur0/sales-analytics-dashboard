@@ -554,7 +554,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     display: flex !important;
     align-items: center !important;
     gap: 0.2rem !important;
-    font-size: 0.76rem !important;
+    font-size: 0.9rem !important;
     font-weight: 700 !important;
     white-space: nowrap !important;
 }
