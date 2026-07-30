@@ -10,6 +10,11 @@ def prepare_dashboard_data(
     current_month_df,
     previous_month_df
 ):
+    # Seçili filtre bir çeyrekse "Q", değilse (ay ya da "Hepsi") "M" bazında
+    # karşılaştırma yapılır. current_period/previous_period zaten
+    # get_month_comparison_frames tarafından bu freq ile üretilmiş olur.
+    freq = "Q" if active_filters.get("period_type") == "quarter" else "M"
+
     # Ulusal veriler
     national_df = sa.filter_data(
         sales_df,
@@ -23,12 +28,12 @@ def prepare_dashboard_data(
 
     if comparison_enabled:
         national_df = national_df[
-            national_df["invoice_date"].dt.to_period("M") == current_period
+            national_df["invoice_date"].dt.to_period(freq) == current_period
         ]
 
     national_previous_df = (
         national_summary_df[
-            national_summary_df["invoice_date"].dt.to_period("M") == previous_period
+            national_summary_df["invoice_date"].dt.to_period(freq) == previous_period
         ]
         if comparison_enabled and previous_period is not None
         else national_summary_df.iloc[0:0]
@@ -57,7 +62,7 @@ def prepare_dashboard_data(
 
     if comparison_enabled:
         city_base_df = city_base_df[
-            city_base_df["invoice_date"].dt.to_period("M") == current_period
+            city_base_df["invoice_date"].dt.to_period(freq) == current_period
         ]
 
     return (
@@ -73,6 +78,10 @@ def prepare_dashboard_data(
 
 
 def get_month_comparison_frames(df, filters):
+    # Seçili filtre bir çeyrekse "Q" bazında, değilse (ay ya da "Hepsi")
+    # "M" bazında en güncel dönemi ve bir önceki dönemi bulur.
+    freq = "Q" if filters.get("period_type") == "quarter" else "M"
+
     base_df = sa.filter_data(
         df,
         city=None if filters["city"] == "Hepsi" else filters["city"],
@@ -95,9 +104,9 @@ def get_month_comparison_frames(df, filters):
     if selected_df.empty:
         return selected_df, selected_df, True, None, None
 
-    latest_period = selected_df["invoice_date"].dt.to_period("M").max()
+    latest_period = selected_df["invoice_date"].dt.to_period(freq).max()
 
-    base_periods = base_df["invoice_date"].dt.to_period("M")
+    base_periods = base_df["invoice_date"].dt.to_period(freq)
     previous_candidates = base_periods[base_periods < latest_period]
     previous_period = (
         previous_candidates.max()
@@ -106,7 +115,7 @@ def get_month_comparison_frames(df, filters):
     )
 
     current_df = selected_df[
-        selected_df["invoice_date"].dt.to_period("M") == latest_period
+        selected_df["invoice_date"].dt.to_period(freq) == latest_period
     ]
 
     previous_df = (

@@ -6,6 +6,7 @@ from services import analysis as sa
 
 FILTER_WIDGET_KEYS = ( 
     "filter_month",
+    "filter_quarter",
     "filter_city",
     "filter_customer",
     "filter_product",
@@ -15,7 +16,10 @@ TURKISH_MONTH_ABBR = [
     "Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara",
 ]
 
+QUARTER_LABELS = ["Ç1", "Ç2", "Ç3", "Ç4"]
+
 MONTH_GRID_ROWS = 1
+QUARTER_GRID_ROWS = 1
 
 
 def clear_sidebar_filters():
@@ -57,12 +61,51 @@ def _render_month_grid(month_periods):
                         st.session_state["filter_month"] = ""
                     else:
                         st.session_state["filter_month"] = period_key
+                        st.session_state["filter_quarter"] = ""  # dışlayıcı: ay seçilince çeyrek temizlenir
                     st.rerun()
 
     selected_key = st.session_state["filter_month"]
     if not selected_key:
         return None
     return pd.Period(selected_key, freq="M")
+
+
+def _render_quarter_grid(quarter_periods):
+    period_keys = [str(p) for p in quarter_periods]
+
+    if st.session_state.get("filter_quarter") not in period_keys:
+        st.session_state["filter_quarter"] = ""
+
+    selected_key = st.session_state["filter_quarter"]
+
+    st.sidebar.markdown('<div class="mini-section-title">Çeyrek</div>', unsafe_allow_html=True)
+
+    with st.sidebar.container(key="quarter_grid"):
+        # Ay grid'iyle aynı DOM yapısını kurmak için her buton ayrı bir st.columns(1) satırı olarak üretiliyor
+        for row_start in range(0, len(quarter_periods), QUARTER_GRID_ROWS):
+            row = list(zip(period_keys, quarter_periods))[row_start:row_start + QUARTER_GRID_ROWS]
+            cols = st.columns(QUARTER_GRID_ROWS, gap="small")
+            for col, (period_key, period) in zip(cols, row):
+                is_selected = period_key == selected_key
+                clicked = col.button(
+                    QUARTER_LABELS[period.quarter - 1],
+                    key=f"quarter_btn_{period_key}",
+                    type="primary" if is_selected else "secondary",
+                    use_container_width=True,
+                )
+                if clicked:
+                    # Seçili olan çeyreğe tekrar basılırsa filtreyi kaldır, değilse yeni çeyreği atayıp ayı temizle
+                    if is_selected:
+                        st.session_state["filter_quarter"] = ""
+                    else:
+                        st.session_state["filter_quarter"] = period_key
+                        st.session_state["filter_month"] = ""  # dışlayıcı: çeyrek seçilince ay temizlenir
+                    st.rerun()
+
+    selected_key = st.session_state["filter_quarter"]
+    if not selected_key:
+        return None
+    return pd.Period(selected_key, freq="Q")
 
 
 def _render_filter_summary(city, customer, product, start_date, end_date):
@@ -81,15 +124,21 @@ def _render_filter_summary(city, customer, product, start_date, end_date):
     )
 
 
-def _render_comparison_status(selected_period, month_periods):
-    if selected_period is None:
-        return
-
-    previous_period = selected_period - 1
-    if str(previous_period) in {str(period) for period in month_periods}:
-        message = f"Karşılaştırma: {previous_period} / {selected_period}"
+def _render_comparison_status(selected_month_period, selected_quarter_period, month_periods, quarter_periods):
+    if selected_quarter_period is not None:
+        previous_period = selected_quarter_period - 1
+        if str(previous_period) in {str(period) for period in quarter_periods}:
+            message = f"Karşılaştırma: {previous_period} / {selected_quarter_period}"
+        else:
+            message = "Seçilen çeyrek için karşılaştırma yapılamıyor."
+    elif selected_month_period is not None:
+        previous_period = selected_month_period - 1
+        if str(previous_period) in {str(period) for period in month_periods}:
+            message = f"Karşılaştırma: {previous_period} / {selected_month_period}"
+        else:
+            message = "Seçilen ay için karşılaştırma yapılamıyor."
     else:
-        message = "Seçilen ay için karşılaştırma yapılamıyor."
+        return
 
     st.sidebar.markdown(
         f'<div class="sidebar-comparison-status">{message}</div>',
@@ -113,25 +162,43 @@ def apply_sidebar_filters(df):
     )
 
     month_periods = list(pd.period_range(start=min_date, end=max_date, freq="M"))
-    selected_period = _render_month_grid(month_periods)
-    _render_comparison_status(selected_period, month_periods)
+    quarter_periods = list(pd.period_range(start=min_date, end=max_date, freq="Q"))
 
-    if selected_period is None:
+    selected_month_period = _render_month_grid(month_periods)
+    selected_quarter_period = _render_quarter_grid(quarter_periods)
+    _render_comparison_status(selected_month_period, selected_quarter_period, month_periods, quarter_periods)
+
+    if selected_quarter_period is not None:
+        period_type = "quarter"
+        start_date = selected_quarter_period.start_time.date()
+        end_date = min(selected_quarter_period.end_time.date(), max_date)
+
+        prev_period = selected_quarter_period - 1
+        prev_start_date = prev_period.start_time.date()
+        prev_end_date = prev_period.end_time.date()
+        comparison_available = str(prev_period) in [str(p) for p in quarter_periods]
+        month_label = "Hepsi"
+        quarter_label = f"{QUARTER_LABELS[selected_quarter_period.quarter - 1]} {selected_quarter_period.year}"
+    elif selected_month_period is not None:
+        period_type = "month"
+        start_date = selected_month_period.start_time.date()
+        end_date = min(selected_month_period.end_time.date(), max_date)
+
+        prev_period = selected_month_period - 1
+        prev_start_date = prev_period.start_time.date()
+        prev_end_date = prev_period.end_time.date()
+        comparison_available = str(prev_period) in [str(p) for p in month_periods]
+        month_label = TURKISH_MONTH_ABBR[selected_month_period.month - 1]
+        quarter_label = "Hepsi"
+    else:
+        period_type = None
         start_date = min_date
         end_date = max_date
         prev_start_date = min_date
         prev_end_date = max_date
         comparison_available = False
         month_label = "Hepsi"
-    else:
-        start_date = selected_period.start_time.date()
-        end_date = min(selected_period.end_time.date(), max_date)
-
-        prev_period = selected_period - 1
-        prev_start_date = prev_period.start_time.date()
-        prev_end_date = prev_period.end_time.date()
-        comparison_available = str(prev_period) in [str(p) for p in month_periods]
-        month_label = TURKISH_MONTH_ABBR[selected_period.month - 1]
+        quarter_label = "Hepsi"
 
     def make_options(series: pd.Series):
         values = sorted(series.dropna().unique().tolist())
@@ -174,6 +241,8 @@ def apply_sidebar_filters(df):
         "prev_end_date": prev_end_date,
         "comparison_available": comparison_available,
         "month_label": month_label,
+        "quarter_label": quarter_label,
+        "period_type": period_type,
         "city": city,
         "customer": customer,
         "product": product,

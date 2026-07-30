@@ -204,19 +204,22 @@ section[data-testid="stSidebar"] span {
     margin-bottom: 1.2rem;
 }
 
-section[data-testid="stSidebar"] .st-key-month_grid {
+section[data-testid="stSidebar"] .st-key-month_grid,
+section[data-testid="stSidebar"] .st-key-quarter_grid {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 4px !important;
     margin-bottom: 1rem !important;
 }
 
-section[data-testid="stSidebar"] .st-key-month_grid .stButton {
+section[data-testid="stSidebar"] .st-key-month_grid .stButton,
+section[data-testid="stSidebar"] .st-key-quarter_grid .stButton {
     width: 100% !important;
     margin: 0 !important;
 }
 
-section[data-testid="stSidebar"] .st-key-month_grid .stButton > button {
+section[data-testid="stSidebar"] .st-key-month_grid .stButton > button,
+section[data-testid="stSidebar"] .st-key-quarter_grid .stButton > button {
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(255, 255, 255, 0.09) !important;
     border-radius: 6px !important;
@@ -228,14 +231,16 @@ section[data-testid="stSidebar"] .st-key-month_grid .stButton > button {
     transition: all 0.2s ease !important;
 }
 
-section[data-testid="stSidebar"] .st-key-month_grid .stButton > button:hover {
+section[data-testid="stSidebar"] .st-key-month_grid .stButton > button:hover,
+section[data-testid="stSidebar"] .st-key-quarter_grid .stButton > button:hover {
     background: rgba(0, 168, 181, 0.15) !important;
     border-color: rgba(0, 168, 181, 0.4) !important;
     color: #FFFFFF !important;
     transform: translateY(-1px);
 }
 
-section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"] {
+section[data-testid="stSidebar"] .st-key-month_grid button[kind="primary"],
+section[data-testid="stSidebar"] .st-key-quarter_grid button[kind="primary"] {
     background: linear-gradient(135deg, #00A8B5 0%, #00828C 100%) !important;
     border: none !important;
     color: #FFFFFF !important;
@@ -279,7 +284,7 @@ section[data-testid="stSidebar"] .filter-item:hover {
     color: var(--accent) !important;
 }
 
-section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid button) {
+section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid button):not(.st-key-quarter_grid button) {
     background: rgba(220, 38, 38, 0.1) !important;
     border: 1px solid rgba(220, 38, 38, 0.3) !important;
     color: #F87171 !important;
@@ -291,7 +296,7 @@ section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid butto
     transition: all 0.2s ease !important;
 }
 
-section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid button):hover {
+section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid button):not(.st-key-quarter_grid button):hover {
     background: rgba(220, 38, 38, 0.25) !important;
     border-color: #EF4444 !important;
     color: #FFFFFF !important;
