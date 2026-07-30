@@ -106,6 +106,7 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
             .properties(
                 height=140,
                 padding={"left": 2, "right": 2, "top": 2, "bottom": 0},
+                usermeta={"embedOptions": {"actions": False}},
             )
             .configure_view(strokeWidth=0)
             .configure_axis(grid=False)
@@ -190,6 +191,7 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
     combined_chart = (line_chart + average_line + extremes_points).properties(
         height=140,
         padding={"left": 2, "right": 2, "top": 2, "bottom": 0},
+        usermeta={"embedOptions": {"actions": False}},
     )
     combined_chart = combined_chart.configure_view(strokeWidth=0).configure_axis(grid=False)
     st.altair_chart(combined_chart, use_container_width=True)

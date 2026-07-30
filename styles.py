@@ -755,6 +755,9 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="
     min-width: 44px;
     white-space: nowrap;
 }
+div[data-testid="stElementToolbar"] {
+    display: none !important;
+}
 
 /* ---------------- RANK / ÖZET KARTLARI (KONTROLLÜ BOYUT VE ORTALAMA) ---------------- */
 div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stVerticalBlock"] {
