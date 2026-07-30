@@ -51,7 +51,7 @@ def render_product_info_card(filtered_df):
 
 # ---------------- AYLIK PERFORMANS GRAFİĞİ ---------------- #
 
-def render_monthly_performance_chart(chart_series, is_single_month=False, selected_month_key=None):
+def render_monthly_performance_chart(chart_series, is_single_month=False, selected_month_key=None, is_ciro=True):
 
     chart_df = chart_series.reset_index()
     chart_df.columns = ["year_month", "value"]
@@ -59,6 +59,23 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
     if chart_df.empty:
         st.info("Veri bulunamadı.")
         return
+
+    # ₺ gibi özel bir para birimi sembolü d3-format/Vega-Lite'ın format
+    # parametresinde geçersiz olduğu için (sadece $ veya # kabul edilir),
+    # tooltip'te doğru gösterim için hazır metin sütunu üretiyoruz.
+    value_title = "Ciro" if is_ciro else "Miktar (kg)"
+
+    def _format_tooltip_value(raw_value):
+        if is_ciro:
+            return format_currency(raw_value)
+        return f"{raw_value:,.0f} kg"
+
+    chart_df["value_label"] = chart_df["value"].apply(_format_tooltip_value)
+
+    value_tooltip = [
+        alt.Tooltip("year_month:N", title="Dönem"),
+        alt.Tooltip("value_label:N", title=value_title),
+    ]
 
     if is_single_month:
         chart_df["highlight"] = chart_df["year_month"].apply(
@@ -84,7 +101,7 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
                     axis=alt.Axis(labelFontSize=8, labelPadding=1, tickCount=3),
                 ),
                 color=alt.Color("highlight:N", scale=color_scale, legend=None),
-                tooltip=["year_month", "value"],
+                tooltip=value_tooltip,
             )
             .properties(
                 height=140,
@@ -119,20 +136,36 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
                 title=None,
                 axis=alt.Axis(labelFontSize=8, labelPadding=1, tickCount=3),
             ),
-            tooltip=["year_month", "value"],
+            tooltip=value_tooltip,
         )
     )
 
     average_line = (
-        alt.Chart(pd.DataFrame({"average": [average_value]}))
+        alt.Chart(pd.DataFrame({
+            "average": [average_value],
+            "average_label": [_format_tooltip_value(average_value)],
+        }))
         .mark_rule(strokeDash=[6, 4], color="#E8A0A0", size=2)
-        .encode(y="average:Q")
+        .encode(
+            y="average:Q",
+            tooltip=[alt.Tooltip("average_label:N", title="Ortalama")],
+        )
     )
 
     extremes_df = pd.DataFrame(
         [
-            {"year_month": max_row["year_month"], "value": max_row["value"], "tip": "En Yüksek"},
-            {"year_month": min_row["year_month"], "value": min_row["value"], "tip": "En Düşük"},
+            {
+                "year_month": max_row["year_month"],
+                "value": max_row["value"],
+                "value_label": _format_tooltip_value(max_row["value"]),
+                "tip": "En Yüksek",
+            },
+            {
+                "year_month": min_row["year_month"],
+                "value": min_row["value"],
+                "value_label": _format_tooltip_value(min_row["value"]),
+                "tip": "En Düşük",
+            },
         ]
     )
     extremes_points = (
@@ -146,7 +179,11 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
                 scale=alt.Scale(domain=["En Yüksek", "En Düşük"], range=["#00A8B5", "#F28C8C"]),
                 legend=None,
             ),
-            tooltip=["tip", "value"],
+            tooltip=[
+                alt.Tooltip("tip:N", title="Durum"),
+                alt.Tooltip("year_month:N", title="Dönem"),
+                alt.Tooltip("value_label:N", title=value_title),
+            ],
         )
     )
 
@@ -169,7 +206,12 @@ def render_monthly_chart_card(chart_source_df, active_filters):
     if is_single_month:
         selected_month_key = str(pd.Period(active_filters["start_date"], freq="M"))
 
-    render_monthly_performance_chart(chart_data, is_single_month, selected_month_key)
+    render_monthly_performance_chart(
+        chart_data,
+        is_single_month,
+        selected_month_key,
+        is_ciro=(graph_type == "Ciro"),
+    )
 
 
 def render_horizontal_bar_chart(
