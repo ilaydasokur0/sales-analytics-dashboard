@@ -14,6 +14,7 @@ def prepare_dashboard_data(
     # karşılaştırma yapılır. current_period/previous_period zaten
     # get_month_comparison_frames tarafından bu freq ile üretilmiş olur.
     freq = "Q" if active_filters.get("period_type") == "quarter" else "M"
+    selected_periods = active_filters.get("selected_periods") or None
 
     # Ulusal veriler
     national_df = sa.filter_data(
@@ -22,6 +23,8 @@ def prepare_dashboard_data(
         product=None if active_filters["product"] == "Hepsi" else active_filters["product"],
         start_date=active_filters["start_date"],
         end_date=active_filters["end_date"],
+        periods=selected_periods,
+        period_freq=freq,
     )
 
     national_summary_df = national_df.copy()
@@ -58,6 +61,8 @@ def prepare_dashboard_data(
         product=None if active_filters["product"] == "Hepsi" else active_filters["product"],
         start_date=active_filters["start_date"],
         end_date=active_filters["end_date"],
+        periods=selected_periods,
+        period_freq=freq,
     )
 
     if comparison_enabled:
@@ -81,6 +86,7 @@ def get_month_comparison_frames(df, filters):
     # Seçili filtre bir çeyrekse "Q" bazında, değilse (ay ya da "Hepsi")
     # "M" bazında en güncel dönemi ve bir önceki dönemi bulur.
     freq = "Q" if filters.get("period_type") == "quarter" else "M"
+    selected_periods = filters.get("selected_periods") or []
 
     base_df = sa.filter_data(
         df,
@@ -89,17 +95,23 @@ def get_month_comparison_frames(df, filters):
         product=None if filters["product"] == "Hepsi" else filters["product"],
     )
 
-    selected_df = sa.filter_data(
-        base_df,
-        start_date=filters["start_date"],
-        end_date=filters["end_date"],
-    )
-
-    data_start = df["invoice_date"].min().date()
-    data_end = df["invoice_date"].max().date()
-
-    if filters["start_date"] == data_start and filters["end_date"] == data_end:
+    # "Hepsi" (hiçbir ay/çeyrek seçili değil): tüm tarih aralığı, karşılaştırma yok.
+    if filters.get("period_type") is None:
+        selected_df = sa.filter_data(
+            base_df,
+            start_date=filters["start_date"],
+            end_date=filters["end_date"],
+        )
         return selected_df, selected_df.iloc[0:0], False, None, None
+
+    # Birden fazla ay/çeyrek seçili: seçilenlerin TOPLAMI (birleşimi)
+    # gösterilir, önceki döneme göre karşılaştırma kapatılır.
+    if len(selected_periods) > 1:
+        selected_df = sa.filter_data(base_df, periods=selected_periods, period_freq=freq)
+        return selected_df, selected_df.iloc[0:0], False, None, None
+
+    # Tek ay / tek çeyrek seçili: mevcut (önceki dönemle karşılaştırmalı) davranış.
+    selected_df = sa.filter_data(base_df, periods=selected_periods, period_freq=freq)
 
     if selected_df.empty:
         return selected_df, selected_df, True, None, None

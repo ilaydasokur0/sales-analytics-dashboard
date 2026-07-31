@@ -36,6 +36,8 @@ def filter_data(
     product=None,
     start_date=None,
     end_date=None,
+    periods=None,
+    period_freq=None,
 ):
 
     df = sales_df.copy()
@@ -50,11 +52,20 @@ def filter_data(
         if value:
             df = df[df[column] == value]
 
-    if start_date:
-        df = df[df["invoice_date"] >= pd.to_datetime(start_date)]
+    # Birden fazla (kesikli) ay/çeyrek seçilmiş olabilir (ör. Ocak + Mart).
+    # Bu durumda start/end tarih aralığı yerine, seçilen dönemlerin birleşimi
+    # (union) kullanılır. periods verilmemişse eski start_date/end_date
+    # aralık mantığı aynen çalışmaya devam eder.
+    if periods:
+        freq = period_freq or "M"
+        period_series = df["invoice_date"].dt.to_period(freq).astype(str)
+        df = df[period_series.isin(periods)]
+    else:
+        if start_date:
+            df = df[df["invoice_date"] >= pd.to_datetime(start_date)]
 
-    if end_date:
-        df = df[df["invoice_date"] <= pd.to_datetime(end_date)]
+        if end_date:
+            df = df[df["invoice_date"] <= pd.to_datetime(end_date)]
 
     return df
 
@@ -138,6 +149,8 @@ def get_customer_product_share(
         city=None if active_filters.get("city") == "Hepsi" else active_filters.get("city"),
         start_date=active_filters.get("start_date"),
         end_date=active_filters.get("end_date"),
+        periods=active_filters.get("selected_periods") or None,
+        period_freq="Q" if active_filters.get("period_type") == "quarter" else "M",
     )
 
     customer_total = customer_df[
@@ -172,6 +185,8 @@ def get_product_customer_share(
         full_sales,
         start_date=active_filters.get("start_date"),
         end_date=active_filters.get("end_date"),
+        periods=active_filters.get("selected_periods") or None,
+        period_freq="Q" if active_filters.get("period_type") == "quarter" else "M",
     )
 
     product_total = product_df[
@@ -241,4 +256,3 @@ def get_customer_city_share(city_base_df, customer_df):
     city_sales_all_customers = get_total_sales(city_base_df)
     customer_sales_in_city = get_total_sales(customer_df)
     return 0 if city_sales_all_customers == 0 else (customer_sales_in_city / city_sales_all_customers) * 100
-
