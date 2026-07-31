@@ -24,56 +24,49 @@ html, body, [class*="css"] {
     background: var(--bg);
 }
 
+/* Artık native header'a (dolayısıyla içindeki Deploy/toolbar'a) hiç
+   ihtiyacımız yok -- sidebar aç/kapa işini tamamen kendi butonumuz
+   (render_sidebar_toggle) yapıyor. Bu yüzden header'ı güvenle tamamen
+   kaldırabiliriz; hiçbir fonksiyonel şeye bağımlı değil. */
 header[data-testid="stHeader"] {
-    background: transparent !important;
-    height: 0px !important;
-    min-height: 0px !important;
-    z-index: 99999 !important;
+    display: none !important;
 }
 
-div[data-testid="stToolbar"], 
+div[data-testid="stToolbar"],
 div[data-testid="stDecoration"] {
     display: none !important;
 }
 
-[data-testid="stSidebarCollapsedControl"],
-[data-testid="stSidebarHeader"] {
-    display: block !important;
+.st-key-sidebar_toggle_wrap {
     position: fixed !important;
     top: 12px !important;
     left: 12px !important;
-    z-index: 9999999 !important;
+    z-index: 999999 !important;
 }
 
-[data-testid="stSidebarCollapsedControl"] button,
-button[data-testid="stSidebarCollapseButton"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+.st-key-sidebar_toggle_wrap .stButton > button {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    padding: 0 !important;
     background: #0A2B47 !important;
-    color: #FFFFFF !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     border-radius: 8px !important;
+    color: #FFFFFF !important;
+    font-size: 1.05rem !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-    padding: 4px 8px !important;
 }
 
-[data-testid="stSidebarCollapsedControl"] button:hover,
-button[data-testid="stSidebarCollapseButton"]:hover {
+.st-key-sidebar_toggle_wrap .stButton > button:hover {
     background: #00A8B5 !important;
-    color: #FFFFFF !important;
-}
-
-[data-testid="stSidebarCollapsedControl"] svg,
-button[data-testid="stSidebarCollapseButton"] svg {
-    fill: #FFFFFF !important;
-    color: #FFFFFF !important;
 }
 
 [data-testid="stMainBlockContainer"], 
 .block-container {
     max-width: 1880px;
-    padding-top: 1.2rem !important;
+    padding-top: 3.2rem !important;   /* sabit (fixed) aç/kapa butonumuzun
+                                          altında kalmasın diye başlığa
+                                          yetecek boşluk bırakıyoruz */
     padding-bottom: 0.5rem !important;
     background: linear-gradient(180deg, #F8FBFF 0%, #F4F9FC 100%);
 }
@@ -131,9 +124,28 @@ section[data-testid="stSidebar"] {
 }
 
 section[data-testid="stSidebar"] > div:first-child {
-    padding-top: 0.5rem !important;
+    padding-top: 0rem !important;
     padding-left: 0.8rem !important;
     padding-right: 0.8rem !important;
+}
+
+/* Sidebar içeriği compact: bloklar arası varsayılan 0.75rem boşluk (aşağıda
+   genel [data-testid="stVerticalBlock"] kuralında tanımlı) sidebar'da
+   toplamda scroll'a sebep oluyordu. Bu seçici daha spesifik olduğu için
+   sidebar içinde bu değeri ezip küçültüyor, dışarıdaki layout'u etkilemiyor. */
+section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+    gap: 0.35rem !important;
+}
+
+/* Standart ekranlarda scroll hiç çıkmasın; olağanüstü küçük ekran/zoom
+   durumunda içerik yine de kaydırılabilsin ama scrollbar görünmesin. */
+section[data-testid="stSidebar"] {
+    overflow-y: auto !important;
+    scrollbar-width: none !important;
+}
+
+section[data-testid="stSidebar"]::-webkit-scrollbar {
+    display: none !important;
 }
 
 .sidebar-brand-wrapper {
@@ -181,7 +193,7 @@ section[data-testid="stSidebar"] > div:first-child {
     font-weight: 800 !important;
     letter-spacing: 0.1em !important;
     text-transform: uppercase;
-    margin: 1rem 0 0.8rem 0.2rem !important;
+    margin: 0.4rem 0 0.4rem 0.2rem !important;
 }
 
 .sidebar-comparison-status {
@@ -200,8 +212,8 @@ section[data-testid="stSidebar"] span {
     font-size: 0.78rem;
     color: #E6FBFA;
     font-weight: 700;
-    margin-top: 0.5rem;
-    margin-bottom: 1.2rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.4rem;
 }
 
 section[data-testid="stSidebar"] .st-key-month_grid,
@@ -209,7 +221,7 @@ section[data-testid="stSidebar"] .st-key-quarter_grid {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 4px !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.5rem !important;
 }
 
 section[data-testid="stSidebar"] .st-key-month_grid .stButton,
@@ -226,8 +238,8 @@ section[data-testid="stSidebar"] .st-key-quarter_grid .stButton > button {
     color: #A3B8CC !important;
     font-size: 0.70rem !important;
     font-weight: 700 !important;
-    padding: 0.3rem 0 !important;
-    min-height: 1.9rem !important;
+    padding: 0.22rem 0 !important;
+    min-height: 1.6rem !important;
     transition: all 0.2s ease !important;
 }
 
@@ -254,7 +266,12 @@ section[data-testid="stSidebar"] div[data-baseweb="select"] > div {
     border-radius: 10px !important;
     color: #FFFFFF !important;
     font-size: 0.82rem !important;
+    min-height: 2.1rem !important;
     transition: all 0.2s ease !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stSelectbox"] {
+    margin-bottom: 0.15rem !important;
 }
 
 section[data-testid="stSidebar"] div[data-baseweb="select"] > div:hover,
@@ -291,7 +308,7 @@ section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid butto
     border-radius: 10px !important;
     font-weight: 700 !important;
     font-size: 0.8rem !important;
-    padding: 0.45rem 0.8rem !important;
+    padding: 0.3rem 0.8rem !important;
     width: 100% !important;
     transition: all 0.2s ease !important;
 }

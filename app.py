@@ -3,7 +3,7 @@ import streamlit as st
 from services.dashboard_data import prepare_dashboard_data, get_month_comparison_frames
 from styles import load_css
 import services.analysis as sa
-from components.sidebar import apply_sidebar_filters
+from components.sidebar import apply_sidebar_filters, render_sidebar_toggle
 from components.overview import render_dashboard_body, render_header
 from components.kpi import render_kpi_section
 
@@ -19,6 +19,7 @@ st.set_page_config(
 
 # ---------------- VERİ ---------------- #
 load_css()
+render_sidebar_toggle()
 
 
 @st.cache_data(show_spinner=False)

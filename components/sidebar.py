@@ -21,6 +21,31 @@ QUARTER_LABELS = ["Ç1", "Ç2", "Ç3", "Ç4"]
 MONTH_GRID_ROWS = 1
 
 
+def render_sidebar_toggle():
+    """Streamlit'in native sidebar aç/kapa kontrolü (stSidebarCollapsedControl)
+    bazı ortamlarda CSS ile düzeltilemeyen şekilde bozuluyor. Bu yüzden ona
+    hiç güvenmiyoruz: kendi basit, tamamen bizim kontrolümüzdeki
+    aç/kapa butonumuzu (düz bir st.button + session_state + display:none)
+    kullanıyoruz. Bu, ana alanda (sidebar'ın DIŞINDA) her zaman render
+    edilir, böylece sidebar kapalıyken de görünür ve tıklanabilir kalır.
+    app.py içinde, sayfanın en başında çağrılmalıdır."""
+
+    if "sidebar_open" not in st.session_state:
+        st.session_state["sidebar_open"] = True
+
+    with st.container(key="sidebar_toggle_wrap"):
+        label = "✕" if st.session_state["sidebar_open"] else "☰"
+        if st.button(label, key="sidebar_toggle_btn"):
+            st.session_state["sidebar_open"] = not st.session_state["sidebar_open"]
+            st.rerun()
+
+    if not st.session_state["sidebar_open"]:
+        st.markdown(
+            '<style>section[data-testid="stSidebar"] {display: none !important;}</style>',
+            unsafe_allow_html=True,
+        )
+
+
 def _quarter_month_keys(quarter_key):
     """Bir çeyrek period-string'i ('2025Q1' gibi) verildiğinde, o çeyreğe
     denk gelen 3 ayın period-string'lerini ('2025-01','2025-02','2025-03')
