@@ -21,6 +21,15 @@ QUARTER_LABELS = ["Ç1", "Ç2", "Ç3", "Ç4"]
 MONTH_GRID_ROWS = 1
 
 
+def _quarter_month_keys(quarter_key):
+    """Bir çeyrek period-string'i ('2025Q1' gibi) verildiğinde, o çeyreğe
+    denk gelen 3 ayın period-string'lerini ('2025-01','2025-02','2025-03')
+    döner. Sadece görsel vurgulama için kullanılır."""
+    quarter_period = pd.Period(quarter_key, freq="Q")
+    start_month = quarter_period.asfreq("M", how="start")
+    return {str(start_month + offset) for offset in range(3)}
+
+
 def clear_sidebar_filters():
     for key in FILTER_WIDGET_KEYS:
         st.session_state.pop(key, None)
@@ -45,6 +54,12 @@ def _render_month_grid(month_periods):
     st.session_state["filter_months"] = valid_selected
     selected_keys = set(valid_selected)
 
+    # Bir çeyrek seçiliyse, o çeyreğe denk gelen aylar da (gerçekten
+    # filter_months'a eklenmeden) görsel olarak mavi görünsün.
+    quarter_highlight_keys = set()
+    for quarter_key in st.session_state.get("filter_quarters", []):
+        quarter_highlight_keys |= _quarter_month_keys(quarter_key)
+
     st.sidebar.markdown('<div class="mini-section-title">Ay</div>', unsafe_allow_html=True)
 
     with st.sidebar.container(key="month_grid"):
@@ -52,7 +67,7 @@ def _render_month_grid(month_periods):
             row = list(zip(period_keys, month_periods))[row_start:row_start + MONTH_GRID_ROWS]
             cols = st.columns(MONTH_GRID_ROWS, gap="small")
             for col, (period_key, period) in zip(cols, row):
-                is_selected = period_key in selected_keys
+                is_selected = period_key in selected_keys or period_key in quarter_highlight_keys
                 clicked = col.button(
                     TURKISH_MONTH_ABBR[period.month - 1],
                     key=f"month_btn_{period_key}",
