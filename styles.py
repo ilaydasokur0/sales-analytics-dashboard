@@ -6,7 +6,7 @@ def load_css():
         """
 <style>
 :root {
-    --bg: #F4F9FC;
+    --bg: #E7EEF6;
     --navy: #0A2B47;
     --navy-dark: #041726;
     --accent: #00A8B5;
@@ -68,7 +68,7 @@ div[data-testid="stDecoration"] {
                                           altında kalmasın diye başlığa
                                           yetecek boşluk bırakıyoruz */
     padding-bottom: 0.45rem !important;
-    background: linear-gradient(180deg, #F8FBFF 0%, #F4F9FC 100%);
+    background: linear-gradient(180deg, #EEF3F9 0%, #E7EEF6 100%);
 }
 
 .page-title {
@@ -76,7 +76,7 @@ div[data-testid="stDecoration"] {
     line-height: 1.1;
     font-weight: 800;
     color: var(--navy) !important;
-    margin: -0.45rem 0 0.42rem !important;
+    margin: -0.45rem 0 0.95rem !important;
 }
 
 .page-title + .stCaption, 
@@ -106,7 +106,9 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     height: 100% !important;
     padding: 4px 8px !important;
     background: #FFFFFF !important;
+    border: 1px solid #D6E0EA !important;
     border-radius: 18px !important;
+    box-shadow: 0 6px 18px rgba(10, 43, 71, 0.06) !important;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] > div {
@@ -192,11 +194,11 @@ section[data-testid="stSidebar"]::-webkit-scrollbar {
 
 .sidebar-filter-heading {
     color: #00A8B5 !important;
-    font-size: 1.02rem !important;
+    font-size: 1.25rem !important;
     font-weight: 800 !important;
-    letter-spacing: 0.1em !important;
+    letter-spacing: 0.08em !important;
     text-transform: uppercase;
-    margin: 0.4rem 0 0.4rem 0.2rem !important;
+    margin: 0.5rem 0 0.55rem 0.2rem !important;
 }
 
 .sidebar-comparison-status {
@@ -305,14 +307,15 @@ section[data-testid="stSidebar"] .filter-item:hover {
 }
 
 section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid button):not(.st-key-quarter_grid button) {
-    background: rgba(220, 38, 38, 0.1) !important;
-    border: 1px solid rgba(220, 38, 38, 0.3) !important;
+    background: rgba(220, 38, 38, 0.08) !important;
+    border: 1px solid rgba(220, 38, 38, 0.25) !important;
     color: #F87171 !important;
-    border-radius: 10px !important;
+    border-radius: 999px !important;
     font-weight: 700 !important;
-    font-size: 0.8rem !important;
-    padding: 0.3rem 0.8rem !important;
-    width: 100% !important;
+    font-size: 0.70rem !important;
+    padding: 0.18rem 0.7rem !important;
+    width: auto !important;
+    min-height: 0 !important;
     transition: all 0.2s ease !important;
 }
 
@@ -323,7 +326,7 @@ section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid butto
 }
 
 .st-key-kpi_section [data-testid="stHorizontalBlock"] {
-    gap: 0.58rem !important;
+    gap: 0.3rem !important;
 }
 
 div[data-testid="stMetric"] {
@@ -331,8 +334,8 @@ div[data-testid="stMetric"] {
     border: 1px solid #D0DFEE !important;
     border-top: 4px solid #0F2E4F !important;
     border-radius: 8px !important;
-    padding: 8px 5px !important;
-    height: 86px !important;
+    padding: 10px 6px !important;
+    height: 98px !important;
     box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
     display: flex !important;
     flex-direction: column !important;
@@ -357,6 +360,7 @@ div[data-testid="stMetricLabel"] p {
     text-transform: uppercase;
     letter-spacing: 0.3px;
     display: flex !important;
+    flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
     text-align: center !important;
@@ -365,19 +369,16 @@ div[data-testid="stMetricLabel"] p {
 
 div[data-testid="stMetricLabel"] {
     white-space: normal !important;
-    line-height: 1.1 !important;
-    max-height: 2.0em !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 1.15 !important;
+    max-height: 2.3em !important;
+    overflow: hidden !important;
     margin-bottom: 4px !important;
 }
 
 div[data-testid="stMetricValue"],
 div[data-testid="stMetricValue"] > div,
 div[data-testid="stMetricValue"] span {
-    font-size: 21px !important;
+    font-size: clamp(13px, 1.5vw, 21px) !important;
     font-weight: 800 !important;
     color: #0F2E4F !important;
     display: flex !important;
@@ -385,7 +386,7 @@ div[data-testid="stMetricValue"] span {
     align-items: center !important;
     text-align: center !important;
     white-space: nowrap !important;
-    line-height: 1 !important;
+    line-height: 1.1 !important;
     width: 100% !important;
     margin: 0 auto !important;
 }
@@ -434,6 +435,16 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     text-transform: uppercase;
     color: #6787A5;
     margin-bottom: .2rem;
+}
+
+/* Sidebar'daki "Ay"/"Çeyrek" alt başlıkları, gauge grafik başlıklarından
+   (aynı .mini-section-title sınıfını paylaşıyorlar) ayrı olarak, buton
+   grid'inden daha uzakta ve daha okunaklı olacak şekilde override edilir. */
+section[data-testid="stSidebar"] .mini-section-title {
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    margin-bottom: .55rem !important;
 }
 
 .dashboard-section {
