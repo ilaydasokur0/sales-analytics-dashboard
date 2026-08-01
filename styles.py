@@ -64,10 +64,10 @@ div[data-testid="stDecoration"] {
 [data-testid="stMainBlockContainer"], 
 .block-container {
     max-width: 1880px;
-    padding-top: 3.2rem !important;   /* sabit (fixed) aç/kapa butonumuzun
+    padding-top: 0.45rem !important;   /* sabit (fixed) aç/kapa butonumuzun
                                           altında kalmasın diye başlığa
                                           yetecek boşluk bırakıyoruz */
-    padding-bottom: 0.5rem !important;
+    padding-bottom: 0.45rem !important;
     background: linear-gradient(180deg, #F8FBFF 0%, #F4F9FC 100%);
 }
 
@@ -76,21 +76,21 @@ div[data-testid="stDecoration"] {
     line-height: 1.1;
     font-weight: 800;
     color: var(--navy) !important;
-    margin-bottom: 0.25rem !important;
+    margin: -0.45rem 0 0.42rem !important;
 }
 
 .page-title + .stCaption, 
 .page-title + p {
-    margin-bottom: 0.4rem !important;
+    margin-bottom: 0.32rem !important;
 }
 
 .page-title + .stCaption + .stCaption {
     margin-top: 0.05rem !important;
-    margin-bottom: 0.25rem !important;
+    margin-bottom: 0.18rem !important;
 }
 
 [data-testid="stVerticalBlock"] {
-    gap: 0.75rem !important;
+    gap: 0.55rem !important;
 }
 
 [data-testid="stHorizontalBlock"] {
@@ -104,18 +104,21 @@ div[data-testid="stDecoration"] {
 div[data-testid="stVerticalBlockBorderWrapper"] {
     box-sizing: border-box !important;
     height: 100% !important;
-    padding: 6px 10px !important;
+    padding: 4px 8px !important;
+    background: #FFFFFF !important;
+    border-radius: 18px !important;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] > div {
     box-sizing: border-box !important;
     height: 100% !important;
     padding: 0 !important;
+    background: #FFFFFF !important;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] {
     height: 100% !important;
-    gap: 0.25rem !important;
+    gap: 0.14rem !important;
 }
 
 section[data-testid="stSidebar"] {
@@ -124,7 +127,7 @@ section[data-testid="stSidebar"] {
 }
 
 section[data-testid="stSidebar"] > div:first-child {
-    padding-top: 0rem !important;
+    padding-top: 0.4rem !important;
     padding-left: 0.8rem !important;
     padding-right: 0.8rem !important;
 }
@@ -134,7 +137,7 @@ section[data-testid="stSidebar"] > div:first-child {
    toplamda scroll'a sebep oluyordu. Bu seçici daha spesifik olduğu için
    sidebar içinde bu değeri ezip küçültüyor, dışarıdaki layout'u etkilemiyor. */
 section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-    gap: 0.35rem !important;
+    gap: 0.48rem !important;
 }
 
 /* Standart ekranlarda scroll hiç çıkmasın; olağanüstü küçük ekran/zoom
@@ -152,9 +155,9 @@ section[data-testid="stSidebar"]::-webkit-scrollbar {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
-    padding: 14px 16px;
-    margin-top: 0.2rem !important;
-    margin-bottom: 2rem !important;
+    padding: 10px 16px 14px;
+    margin-top: 0 !important;
+    margin-bottom: 1.85rem !important;
     position: relative;
     overflow: hidden;
 }
@@ -189,7 +192,7 @@ section[data-testid="stSidebar"]::-webkit-scrollbar {
 
 .sidebar-filter-heading {
     color: #00A8B5 !important;
-    font-size: 0.90rem !important;
+    font-size: 1.02rem !important;
     font-weight: 800 !important;
     letter-spacing: 0.1em !important;
     text-transform: uppercase;
@@ -320,7 +323,7 @@ section[data-testid="stSidebar"] .stButton > button:not(.st-key-month_grid butto
 }
 
 .st-key-kpi_section [data-testid="stHorizontalBlock"] {
-    gap: 0.4rem !important;
+    gap: 0.58rem !important;
 }
 
 div[data-testid="stMetric"] {
@@ -328,8 +331,8 @@ div[data-testid="stMetric"] {
     border: 1px solid #D0DFEE !important;
     border-top: 4px solid #0F2E4F !important;
     border-radius: 8px !important;
-    padding: 6px 4px !important;
-    height: 80px !important;
+    padding: 8px 5px !important;
+    height: 86px !important;
     box-shadow: 0 4px 12px rgba(15, 46, 79, 0.05) !important;
     display: flex !important;
     flex-direction: column !important;
@@ -368,13 +371,13 @@ div[data-testid="stMetricLabel"] {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    margin-bottom: 2px !important;
+    margin-bottom: 4px !important;
 }
 
 div[data-testid="stMetricValue"],
 div[data-testid="stMetricValue"] > div,
 div[data-testid="stMetricValue"] span {
-    font-size: 20px !important;
+    font-size: 21px !important;
     font-weight: 800 !important;
     color: #0F2E4F !important;
     display: flex !important;
@@ -391,7 +394,7 @@ div[data-testid="stMetricDelta"] {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    font-size: 9px !important;
+    font-size: 9.5px !important;
     font-weight: 700 !important;
     margin-top: 2px !important;
     width: 100% !important;
@@ -414,16 +417,16 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
 .section-title {
     box-sizing: border-box;
     min-height: 27px;
-    font-size: 15px;
-    line-height: 18px;
+    font-size: 15.5px;
+    line-height: 19px;
     font-weight: 800;
     color: var(--navy) !important;
-    margin: 0 0 10px;
-    padding: 0 0 6px;
+    margin: 0 0 8px;
+    padding: 0 0 4px;
     border-bottom: 3px solid #DCEFFA;
 }
 
-.section-title--large { font-size: 15px; }
+.section-title--large { font-size: 15.5px; }
 
 .mini-section-title {
     font-size: 10px;
@@ -798,20 +801,20 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testi
 }
 
 .city-rank-card {
-    background: #FFFFFF !important;
-    border: 1px solid rgba(10, 43, 71, 0.08) !important;
-    border-radius: 16px !important;
-    padding: 12px 16px !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F7FBFF 100%) !important;
+    border: 1px solid rgba(10, 43, 71, 0.10) !important;
+    border-radius: 18px !important;
+    padding: 14px 16px !important;
     width: 100% !important;
     max-width: 420px !important; /* Geniş alanlarda kartın yayılmasını engeller */
     box-sizing: border-box !important;
     margin: auto !important; /* Dikey ve yatayda tam merkeze sabitler */
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    text-align: center !important;
-    box-shadow: 0 12px 28px rgba(4, 23, 38, 0.07) !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    text-align: left !important;
+    box-shadow: 0 16px 34px rgba(4, 23, 38, 0.08) !important;
     position: relative !important;
     overflow: hidden !important;
 }
@@ -820,51 +823,49 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testi
     content: '' !important;
     position: absolute !important;
     left: 0 !important;
+    right: 0 !important;
     top: 0 !important;
-    bottom: 0 !important;
-    width: 5px !important;
-    background: #0A2B47 !important;
-    border-top-left-radius: 16px !important;
-    border-bottom-left-radius: 16px !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #0A2B47 0%, #00A8B5 100%) !important;
 }
 
 .city-rank-title {
-    font-size: 0.72rem !important;
+    font-size: 0.70rem !important;
     font-weight: 800 !important;
-    color: #0A2B47 !important;
+    color: #6787A5 !important;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
-    margin-bottom: 0.1rem !important;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.24rem !important;
     z-index: 2 !important;
 }
 
 .city-rank-number {
-    font-size: 2.05rem !important;
+    font-size: 1.95rem !important;
     font-weight: 900 !important;
     color: #0A2B47 !important;
     line-height: 1 !important;
     display: flex !important;
     align-items: baseline !important;
-    justify-content: center !important;
-    gap: 3px !important;
-    margin: 0.1rem 0 !important;
+    justify-content: flex-start !important;
+    gap: 4px !important;
+    margin: 0.05rem 0 0.14rem !important;
     z-index: 2 !important;
 }
 
 .city-rank-number span {
-    font-size: 0.85rem !important;
+    font-size: 0.78rem !important;
     color: #8CA0B3 !important;
     font-weight: 700 !important;
 }
 
 .city-rank-sparkline-wrap {
     width: 100% !important;
-    height: 38px !important;
-    margin: 0.1rem 0 !important;
+    height: 40px !important;
+    margin: 0.2rem 0 0.15rem !important;
     z-index: 1 !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
 }
 
 .city-rank-sparkline-wrap svg {
@@ -876,14 +877,16 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testi
 .city-rank-benchmark {
     display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
     gap: 5px !important;
-    font-size: 0.68rem !important;
+    font-size: 0.70rem !important;
     font-weight: 800 !important;
-    padding: 4px 10px !important;
-    border-radius: 16px !important;
+    padding: 5px 11px !important;
+    border-radius: 999px !important;
     white-space: nowrap !important;
     z-index: 2 !important;
+    margin-top: 0.1rem !important;
+    align-self: flex-start !important;
 }
 
 .benchmark-up {
@@ -899,6 +902,59 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testi
 .benchmark-icon {
     font-size: 0.85rem !important;
     font-weight: 900 !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) .city-rank-card svg {
+    opacity: 0.95;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) .city-rank-card strong {
+    font-weight: 800 !important;
+}
+
+@media (max-width: 860px) {
+    .city-rank-card {
+        max-width: none !important;
+        padding: 13px 14px !important;
+        border-radius: 16px !important;
+    }
+
+    .city-rank-title {
+        font-size: 0.68rem !important;
+        letter-spacing: 0.10em;
+    }
+
+    .city-rank-number {
+        font-size: 1.78rem !important;
+    }
+
+    .city-rank-sparkline-wrap {
+        height: 38px !important;
+    }
+
+    .city-rank-benchmark {
+        white-space: normal !important;
+        line-height: 1.2 !important;
+    }
+}
+
+@media (max-width: 560px) {
+    .city-rank-card {
+        padding: 12px 12px !important;
+    }
+
+    .city-rank-number {
+        font-size: 1.65rem !important;
+    }
+
+    .city-rank-number span {
+        font-size: 0.74rem !important;
+    }
+
+    .city-rank-benchmark {
+        font-size: 0.66rem !important;
+        padding: 4px 10px !important;
+    }
 }
 
 .product-info-card {

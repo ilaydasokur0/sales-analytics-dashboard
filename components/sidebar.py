@@ -215,11 +215,6 @@ def _render_comparison_status(selected_months, selected_quarters, month_periods,
 def apply_sidebar_filters(df):
     min_date = df["invoice_date"].dropna().min().date()
     max_date = df["invoice_date"].dropna().max().date()
-
-    st.sidebar.markdown(
-        '<div class="sidebar-title">Satış Analiz Dashboard</div>',
-        unsafe_allow_html=True,
-    )
     st.sidebar.markdown('<div class="sidebar-filter-heading">Filtreler</div>', unsafe_allow_html=True)
     st.sidebar.button(
         "Filtreleri Temizle",

@@ -30,6 +30,11 @@ def render_header(
         st.warning("Seçilen filtrelerde veri bulunamadı. Filtreleri genişletip tekrar deneyin.")
         st.stop()
 
+    st.markdown(
+        '<div class="page-title">Satış Analiz Dashboard</div>',
+        unsafe_allow_html=True,
+    )
+
 ROW1_CARD_HEIGHT = 210
 ROW2_CARD_HEIGHT = 250
 
