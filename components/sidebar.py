@@ -22,14 +22,6 @@ MONTH_GRID_ROWS = 1
 
 
 def render_sidebar_toggle():
-    """Streamlit'in native sidebar aç/kapa kontrolü (stSidebarCollapsedControl)
-    bazı ortamlarda CSS ile düzeltilemeyen şekilde bozuluyor. Bu yüzden ona
-    hiç güvenmiyoruz: kendi basit, tamamen bizim kontrolümüzdeki
-    aç/kapa butonumuzu (düz bir st.button + session_state + display:none)
-    kullanıyoruz. Bu, ana alanda (sidebar'ın DIŞINDA) her zaman render
-    edilir, böylece sidebar kapalıyken de görünür ve tıklanabilir kalır.
-    app.py içinde, sayfanın en başında çağrılmalıdır."""
-
     if "sidebar_open" not in st.session_state:
         st.session_state["sidebar_open"] = True
 
@@ -47,40 +39,51 @@ def render_sidebar_toggle():
 
 
 def _quarter_month_keys(quarter_key):
-    """Bir çeyrek period-string'i ('2025Q1' gibi) verildiğinde, o çeyreğe
-    denk gelen 3 ayın period-string'lerini ('2025-01','2025-02','2025-03')
-    döner. Sadece görsel vurgulama için kullanılır."""
     quarter_period = pd.Period(quarter_key, freq="Q")
     start_month = quarter_period.asfreq("M", how="start")
     return {str(start_month + offset) for offset in range(3)}
 
 
+# 🎯 İŞTE MAVİ ALANI DA SIFIRLAYAN KISIM
 def clear_sidebar_filters():
-    for key in FILTER_WIDGET_KEYS:
-        st.session_state.pop(key, None)
+    # 1. Kırmızı Alanı (Ay ve Çeyrek) Sıfırla
+    st.session_state["filter_months"] = []
+    st.session_state["filter_quarters"] = []
+    
+    # 2. Mavi Alanı (İl, Müşteri, Ürün) Sıfırla
+    for key in ["filter_city", "filter_customer", "filter_product"]:
+        # Arka plandaki veriyi temizle
+        st.session_state[key] = "Hepsi"
+        
+        # Ekrandaki selectbox kutucuğunun kendi hafızasını zorla "Hepsi" yap
+        widget_key = f"sb_{key}"
+        if widget_key in st.session_state:
+            st.session_state[widget_key] = "Hepsi"
 
 
 def _validated_select(label, options, key):
-    if st.session_state.get(key) not in options:
-        st.session_state[key] = "Hepsi"
-    return st.sidebar.selectbox(label, options, key=key)
+    current_val = st.session_state.get(key, "Hepsi")
+    
+    if current_val not in options and current_val != "Hepsi":
+        options = ["Hepsi", current_val] + [o for o in options if o != "Hepsi"]
+
+    try:
+        idx = options.index(current_val)
+    except ValueError:
+        idx = 0
+
+    val = st.sidebar.selectbox(label, options, index=idx, key=f"sb_{key}")
+    st.session_state[key] = val
+    return val
 
 
 def _render_month_grid(month_periods):
-    """Ay butonları: çoklu seçime izin verir (bir aya tekrar basılırsa o ay
-    kaldırılır). Bir ay seçildiğinde çeyrek seçimleri dışlayıcı olarak
-    temizlenir. DOM yapısı (her buton kendi tek-sütunlu satırında) CSS
-    grid'in 4'lü düzeni doğru şekilde oluşturabilmesi için bilinçli olarak
-    korunmuştur — bunu değiştirmeyin."""
-
     period_keys = [str(p) for p in month_periods]
 
     valid_selected = [k for k in st.session_state.get("filter_months", []) if k in period_keys]
     st.session_state["filter_months"] = valid_selected
     selected_keys = set(valid_selected)
 
-    # Bir çeyrek seçiliyse, o çeyreğe denk gelen aylar da (gerçekten
-    # filter_months'a eklenmeden) görsel olarak mavi görünsün.
     quarter_highlight_keys = set()
     for quarter_key in st.session_state.get("filter_quarters", []):
         quarter_highlight_keys |= _quarter_month_keys(quarter_key)
@@ -105,7 +108,7 @@ def _render_month_grid(month_periods):
                         current.discard(period_key)
                     else:
                         current.add(period_key)
-                        st.session_state["filter_quarters"] = []  # dışlayıcı: ay seçilince çeyrekler temizlenir
+                        st.session_state["filter_quarters"] = []
                     st.session_state["filter_months"] = sorted(current)
                     st.rerun()
 
@@ -114,10 +117,6 @@ def _render_month_grid(month_periods):
 
 
 def _render_quarter_grid(quarter_periods):
-    """Çeyrek butonları: ay grid'iyle birebir aynı tasarım/DOM yapısı,
-    çoklu seçime izin verir, seçilince ay filtrelerini dışlayıcı olarak
-    temizler."""
-
     period_keys = [str(p) for p in quarter_periods]
 
     valid_selected = [k for k in st.session_state.get("filter_quarters", []) if k in period_keys]
@@ -144,7 +143,7 @@ def _render_quarter_grid(quarter_periods):
                         current.discard(period_key)
                     else:
                         current.add(period_key)
-                        st.session_state["filter_months"] = []  # dışlayıcı: çeyrek seçilince aylar temizlenir
+                        st.session_state["filter_months"] = []
                     st.session_state["filter_quarters"] = sorted(current)
                     st.rerun()
 
@@ -153,7 +152,6 @@ def _render_quarter_grid(quarter_periods):
 
 
 def _render_filter_summary(city, customer, product, start_date, end_date, selected_periods, period_type):
-
     if selected_periods:
         if period_type == "quarter":
             labels = [
@@ -184,7 +182,6 @@ def _render_filter_summary(city, customer, product, start_date, end_date, select
 
 
 def _render_comparison_status(selected_months, selected_quarters, month_periods, quarter_periods):
-    # Çoklu seçimde karşılaştırma zaten kapalı; ekstra bir durum mesajı gösterilmez.
     if selected_quarters:
         if len(selected_quarters) > 1:
             return
@@ -248,9 +245,6 @@ def apply_sidebar_filters(df):
             comparison_available = False
             quarter_label = f"{len(active_periods)} Çeyrek Seçili"
 
-        # month_label bilinçli olarak "Hepsi" bırakılıyor: aylık performans
-        # grafiğindeki "tek ay vurgusu" (bar chart) mantığı sadece tek ay
-        # seçiliyken devreye girer, çeyrekte grafik normal görünümde kalır.
         month_label = "Hepsi"
 
     elif selected_months:
@@ -293,19 +287,11 @@ def apply_sidebar_filters(df):
     city = _validated_select("İl", city_options, "filter_city")
 
     df_city = df if city == "Hepsi" else df[df["city"] == city]
-    customer_options = (
-        make_options(df_city["customer_name"]) if not df_city.empty else ["Hepsi"]
-    )
+    customer_options = make_options(df_city["customer_name"]) if not df_city.empty else ["Hepsi"]
     customer = _validated_select("Müşteri", customer_options, "filter_customer")
 
-    df_customer = (
-        df_city if customer == "Hepsi" else df_city[df_city["customer_name"] == customer]
-    )
-    product_options = (
-        make_options(df_customer["product_name"])
-        if not df_customer.empty
-        else ["Hepsi"]
-    )
+    df_customer = df_city if customer == "Hepsi" else df_city[df_city["customer_name"] == customer]
+    product_options = make_options(df_customer["product_name"]) if not df_customer.empty else ["Hepsi"]
     product = _validated_select("Ürün", product_options, "filter_product")
 
     _render_filter_summary(city, customer, product, start_date, end_date, selected_periods, period_type)

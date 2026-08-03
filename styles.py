@@ -23,6 +23,7 @@ html, body, [class*="css"] {
 .stApp {
     background: var(--bg);
 }
+
 header[data-testid="stHeader"] {
     display: none !important;
 }
@@ -59,8 +60,8 @@ div[data-testid="stDecoration"] {
 [data-testid="stMainBlockContainer"], 
 .block-container {
     max-width: 1880px;
-    padding-top: 1.2rem !important;  
-    padding-bottom: 0.45rem !important;
+    padding-top: 0.35rem !important;  
+    padding-bottom: 0.2rem !important;
     background: linear-gradient(180deg, #EEF3F9 0%, #E7EEF6 100%);
 }
 
@@ -69,7 +70,7 @@ div[data-testid="stDecoration"] {
     align-items: center !important;
     gap: 14px !important;         
     margin-top: 0 !important;
-    margin-bottom: 0.85rem !important; 
+    margin-bottom: 0.6rem !important; 
     padding-left: 0 !important;       
     margin-left: 0 !important;
     width: 100% !important;
@@ -77,7 +78,6 @@ div[data-testid="stDecoration"] {
     z-index: 999 !important;
 }
 
-/* İKON KUTUSU (KİBAR OPTİMAL BOYUT) */
 .header-icon-box {
     display: flex !important;
     align-items: center !important;
@@ -98,7 +98,6 @@ div[data-testid="stDecoration"] {
     display: block !important;
 }
 
-/* İKON İLE YAZI ARASINDAKİ İNCE DİKEY ÇİZGİ */
 .header-icon-box::after {
     content: '' !important;
     display: block !important;
@@ -134,7 +133,7 @@ div[data-testid="stDecoration"] {
 }
 
 [data-testid="stVerticalBlock"] {
-    gap: 0.55rem !important;
+    gap: 0.4rem !important;
 }
 
 [data-testid="stHorizontalBlock"] {
@@ -146,7 +145,7 @@ div[data-testid="stDecoration"] {
 }
 div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] {
     box-sizing: border-box !important;
-    padding: 14px 12px 10px !important;
+    padding: 12px 12px 8px !important;
     background: #FFFFFF !important;
     border: 1px solid #D6E0EA !important;
     border-radius: 18px !important;
@@ -450,14 +449,14 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
 
 .section-title {
     box-sizing: border-box;
-    min-height: 27px;
+    min-height: 25px;
     font-size: 15.5px;
     line-height: 19px;
     font-weight: 800;
     color: var(--navy) !important;
-    margin: 0 0 8px;
-    padding: 0 0 4px;
-    border-bottom: 3px solid #DCEFFA;
+    margin: 0 0 6px;
+    padding: 0 0 3px;
+    border-bottom: 3px solid DCEFFA;
 }
 
 .section-title--large { font-size: 15.5px; }
@@ -543,13 +542,12 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     padding: 0 !important;
 }
 
-/* GAUGE BİLEŞENİ - TAM DENGELİ KART İÇİ DAĞILIMI */
 .gauge-pair{
     display:flex !important;
     justify-content:center !important;
     align-items:flex-start !important;
     width:100% !important;
-    height:140px !important;
+    height:135px !important;
     gap:42px !important;
     padding:0 !important;
     margin:0 auto !important;
@@ -564,16 +562,15 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     flex-direction:column !important;
     align-items:center !important;
     justify-content:flex-start !important;
-
     box-sizing:border-box !important;
 }
 
 .gauge-block .mini-section-title{
     width:100% !important;
-    margin:0 0 10px 0 !important;
-    padding:10px 0 !important;
+    margin:0 0 6px 0 !important;
+    padding:6px 0 !important;
     text-align:center !important;
-    font-size:13px !important;
+    font-size:11px !important;
     font-weight:800 !important;
     color:#6787A5 !important;
     line-height:1.1 !important;
@@ -603,7 +600,7 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     justify-content:center !important;
     align-items:center !important;
     gap:10px !important;
-    margin-top:8px !important;
+    margin-top:6px !important;
     flex-wrap:nowrap !important;
 }
 
@@ -618,10 +615,6 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     padding-top:1rem !important;
 }
 
-.chart-empty-message {
-    padding-top: 1rem;
-}
-
 .donut-chart {
     display: flex !important;
     flex-direction: row !important;
@@ -629,15 +622,15 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     justify-content: center !important;
     gap: 4rem !important;               
     width: 100% !important;
-    height: 176px !important;
-    min-height: 176px !important;
-    flex: 0 0 176px !important;
+    height: 160px !important;
+    min-height: 160px !important;
+    flex: 0 0 160px !important;
     padding: 0 !important;
 }
 
 .donut-chart-circle {
-    width: 150px !important;
-    height: 150px !important;
+    width: 140px !important;
+    height: 140px !important;
     border-radius: 50% !important;
     position: relative !important;
     display: flex !important;
@@ -667,8 +660,8 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
 .donut-slice--8, .donut-chart-color--8 { stroke: #CDE8EC; background: #CDE8EC; }
 
 .donut-chart-center {
-    width: 82px !important;
-    height: 82px !important;
+    width: 76px !important;
+    height: 76px !important;
     border-radius: 50% !important;
     background: #FFFFFF !important;
     display: flex !important;
@@ -687,14 +680,14 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    gap: 0.32rem !important;
+    gap: 0.28rem !important;
     align-self: stretch !important;
     height: 100% !important;
     max-height: 100% !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     box-sizing: border-box !important;
-    padding-top: 6px !important;
+    padding-top: 4px !important;
     padding-right: 0.2rem !important;
 }
 
@@ -703,7 +696,7 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     grid-template-columns: 12px minmax(0, 1fr) !important;
     align-items: start !important;
     gap: 0.5rem !important;
-    min-height: 28px !important;
+    min-height: 26px !important;
     padding: 0 !important;
 }
 
@@ -787,7 +780,7 @@ div[data-testid="stVerticalBlock"].st-key-dashboard-card-donut [data-testid="stE
     grid-template-columns: minmax(0, 2fr) minmax(56px, 1fr) max-content;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.2rem 0;
+    padding: 0.18rem 0;
     width: 100%;
     box-sizing: border-box;
 }
@@ -843,16 +836,15 @@ div[data-testid="stElementToolbar"] {
     display: none !important;
 }
 
-/* ---------------- RANK / ÖZET KARTLARI (KONTROLLÜ BOYUT VE ORTALAMA) ---------------- */
 .city-rank-card {
     background: linear-gradient(180deg, #FFFFFF 0%, #F7FBFF 100%) !important;
     border: 1px solid rgba(10, 43, 71, 0.10) !important;
     border-radius: 18px !important;
     padding: 14px 16px !important;
     width: 100% !important;
-    max-width: 420px !important; /* Geniş alanlarda kartın yayılmasını engeller */
+    max-width: 420px !important; 
     box-sizing: border-box !important;
-    margin: auto !important; /* Dikey ve yatayda tam merkeze sabitler */
+    margin: auto !important; 
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
