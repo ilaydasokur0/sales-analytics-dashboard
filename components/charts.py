@@ -60,8 +60,7 @@ def _gauge_block_html(title, share_series, color_a, color_b):
         label_b = "Diğer"
         value_b = max(0.0, 100.0 - value_a)
 
-    # 180x90 Tualinde Yarıçap = 72px (Tam Merkezli Matematik)
-    # Yay çevresi = PI * 72 ≈ 226.19
+    # 180x90 Tualinde Yarıçap = 72px (Milimetrik Matris)
     arc_length = math.pi * 72
     primary_length = arc_length * max(0.0, min(100.0, value_a)) / 100
 
@@ -75,9 +74,9 @@ def _gauge_block_html(title, share_series, color_a, color_b):
             <div class="mini-section-title">{html.escape(title)}</div>
             <div class="gauge-half-wrap">
                 <svg viewBox="0 0 180 90" class="gauge-half">
-                    <!-- Arka Plan Yayı (Merkez X:90, Y:90, Yarıçap:72) -->
+                    <!-- Arka Plan Yayı (Açık Renk) -->
                     <path d="M 18 90 A 72 72 0 0 1 162 90" fill="none" stroke="{color_b}" stroke-width="30" stroke-linecap="butt" />
-                    <!-- Ön Plan Yayı -->
+                    <!-- Ön Plan Yayı (Koyu Renk) -->
                     <path d="M 18 90 A 72 72 0 0 1 162 90" fill="none" stroke="{color_a}" stroke-width="30" stroke-linecap="butt" stroke-dasharray="{primary_length:.2f} {arc_length:.2f}" />
                 </svg>
             </div>

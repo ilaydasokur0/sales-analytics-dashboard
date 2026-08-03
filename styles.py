@@ -23,11 +23,6 @@ html, body, [class*="css"] {
 .stApp {
     background: var(--bg);
 }
-
-/* Artık native header'a (dolayısıyla içindeki Deploy/toolbar'a) hiç
-   ihtiyacımız yok -- sidebar aç/kapa işini tamamen kendi butonumuz
-   (render_sidebar_toggle) yapıyor. Bu yüzden header'ı güvenle tamamen
-   kaldırabiliriz; hiçbir fonksiyonel şeye bağımlı değil. */
 header[data-testid="stHeader"] {
     display: none !important;
 }
@@ -64,7 +59,7 @@ div[data-testid="stDecoration"] {
 [data-testid="stMainBlockContainer"], 
 .block-container {
     max-width: 1880px;
-    padding-top: 1.2rem !important;   /* Başlık ve aç/kapa butonu rahat nefes alsın */
+    padding-top: 1.2rem !important;  
     padding-bottom: 0.45rem !important;
     background: linear-gradient(180deg, #EEF3F9 0%, #E7EEF6 100%);
 }
@@ -72,7 +67,7 @@ div[data-testid="stDecoration"] {
 .header-title-container {
     display: flex !important;
     align-items: center !important;
-    gap: 14px !important;              /* İkon, çizgi ve yazı dikey dengesi */
+    gap: 14px !important;         
     margin-top: 0 !important;
     margin-bottom: 0.85rem !important; 
     padding-left: 0 !important;       
@@ -87,14 +82,14 @@ div[data-testid="stDecoration"] {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 30px !important;            /* Kutunun dış boyutu 30px */
+    width: 30px !important;        
     height: 30px !important;
     flex-shrink: 0 !important;
     position: relative !important;
 }
 
 .header-icon-box svg {
-    width: 28px !important;            /* İkon boyutu kibar 28px yapıldı */
+    width: 28px !important;           
     height: 28px !important;
     min-width: 28px !important;
     min-height: 28px !important;
@@ -548,69 +543,79 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     padding: 0 !important;
 }
 
-/* GAUGE BİLEŞENİ - TEK MERKEZDEN STİL VE BOYUT KONTROLÜ */
-.gauge-pair {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important; /* İki chart'ı ortalayıp aralarındaki
-                                             mesafeyi doğrudan gap ile kontrol
-                                             ediyoruz (space-between yerine) */
-    gap: 3.5rem !important;             /* Gauge'lar arası mesafe buradan
-                                             ayarlanır */
-    width: 100% !important;
-    height: 155px !important;
-    margin: 0 !important;
-    padding: 0 1.5rem !important;               /* Kartın sağından ve solundan şık bir iç boşluk bırakır */
-    box-sizing: border-box !important;
+/* GAUGE BİLEŞENİ - TAM DENGELİ KART İÇİ DAĞILIMI */
+.gauge-pair{
+    display:flex !important;
+    justify-content:center !important;
+    align-items:flex-start !important;
+    width:100% !important;
+    height:140px !important;
+    gap:42px !important;
+    padding:0 !important;
+    margin:0 auto !important;
+    box-sizing:border-box !important;
 }
 
-.gauge-block {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex: 0 0 auto !important;                  /* Yan yana yapışmayı engelleyip her iki chart'a kendi alanını verir */
-    width: 180px !important;                     /* Chart blok genişliği sabitlendi */
-    height: 100% !important;
+.gauge-block{
+    width:200px !important;
+    min-width:200px !important;
+    max-width:200px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+
+    box-sizing:border-box !important;
 }
 
-.gauge-block .mini-section-title {
-    font-size: 11px !important;
-    font-weight: 800 !important;
-    color: #6787A5 !important;
-    margin-bottom: 4px !important;
-    text-align: center !important;
+.gauge-block .mini-section-title{
+    width:100% !important;
+    margin:0 0 10px 0 !important;
+    padding:10px 0 !important;
+    text-align:center !important;
+    font-size:13px !important;
+    font-weight:800 !important;
+    color:#6787A5 !important;
+    line-height:1.1 !important;
 }
 
-.gauge-half-wrap {
-    width: 180px !important;
-    height: 90px !important;
-    position: relative !important;
-    overflow: hidden !important;
-    margin: 2px auto !important;
-    flex-shrink: 0 !important;
+.gauge-half-wrap{
+    width:180px !important;
+    height:90px !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
 }
 
-.gauge-half {
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
+.gauge-half{
+    display:block !important;
+    width:180px !important;
+    height:90px !important;
 }
 
-.gauge-legend-row {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 0.6rem !important;
-    margin-top: 6px !important;
-    white-space: nowrap !important;
+.gauge-legend-row{
+    width:100% !important;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:10px !important;
+    margin-top:8px !important;
+    flex-wrap:nowrap !important;
 }
 
-.gauge-legend-item {
-    font-size: 0.84rem !important;
-    font-weight: 800 !important;
-    white-space: nowrap !important;
+.gauge-legend-item{
+    font-size:12px !important;
+    font-weight:800 !important;
+    white-space:nowrap !important;
+}
+
+.chart-empty-message{
+    text-align:center !important;
+    padding-top:1rem !important;
 }
 
 .chart-empty-message {
@@ -622,9 +627,7 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 1.6rem !important;               /* Donut ile yanındaki yazılar
-                                               arasındaki mesafe buradan
-                                               ayarlanır (yazılar sağa kayar) */
+    gap: 4rem !important;               
     width: 100% !important;
     height: 176px !important;
     min-height: 176px !important;
