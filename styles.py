@@ -108,16 +108,15 @@ div[data-testid="stDecoration"] {
     content: '' !important;
     display: block !important;
     position: absolute !important;
-    right: -7px !important;             /* İkonun yanına dengeli sabitleme */
+    right: -7px !important;             
     top: 50% !important;
     transform: translateY(-50%) !important;
-    width: 2px !important;              /* Çizgi kalınlığı */
-    height: 20px !important;             /* Çizgi yüksekliği ikonla ortalandı */
-    background: #00A8B5 !important;    /* Turkuaz renkle vurucu ayrım */
+    width: 2px !important;           
+    height: 20px !important;            
+    background: #00A8B5 !important;   
     border-radius: 2px !important;
 }
 
-/* METİN BOYUTU VE RENGİ */
 .gradient-page-title,
 .page-title {
     font-size: 1.95rem !important;
@@ -150,8 +149,6 @@ div[data-testid="stDecoration"] {
 [data-testid="column"] {
     padding: 0 !important;
 }
-
-/* Streamlit 1.52 bordered containers render as stVerticalBlock. */
 div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] {
     box-sizing: border-box !important;
     padding: 14px 12px 10px !important;
@@ -181,17 +178,10 @@ section[data-testid="stSidebar"] > div:first-child {
     padding-left: 0.8rem !important;
     padding-right: 0.8rem !important;
 }
-
-/* Sidebar içeriği compact: bloklar arası varsayılan 0.75rem boşluk (aşağıda
-   genel [data-testid="stVerticalBlock"] kuralında tanımlı) sidebar'da
-   toplamda scroll'a sebep oluyordu. Bu seçici daha spesifik olduğu için
-   sidebar içinde bu değeri ezip küçültüyor, dışarıdaki layout'u etkilemiyor. */
 section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
     gap: 0.48rem !important;
 }
 
-/* Standart ekranlarda scroll hiç çıkmasın; olağanüstü küçük ekran/zoom
-   durumunda içerik yine de kaydırılabilsin ama scrollbar görünmesin. */
 section[data-testid="stSidebar"] {
     overflow-y: auto !important;
     scrollbar-width: none !important;
@@ -484,10 +474,6 @@ div[data-testid="stMetricDelta"] > div[aria-label*="decrease"] {
     color: #6787A5;
     margin-bottom: .2rem;
 }
-
-/* Sidebar'daki "Ay"/"Çeyrek" alt başlıkları, gauge grafik başlıklarından
-   (aynı .mini-section-title sınıfını paylaşıyorlar) ayrı olarak, buton
-   grid'inden daha uzakta ve daha okunaklı olacak şekilde override edilir. */
 section[data-testid="stSidebar"] .mini-section-title {
     font-size: 11.5px !important;
     font-weight: 800 !important;
@@ -562,17 +548,21 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     padding: 0 !important;
 }
 
+/* GAUGE BİLEŞENİ - TEK MERKEZDEN STİL VE BOYUT KONTROLÜ */
 .gauge-pair {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
-    justify-content: space-around !important;
+    justify-content: center !important; /* İki chart'ı ortalayıp aralarındaki
+                                             mesafeyi doğrudan gap ile kontrol
+                                             ediyoruz (space-between yerine) */
+    gap: 3.5rem !important;             /* Gauge'lar arası mesafe buradan
+                                             ayarlanır */
     width: 100% !important;
-    height: 140px !important;
-    min-height: 140px !important;
-    gap: 8px !important;
+    height: 155px !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 0 1.5rem !important;               /* Kartın sağından ve solundan şık bir iç boşluk bırakır */
+    box-sizing: border-box !important;
 }
 
 .gauge-block {
@@ -580,64 +570,45 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    flex: 1 1 0% !important;
-    min-width: 0 !important;
-    height: 140px !important;
-    gap: 6px !important;
+    flex: 0 0 auto !important;                  /* Yan yana yapışmayı engelleyip her iki chart'a kendi alanını verir */
+    width: 180px !important;                     /* Chart blok genişliği sabitlendi */
+    height: 100% !important;
 }
 
 .gauge-block .mini-section-title {
-    height: 16px !important;
-    margin: 0 !important;
-    line-height: 16px !important;
-    white-space: nowrap !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #6787A5 !important;
+    margin-bottom: 4px !important;
+    text-align: center !important;
 }
 
 .gauge-half-wrap {
+    width: 180px !important;
+    height: 90px !important;
     position: relative !important;
-    width: 150px !important;
-    height: 75px !important;
     overflow: hidden !important;
-    margin: 0 !important;
+    margin: 2px auto !important;
     flex-shrink: 0 !important;
 }
 
 .gauge-half {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 150px !important;
-    height: 150px !important;
-}
-
-.gauge-hole {
-    position: absolute !important;
-    left: 50% !important;
-    bottom: 0 !important;
-    width: 82px !important;
-    height: 82px !important;
-    border-radius: 50% !important;
-    background: #FFFFFF !important;
-    transform: translate(-50%, 50%) !important;
-    z-index: 1 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
 }
 
 .gauge-legend-row {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    gap: 0.4rem !important;
-    height: 20px !important;
-    margin: 0 !important;
-    flex-wrap: nowrap !important;
+    gap: 0.6rem !important;
+    margin-top: 6px !important;
     white-space: nowrap !important;
 }
 
 .gauge-legend-item {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.2rem !important;
-    font-size: 0.82rem !important;
+    font-size: 0.84rem !important;
     font-weight: 800 !important;
     white-space: nowrap !important;
 }
@@ -651,7 +622,9 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.75rem !important;
+    gap: 1.6rem !important;               /* Donut ile yanındaki yazılar
+                                               arasındaki mesafe buradan
+                                               ayarlanır (yazılar sağa kayar) */
     width: 100% !important;
     height: 176px !important;
     min-height: 176px !important;
@@ -660,8 +633,8 @@ div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-tes
 }
 
 .donut-chart-circle {
-    width: 176px !important;
-    height: 176px !important;
+    width: 150px !important;
+    height: 150px !important;
     border-radius: 50% !important;
     position: relative !important;
     display: flex !important;

@@ -44,9 +44,9 @@ def render_product_info_card(filtered_df):
 def _gauge_block_html(title, share_series, color_a, color_b):
     if share_series.empty:
         return (
-            f'<div style="flex:1; display:flex; flex-direction:column; align-items:center;">'
+            f'<div class="gauge-block">'
             f'<div class="mini-section-title">{html.escape(title)}</div>'
-            f'<div style="color:#6787A5; font-size:0.8rem; margin-top:1rem;">Veri bulunamadı.</div>'
+            f'<div class="chart-empty-message">Veri bulunamadı.</div>'
             f"</div>"
         )
 
@@ -60,27 +60,28 @@ def _gauge_block_html(title, share_series, color_a, color_b):
         label_b = "Diğer"
         value_b = max(0.0, 100.0 - value_a)
 
-    # Yarıçap = 55, Yay Çevresi = PI * 55 ≈ 172.78
-    arc_length = math.pi * 55
+    # 180x90 Tualinde Yarıçap = 72px (Tam Merkezli Matematik)
+    # Yay çevresi = PI * 72 ≈ 226.19
+    arc_length = math.pi * 72
     primary_length = arc_length * max(0.0, min(100.0, value_a)) / 100
 
     legend_html = (
-        f'<span style="color:{color_a}; font-size:0.82rem; font-weight:800; white-space:nowrap;">● {label_a}: %{value_a:.0f}</span>'
-        f'<span style="color:{color_b}; font-size:0.82rem; font-weight:800; white-space:nowrap; margin-left:8px;">● {label_b}: %{value_b:.0f}</span>'
+        f'<span class="gauge-legend-item" style="color:{color_a};">● {label_a}: %{value_a:.0f}</span>'
+        f'<span class="gauge-legend-item" style="color:{color_b};">● {label_b}: %{value_b:.0f}</span>'
     )
 
     return textwrap.dedent(f"""
-        <div style="flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-            <div class="mini-section-title" style="text-align:center; margin-bottom:4px;">{html.escape(title)}</div>
-            <div style="position:relative; width:140px; height:70px; overflow:hidden; display:flex; justify-content:center;">
-                <svg width="140" height="70" viewBox="0 0 140 70" style="display:block;">
-                    <!-- Arka Plan Yayı (Açık Renk) -->
-                    <path d="M 15 70 A 55 55 0 0 1 125 70" fill="none" stroke="{color_b}" stroke-width="18" stroke-linecap="butt" />
-                    <!-- Ön Plan Yayı (Koyu/Ana Renk) -->
-                    <path d="M 15 70 A 55 55 0 0 1 125 70" fill="none" stroke="{color_a}" stroke-width="18" stroke-linecap="butt" stroke-dasharray="{primary_length:.2f} {arc_length:.2f}" />
+        <div class="gauge-block">
+            <div class="mini-section-title">{html.escape(title)}</div>
+            <div class="gauge-half-wrap">
+                <svg viewBox="0 0 180 90" class="gauge-half">
+                    <!-- Arka Plan Yayı (Merkez X:90, Y:90, Yarıçap:72) -->
+                    <path d="M 18 90 A 72 72 0 0 1 162 90" fill="none" stroke="{color_b}" stroke-width="30" stroke-linecap="butt" />
+                    <!-- Ön Plan Yayı -->
+                    <path d="M 18 90 A 72 72 0 0 1 162 90" fill="none" stroke="{color_a}" stroke-width="30" stroke-linecap="butt" stroke-dasharray="{primary_length:.2f} {arc_length:.2f}" />
                 </svg>
             </div>
-            <div style="display:flex; justify-content:center; align-items:center; margin-top:6px; white-space:nowrap;">{legend_html}</div>
+            <div class="gauge-legend-row">{legend_html}</div>
         </div>
     """).strip()
 
@@ -88,12 +89,11 @@ def _gauge_block_html(title, share_series, color_a, color_b):
 def render_gauge_pair(pl_share, type_share):
     st.markdown('<div class="section-title section-title--large">Ürün Tipi ve PL Dağılımları</div>', unsafe_allow_html=True)
     
-    # PL: Canlı Turuncu renkler | Ürün Tipi: Canlı Yeşil renkler
     pl_gauge = _gauge_block_html("PL DAĞILIMI", pl_share, "#F97316", "#FDBA74")
     type_gauge = _gauge_block_html("ÜRÜN TİPİ DAĞILIMI", type_share, "#006847", "#4C9678")
 
     st.markdown(
-        f'<div style="display:flex; flex-direction:row; align-items:center; justify-content:space-around; width:100%; height:130px; margin-top:4px;">{pl_gauge}{type_gauge}</div>',
+        f'<div class="gauge-pair">{pl_gauge}{type_gauge}</div>',
         unsafe_allow_html=True,
     )
 
