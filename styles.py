@@ -151,25 +151,23 @@ div[data-testid="stDecoration"] {
     padding: 0 !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"] {
+/* Streamlit 1.52 bordered containers render as stVerticalBlock. */
+div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] {
     box-sizing: border-box !important;
-    height: 100% !important;
-    padding: 4px 8px !important;
+    padding: 14px 12px 10px !important;
     background: #FFFFFF !important;
     border: 1px solid #D6E0EA !important;
     border-radius: 18px !important;
     box-shadow: 0 6px 18px rgba(10, 43, 71, 0.06) !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"] > div {
+div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] > div {
     box-sizing: border-box !important;
-    height: 100% !important;
     padding: 0 !important;
     background: #FFFFFF !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] {
-    height: 100% !important;
+div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] [data-testid="stVerticalBlock"] {
     gap: 0.14rem !important;
 }
 
@@ -546,17 +544,17 @@ div[data-testid="stRadio"] > div {
     margin-bottom: 0.25rem !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] {
+div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-testid="stRadio"] {
     margin-bottom: 0.1rem !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] > div {
+div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-testid="stRadio"] > div {
     gap: 0.7rem !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label {
+div[data-testid="stVerticalBlock"][class*="st-key-dashboard-card-"] div[data-testid="stRadio"] label {
     font-size: 0.72rem !important;
     font-weight: 700 !important;
     color: #245274 !important;
@@ -566,13 +564,14 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
 
 .gauge-pair {
     display: flex !important;
+    flex-direction: row !important;
     align-items: center !important;
-    justify-content: space-evenly !important;
+    justify-content: space-around !important;
     width: 100% !important;
-    height: 100% !important;
-    flex: 1 !important;
-    min-height: 0 !important;
-    margin: 0 auto !important;
+    height: 140px !important;
+    min-height: 140px !important;
+    gap: 8px !important;
+    margin: 0 !important;
     padding: 0 !important;
 }
 
@@ -581,68 +580,70 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    flex: 1 !important;
+    flex: 1 1 0% !important;
     min-width: 0 !important;
+    height: 140px !important;
+    gap: 6px !important;
+}
+
+.gauge-block .mini-section-title {
+    height: 16px !important;
+    margin: 0 !important;
+    line-height: 16px !important;
+    white-space: nowrap !important;
 }
 
 .gauge-half-wrap {
     position: relative !important;
-    width: 164px !important;
-    height: 82px !important;
+    width: 150px !important;
+    height: 75px !important;
     overflow: hidden !important;
-    margin: 0.15rem auto 0 auto !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
 }
 
 .gauge-half {
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
-    width: 164px !important;
-    height: 164px !important;
-    border-radius: 50% !important;
+    width: 150px !important;
+    height: 150px !important;
 }
 
 .gauge-hole {
     position: absolute !important;
     left: 50% !important;
     bottom: 0 !important;
-    width: 90px !important;
-    height: 90px !important;
+    width: 82px !important;
+    height: 82px !important;
     border-radius: 50% !important;
-    background: #ffffff !important;
+    background: #FFFFFF !important;
     transform: translate(-50%, 50%) !important;
     z-index: 1 !important;
-    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05) !important;
-}
-
-.gauge-center-value {
-    position: absolute !important;
-    left: 50% !important;
-    bottom: 4px !important;
-    transform: translateX(-50%) !important;
-    font-size: 20px !important;
-    font-weight: 800 !important;
-    color: #245274 !important;
-    line-height: 1 !important;
-    z-index: 2 !important;
 }
 
 .gauge-legend-row {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    gap: 0.6rem !important;
-    margin-top: 0.15rem !important;
+    gap: 0.4rem !important;
+    height: 20px !important;
+    margin: 0 !important;
     flex-wrap: nowrap !important;
+    white-space: nowrap !important;
 }
 
 .gauge-legend-item {
     display: flex !important;
     align-items: center !important;
     gap: 0.2rem !important;
-    font-size: 0.9rem !important;
-    font-weight: 700 !important;
+    font-size: 0.82rem !important;
+    font-weight: 800 !important;
     white-space: nowrap !important;
+}
+
+.chart-empty-message {
+    padding-top: 1rem;
 }
 
 .donut-chart {
@@ -652,15 +653,15 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     justify-content: center !important;
     gap: 0.75rem !important;
     width: 100% !important;
-    height: 132px !important;
-    flex: 1 !important;
-    min-height: 0 !important;
+    height: 176px !important;
+    min-height: 176px !important;
+    flex: 0 0 176px !important;
     padding: 0 !important;
 }
 
 .donut-chart-circle {
-    width: 130px !important;
-    height: 130px !important;
+    width: 176px !important;
+    height: 176px !important;
     border-radius: 50% !important;
     position: relative !important;
     display: flex !important;
@@ -675,15 +676,33 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     height: 100% !important;
 }
 
+.donut-slice {
+    cursor: pointer;
+}
+
+.donut-slice--0, .donut-chart-color--0 { stroke: #0A2B47; background: #0A2B47; }
+.donut-slice--1, .donut-chart-color--1 { stroke: #123C5D; background: #123C5D; }
+.donut-slice--2, .donut-chart-color--2 { stroke: #1E3A5F; background: #1E3A5F; }
+.donut-slice--3, .donut-chart-color--3 { stroke: #2F5A82; background: #2F5A82; }
+.donut-slice--4, .donut-chart-color--4 { stroke: #00A8B5; background: #00A8B5; }
+.donut-slice--5, .donut-chart-color--5 { stroke: #3FBEC9; background: #3FBEC9; }
+.donut-slice--6, .donut-chart-color--6 { stroke: #7CC6D6; background: #7CC6D6; }
+.donut-slice--7, .donut-chart-color--7 { stroke: #ABDBE4; background: #ABDBE4; }
+.donut-slice--8, .donut-chart-color--8 { stroke: #CDE8EC; background: #CDE8EC; }
+
 .donut-chart-center {
-    width: 72px !important;
-    height: 72px !important;
+    width: 82px !important;
+    height: 82px !important;
     border-radius: 50% !important;
     background: #FFFFFF !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     box-shadow: 0 2px 8px rgba(0,0,0,.08) !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 
 .donut-chart-legend {
@@ -745,14 +764,15 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stRadio"] label
     line-height: 1.1;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.gauge-pair) [data-testid="stVerticalBlock"],
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="stVerticalBlock"] {
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-gauge:has(.gauge-pair),
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-donut:has(.donut-chart) {
     display: flex !important;
     flex-direction: column !important;
-    height: 100% !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stVerticalBlock"] {
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-donut:has(.city-rank-card),
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-customer:has(.city-rank-card),
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-city:has(.city-rank-card) {
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -760,15 +780,17 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testi
     height: 100% !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stElementContainer"]:has(.city-rank-card) {
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-donut [data-testid="stElementContainer"]:has(.city-rank-card),
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-customer [data-testid="stElementContainer"]:has(.city-rank-card),
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-city [data-testid="stElementContainer"]:has(.city-rank-card) {
     display: flex !important;
     width: 100% !important;
     align-items: center !important;
     justify-content: center !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.gauge-pair) [data-testid="stElementContainer"]:has(.gauge-pair),
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.donut-chart) [data-testid="stElementContainer"]:has(.donut-chart) {
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-gauge [data-testid="stElementContainer"]:has(.gauge-pair),
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-donut [data-testid="stElementContainer"]:has(.donut-chart) {
     display: flex !important;
     flex: 1 !important;
     min-height: 0 !important;
@@ -846,21 +868,6 @@ div[data-testid="stElementToolbar"] {
 }
 
 /* ---------------- RANK / ÖZET KARTLARI (KONTROLLÜ BOYUT VE ORTALAMA) ---------------- */
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stVerticalBlock"] {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    height: 100% !important;
-}
-
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testid="stElementContainer"]:has(.city-rank-card) {
-    display: flex !important;
-    width: 100% !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
 .city-rank-card {
     background: linear-gradient(180deg, #FFFFFF 0%, #F7FBFF 100%) !important;
     border: 1px solid rgba(10, 43, 71, 0.10) !important;
@@ -965,11 +972,15 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) [data-testi
     font-weight: 900 !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) .city-rank-card svg {
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-donut .city-rank-card svg,
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-customer .city-rank-card svg,
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-city .city-rank-card svg {
     opacity: 0.95;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"]:has(.city-rank-card) .city-rank-card strong {
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-donut .city-rank-card strong,
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-customer .city-rank-card strong,
+div[data-testid="stVerticalBlock"].st-key-dashboard-card-city .city-rank-card strong {
     font-weight: 800 !important;
 }
 

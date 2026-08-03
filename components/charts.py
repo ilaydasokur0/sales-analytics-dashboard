@@ -2,11 +2,10 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import services.analysis as sa
-from components.kpi import render_share_metrics
-from services.analysis import get_amount_share
 from services.formatters import format_currency
 from utils.tables import build_selected_product_info
 import html
+import math
 import textwrap
 
 def render_chart_controls(graph_key):
@@ -21,7 +20,6 @@ def render_chart_controls(graph_key):
 def get_chart_data(df, graph_type):
     if graph_type == "Ciro":
         return sa.get_monthly_sales(df)
-
     return sa.get_monthly_quantity(df)
 
 def render_product_info_card(filtered_df):
@@ -32,27 +30,159 @@ def render_product_info_card(filtered_df):
 
     for index, (label, value) in enumerate(info_items):
         left_col, right_col = st.columns([1, 1.1], gap="small")
-
         with left_col:
-            st.markdown(
-                f'<div class="product-info-label">{label}</div>',
-                unsafe_allow_html=True,
-            )
-
+            st.markdown(f'<div class="product-info-label">{label}</div>', unsafe_allow_html=True)
         with right_col:
-            st.markdown(
-                f'<div class="product-info-value">{value}</div>',
-                unsafe_allow_html=True,
-            )
+            st.markdown(f'<div class="product-info-value">{value}</div>', unsafe_allow_html=True)
 
         if index != len(info_items) - 1:
             st.markdown('<div class="card-divider"></div>', unsafe_allow_html=True)
 
 
-# ---------------- AYLIK PERFORMANS GRAFİĞİ ---------------- #
+# ---------------- 1. GAUGE (YARIM AY) GRAFİĞİ (GARANTİLİ İNLINE STİL) ---------------- #
+
+def _gauge_block_html(title, share_series, color_a, color_b):
+    if share_series.empty:
+        return (
+            f'<div style="flex:1; display:flex; flex-direction:column; align-items:center;">'
+            f'<div class="mini-section-title">{html.escape(title)}</div>'
+            f'<div style="color:#6787A5; font-size:0.8rem; margin-top:1rem;">Veri bulunamadı.</div>'
+            f"</div>"
+        )
+
+    label_a = html.escape(str(share_series.index[0]))
+    value_a = float(share_series.iloc[0])
+
+    if len(share_series) > 1:
+        label_b = html.escape(str(share_series.index[1]))
+        value_b = float(share_series.iloc[1])
+    else:
+        label_b = "Diğer"
+        value_b = max(0.0, 100.0 - value_a)
+
+    # Yarıçap = 55, Yay Çevresi = PI * 55 ≈ 172.78
+    arc_length = math.pi * 55
+    primary_length = arc_length * max(0.0, min(100.0, value_a)) / 100
+
+    legend_html = (
+        f'<span style="color:{color_a}; font-size:0.82rem; font-weight:800; white-space:nowrap;">● {label_a}: %{value_a:.0f}</span>'
+        f'<span style="color:{color_b}; font-size:0.82rem; font-weight:800; white-space:nowrap; margin-left:8px;">● {label_b}: %{value_b:.0f}</span>'
+    )
+
+    return textwrap.dedent(f"""
+        <div style="flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <div class="mini-section-title" style="text-align:center; margin-bottom:4px;">{html.escape(title)}</div>
+            <div style="position:relative; width:140px; height:70px; overflow:hidden; display:flex; justify-content:center;">
+                <svg width="140" height="70" viewBox="0 0 140 70" style="display:block;">
+                    <!-- Arka Plan Yayı (Açık Renk) -->
+                    <path d="M 15 70 A 55 55 0 0 1 125 70" fill="none" stroke="{color_b}" stroke-width="18" stroke-linecap="butt" />
+                    <!-- Ön Plan Yayı (Koyu/Ana Renk) -->
+                    <path d="M 15 70 A 55 55 0 0 1 125 70" fill="none" stroke="{color_a}" stroke-width="18" stroke-linecap="butt" stroke-dasharray="{primary_length:.2f} {arc_length:.2f}" />
+                </svg>
+            </div>
+            <div style="display:flex; justify-content:center; align-items:center; margin-top:6px; white-space:nowrap;">{legend_html}</div>
+        </div>
+    """).strip()
+
+
+def render_gauge_pair(pl_share, type_share):
+    st.markdown('<div class="section-title section-title--large">Ürün Tipi ve PL Dağılımları</div>', unsafe_allow_html=True)
+    
+    # PL: Canlı Turuncu renkler | Ürün Tipi: Canlı Yeşil renkler
+    pl_gauge = _gauge_block_html("PL DAĞILIMI", pl_share, "#F97316", "#FDBA74")
+    type_gauge = _gauge_block_html("ÜRÜN TİPİ DAĞILIMI", type_share, "#006847", "#4C9678")
+
+    st.markdown(
+        f'<div style="display:flex; flex-direction:row; align-items:center; justify-content:space-around; width:100%; height:130px; margin-top:4px;">{pl_gauge}{type_gauge}</div>',
+        unsafe_allow_html=True,
+    )
+
+
+# ---------------- 2. DONUT GRAFİĞİ ---------------- #
+
+def render_donut_chart(
+    title,
+    chart_df,
+    label_col,
+    value_col,
+    empty_message="Veri bulunamadı.",
+):
+    st.markdown(
+        f'<div class="section-title section-title--large">{title}</div>',
+        unsafe_allow_html=True,
+    )
+
+    if chart_df.empty:
+        st.info(empty_message)
+        return
+
+    colors = [
+        "#0A2B47", "#123C5D", "#1E3A5F", "#2F5A82",
+        "#00A8B5", "#3FBEC9", "#7CC6D6", "#ABDBE4", "#CDE8EC"
+    ]
+
+    size = 145
+    center = size / 2
+    radius = 52
+    stroke_width = 24
+    circumference = 2 * 3.14159265 * radius
+
+    slices = []
+    offset = 0.0
+
+    for i, (_, row) in enumerate(chart_df.iterrows()):
+        label = html.escape(str(row[label_col]))
+        share = float(row["share"])
+        dash = (share / 100) * circumference
+        gap = circumference - dash
+
+        slices.append(
+            f'<circle cx="{center}" cy="{center}" r="{radius}" fill="none" '
+            f'class="donut-slice donut-slice--{i % len(colors)}" stroke-width="{stroke_width}" '
+            f'stroke-dasharray="{dash:.2f} {gap:.2f}" '
+            f'stroke-dashoffset="{-offset:.2f}" '
+            f'transform="rotate(-90 {center} {center})">'
+            f'<title>{label} (%{share:.1f})</title>'
+            f'</circle>'
+        )
+        offset += dash
+
+    circle_svg = (
+        f'<svg width="{size}" height="{size}" viewBox="0 0 {size} {size}">'
+        + "".join(slices) +
+        "</svg>"
+    )
+
+    legend_html = ""
+    for i, (_, row) in enumerate(chart_df.iterrows()):
+        label = html.escape(str(row[label_col]))
+        value = float(row[value_col])
+        legend_html += (
+            f'<div class="donut-chart-row">'
+            f'<span class="donut-chart-color donut-chart-color--{i % len(colors)}"></span>'
+            f'<div class="donut-chart-text">'
+            f'<div class="donut-chart-label" title="{label}">{label}</div>'
+            f'<div class="donut-chart-value">{format_currency(value)}</div>'
+            f'</div>'
+            f'</div>'
+        )
+
+    html_content = (
+        '<div class="donut-chart">'
+        '<div class="donut-chart-circle">'
+        f'{circle_svg}'
+        '<div class="donut-chart-center"></div>'
+        '</div>'
+        f'<div class="donut-chart-legend">{legend_html}</div>'
+        '</div>'
+    )
+
+    st.markdown(html_content, unsafe_allow_html=True)
+
+
+# ---------------- 3. AYLIK PERFORMANS GRAFİĞİ ---------------- #
 
 def render_monthly_performance_chart(chart_series, is_single_month=False, selected_month_key=None, is_ciro=True):
-
     chart_df = chart_series.reset_index()
     chart_df.columns = ["year_month", "value"]
 
@@ -60,9 +190,6 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
         st.info("Veri bulunamadı.")
         return
 
-    # ₺ gibi özel bir para birimi sembolü d3-format/Vega-Lite'ın format
-    # parametresinde geçersiz olduğu için (sadece $ veya # kabul edilir),
-    # tooltip'te doğru gösterim için hazır metin sütunu üretiyoruz.
     value_title = "Ciro" if is_ciro else "Miktar (kg)"
 
     def _format_tooltip_value(raw_value):
@@ -89,17 +216,8 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
             alt.Chart(chart_df)
             .mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4)
             .encode(
-                x=alt.X(
-                    "year_month:N",
-                    title=None,
-                    sort=None,
-                    axis=alt.Axis(labelAngle=0, labelFontSize=8, labelPadding=1),
-                ),
-                y=alt.Y(
-                    "value:Q",
-                    title=None,
-                    axis=alt.Axis(labelFontSize=8, labelPadding=1, tickCount=3),
-                ),
+                x=alt.X("year_month:N", title=None, sort=None, axis=alt.Axis(labelAngle=0, labelFontSize=8, labelPadding=1)),
+                y=alt.Y("value:Q", title=None, axis=alt.Axis(labelFontSize=8, labelPadding=1, tickCount=3)),
                 color=alt.Color("highlight:N", scale=color_scale, legend=None),
                 tooltip=value_tooltip,
             )
@@ -126,17 +244,8 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
             point=alt.OverlayMarkDef(color="#0F2E4F", size=28),
         )
         .encode(
-            x=alt.X(
-                "year_month:N",
-                title=None,
-                sort=None,
-                axis=alt.Axis(labelAngle=0, labelFontSize=8, labelPadding=1),
-            ),
-            y=alt.Y(
-                "value:Q",
-                title=None,
-                axis=alt.Axis(labelFontSize=8, labelPadding=1, tickCount=3),
-            ),
+            x=alt.X("year_month:N", title=None, sort=None, axis=alt.Axis(labelAngle=0, labelFontSize=8, labelPadding=1)),
+            y=alt.Y("value:Q", title=None, axis=alt.Axis(labelFontSize=8, labelPadding=1, tickCount=3)),
             tooltip=value_tooltip,
         )
     )
@@ -153,33 +262,17 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
         )
     )
 
-    extremes_df = pd.DataFrame(
-        [
-            {
-                "year_month": max_row["year_month"],
-                "value": max_row["value"],
-                "value_label": _format_tooltip_value(max_row["value"]),
-                "tip": "En Yüksek",
-            },
-            {
-                "year_month": min_row["year_month"],
-                "value": min_row["value"],
-                "value_label": _format_tooltip_value(min_row["value"]),
-                "tip": "En Düşük",
-            },
-        ]
-    )
+    extremes_df = pd.DataFrame([
+        {"year_month": max_row["year_month"], "value": max_row["value"], "value_label": _format_tooltip_value(max_row["value"]), "tip": "En Yüksek"},
+        {"year_month": min_row["year_month"], "value": min_row["value"], "value_label": _format_tooltip_value(min_row["value"]), "tip": "En Düşük"},
+    ])
     extremes_points = (
         alt.Chart(extremes_df)
         .mark_point(size=90, filled=True)
         .encode(
             x=alt.X("year_month:N", sort=None),
             y="value:Q",
-            color=alt.Color(
-                "tip:N",
-                scale=alt.Scale(domain=["En Yüksek", "En Düşük"], range=["#00A8B5", "#F28C8C"]),
-                legend=None,
-            ),
+            color=alt.Color("tip:N", scale=alt.Scale(domain=["En Yüksek", "En Düşük"], range=["#00A8B5", "#F28C8C"]), legend=None),
             tooltip=[
                 alt.Tooltip("tip:N", title="Durum"),
                 alt.Tooltip("year_month:N", title="Dönem"),
@@ -198,7 +291,6 @@ def render_monthly_performance_chart(chart_series, is_single_month=False, select
 
 
 def render_monthly_chart_card(chart_source_df, active_filters):
-
     st.markdown('<div class="section-title section-title--large">Aylık Performans</div>', unsafe_allow_html=True)
     graph_type = render_chart_controls("general_graph")
     chart_data = get_chart_data(chart_source_df, graph_type)
@@ -215,6 +307,8 @@ def render_monthly_chart_card(chart_source_df, active_filters):
         is_ciro=(graph_type == "Ciro"),
     )
 
+
+# ---------------- 4. YATAY BAR GRAFİĞİ ---------------- #
 
 def render_horizontal_bar_chart(
     title,
@@ -266,146 +360,3 @@ def render_horizontal_bar_chart(
         f'<div class="horizontal-bar-chart">{"".join(rows_html)}</div>',
         unsafe_allow_html=True,
     )
-
-def _gauge_block_html(title, share_series, color_a, color_b):
-    if share_series.empty:
-        return (
-            f'<div class="gauge-block">'
-            f'<div class="mini-section-title">{html.escape(title)}</div>'
-            f'<div style="padding-top:1rem;">Veri bulunamadı.</div>'
-            f"</div>"
-        )
-
-    label_a = html.escape(str(share_series.index[0]))
-    value_a = float(share_series.iloc[0])
-
-    if len(share_series) > 1:
-        label_b = html.escape(str(share_series.index[1]))
-        value_b = float(share_series.iloc[1])
-    else:
-        label_b = "Diğer"
-        value_b = max(0.0, 100.0 - value_a)
-
-    angle = max(0.0, min(180.0, value_a * 1.8))
-
-    # Alt kısımdaki yazı boyutu (0.85rem) ve kalınlığı artırıldı
-    legend_html = f'<span class="gauge-legend-item" style="color:{color_a}; font-size: 0.85rem; font-weight: 800;">● {label_a}: %{value_a:.0f}</span>'
-    if label_b is not None:
-        legend_html += f'<span class="gauge-legend-item" style="color:{color_b}; font-size: 0.85rem; font-weight: 800; margin-left: 10px;">● {label_b}: %{value_b:.0f}</span>'
-
-    return textwrap.dedent(f"""
-        <div class="gauge-block">
-            <div class="mini-section-title">{html.escape(title)}</div>
-            <div class="gauge-half-wrap">
-                <div class="gauge-half" style="background:conic-gradient(from -90deg at 50% 50%, {color_a} 0deg {angle:.1f}deg, {color_b} {angle:.1f}deg 180deg, transparent 180deg 360deg);"></div>
-                <div class="gauge-hole"></div>
-            </div>
-            <div class="gauge-legend-row" style="margin-top: 6px;">{legend_html}</div>
-        </div>
-    """).strip()
-
-
-def render_gauge_pair(pl_share, type_share):
-    st.markdown('<div class="section-title section-title--large">Ürün Tipi ve PL Dağılımları</div>', unsafe_allow_html=True)
-    pl_gauge = _gauge_block_html("PL Dağılımı", pl_share, "#F97316", "#FDBA74")
-
-    type_gauge = _gauge_block_html(
-        "Ürün Tipi Dağılımı", type_share, "#006847", "#4C9678"
-    )
-
-    st.markdown(
-        f'<div class="gauge-pair">{pl_gauge}{type_gauge}</div>',
-        unsafe_allow_html=True,
-    )
-    
-def render_donut_chart(
-    title,
-    chart_df,
-    label_col,
-    value_col,
-    empty_message="Veri bulunamadı.",
-):
-    st.markdown(
-        f'<div class="section-title section-title--large">{title}</div>',
-        unsafe_allow_html=True,
-    )
-
-    if chart_df.empty:
-        st.info(empty_message)
-        return
-
-    colors = [
-        "#0A2B47",
-        "#123C5D",
-        "#1E3A5F",
-        "#2F5A82",
-        "#00A8B5",
-        "#3FBEC9",
-        "#7CC6D6",
-        "#ABDBE4",
-        "#CDE8EC",
-    ]
-
-    size = 180
-    center = size / 2
-    radius = 60
-    stroke_width = 28
-    circumference = 2 * 3.14159265 * radius
-
-    slices = []
-    offset = 0.0
-
-    for i, (_, row) in enumerate(chart_df.iterrows()):
-        label = html.escape(str(row[label_col]))
-        share = float(row["share"])
-        color = colors[i % len(colors)]
-
-        dash = (share / 100) * circumference
-        gap = circumference - dash
-
-        slices.append(
-            f'<circle cx="{center}" cy="{center}" r="{radius}" fill="none" '
-            f'stroke="{color}" stroke-width="{stroke_width}" '
-            f'stroke-dasharray="{dash:.2f} {gap:.2f}" '
-            f'stroke-dashoffset="{-offset:.2f}" '
-            f'transform="rotate(-90 {center} {center})" '
-            f'style="cursor:pointer;">'
-            f'<title>{label} (%{share:.1f})</title>'
-            f'</circle>'
-        )
-
-        offset += dash
-
-    circle_svg = (
-        f'<svg width="{size}" height="{size}" viewBox="0 0 {size} {size}">'
-        + "".join(slices) +
-        "</svg>"
-    )
-
-    legend_html = ""
-    for i, (_, row) in enumerate(chart_df.iterrows()):
-        label = html.escape(str(row[label_col]))
-        value = float(row[value_col])
-        color = colors[i % len(colors)]
-        legend_html += (
-            f'<div class="donut-chart-row">'
-            f'<span class="donut-chart-color" style="background:{color};"></span>'
-            f'<div class="donut-chart-text">'
-            f'<div class="donut-chart-label">{label}</div>'
-            f'<div class="donut-chart-value">{format_currency(value)}</div>'
-            f'</div>'
-            f'</div>'
-        )
-
-    html_content = (
-        '<div class="donut-chart">'
-        f'<div class="donut-chart-circle" style="position:relative;background:none;">'
-        f'{circle_svg}'
-        '<div class="donut-chart-center" '
-        'style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"></div>'
-        '</div>'
-        f'<div class="donut-chart-legend">{legend_html}</div>'
-        '</div>'
-    )
-
-    st.markdown(html_content, unsafe_allow_html=True)

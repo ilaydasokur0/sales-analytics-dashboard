@@ -56,14 +56,14 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
 
     # ----- 1. KART: Gauge (Yarım Daireler) -----
     with row1_col1:
-        with st.container(height=ROW1_CARD_HEIGHT, border=True):
+        with st.container(height=ROW1_CARD_HEIGHT, border=True, key="dashboard-card-gauge"):
             pl_share = get_amount_share(current_df, "pl_status")
             type_share = get_amount_share(current_df, "product_type")
             render_gauge_pair(pl_share, type_share)
 
     # ----- 2. KART: Donut (Ürün Ciro Dağılımı) -----
     with row1_col2:
-        with st.container(height=ROW1_CARD_HEIGHT, border=True):
+        with st.container(height=ROW1_CARD_HEIGHT, border=True, key="dashboard-card-donut"):
             selected_city = active_filters["city"]
             selected_customer = active_filters["customer"]
             selected_product = active_filters.get("product", "Hepsi")
@@ -133,7 +133,7 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
 
     # ----- 3. KART: Aylık Performans (Çizgi/Sütun Grafik) -----
     with row2_col1:
-        with st.container(height=ROW2_CARD_HEIGHT, border=True):
+        with st.container(height=ROW2_CARD_HEIGHT, border=True, key="dashboard-card-monthly"):
             render_monthly_chart_card(
                 monthly_chart_df if monthly_chart_df is not None else current_df,
                 active_filters or {},
@@ -154,7 +154,7 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
             value_label=customer_value_label,
         )
 
-        with st.container(height=ROW2_CARD_HEIGHT, border=True):
+        with st.container(height=ROW2_CARD_HEIGHT, border=True, key="dashboard-card-customer"):
             selected_customer = active_filters["customer"]
             if selected_customer != "Hepsi":
                 summary = build_customer_invoice_summary(
@@ -164,13 +164,11 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
                 )
 
                 if summary is not None:
-                    st.html('<div style="flex-grow: 1;"></div>')
                     render_customer_invoice_summary(
                         avg_invoice=summary["avg_invoice"],
                         difference=summary["difference"],
                         status=summary["status"],
                     )
-                    st.html('<div style="flex-grow: 1;"></div>')
             else:
                 render_horizontal_bar_chart(
                     title="Müşteri Performansı",
@@ -189,7 +187,7 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
             city_value_label = "Ciro" if city_type == "Ciro" else "Kilogram"
             city_value_suffix = " ₺" if city_type == "Ciro" else ""
 
-            with st.container(height=ROW2_CARD_HEIGHT, border=True):
+            with st.container(height=ROW2_CARD_HEIGHT, border=True, key="dashboard-card-city"):
 
                 selected_city = active_filters["city"]
 
@@ -198,14 +196,12 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
                     summary = build_city_summary_rank(sales_df, selected_city)
 
                     if summary:
-                        st.html('<div style="flex-grow: 1;"></div>')
                         render_city_summary_rank(
                             rank=summary["rank"],
                             total=summary["total"],
                             difference=summary["difference"],
                             status=summary["status"],
                         )
-                        st.html('<div style="flex-grow: 1;"></div>')
 
                 else:
 
