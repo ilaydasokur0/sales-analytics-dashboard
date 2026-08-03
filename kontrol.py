@@ -1,5 +1,4 @@
-from services.analysis import load_data  # senin fonksiyonun neyse
-
+from services.analysis import load_data 
 sales_df = load_data()
 
 print("\n".join(sales_df.columns))

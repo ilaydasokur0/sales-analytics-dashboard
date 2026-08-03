@@ -1,7 +1,6 @@
 import streamlit as st
 
 def render_product_summary_rank(title, rank, total, percentile):
-    # Üst %50 dilimde olup olmama durumuna göre renk ve ikon belirleme
     is_above = percentile >= 50
     icon = "▲" if is_above else "▼"
     benchmark_class = "benchmark-up" if is_above else "benchmark-down"

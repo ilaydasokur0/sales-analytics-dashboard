@@ -43,19 +43,13 @@ def _quarter_month_keys(quarter_key):
     start_month = quarter_period.asfreq("M", how="start")
     return {str(start_month + offset) for offset in range(3)}
 
-
-# 🎯 İŞTE MAVİ ALANI DA SIFIRLAYAN KISIM
 def clear_sidebar_filters():
-    # 1. Kırmızı Alanı (Ay ve Çeyrek) Sıfırla
     st.session_state["filter_months"] = []
     st.session_state["filter_quarters"] = []
     
-    # 2. Mavi Alanı (İl, Müşteri, Ürün) Sıfırla
     for key in ["filter_city", "filter_customer", "filter_product"]:
-        # Arka plandaki veriyi temizle
         st.session_state[key] = "Hepsi"
-        
-        # Ekrandaki selectbox kutucuğunun kendi hafızasını zorla "Hepsi" yap
+        st.session_state[f"sb_{key}"] = "Hepsi"
         widget_key = f"sb_{key}"
         if widget_key in st.session_state:
             st.session_state[widget_key] = "Hepsi"

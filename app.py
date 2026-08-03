@@ -39,13 +39,10 @@ except (FileNotFoundError, KeyError, pd.errors.ParserError) as error:
 filtered_df, active_filters = apply_sidebar_filters(sales_df)
 
 # ---------------- SAYFA ---------------- #
-
-# Compute comparison frames (used by header and downstream sections)
 current_month_df, previous_month_df, comparison_enabled, current_period, previous_period = get_month_comparison_frames(
     sales_df, active_filters
 )
 
-# Veriyi hazırlama
 (
     current_month_df,
     previous_month_df,
@@ -64,10 +61,6 @@ current_month_df, previous_month_df, comparison_enabled, current_period, previou
     current_month_df,
     previous_month_df,
 )
-
-# İl/Müşteri/Ürün filtreli fakat tarih (ay) filtresiz veri seti: Aylık
-# Performans grafiğinde tek ay seçildiğinde komşu ayları bağlam olarak
-# (soluk) göstermek için kullanılır.
 monthly_chart_df = sa.filter_data(
     sales_df,
     city=None if active_filters["city"] == "Hepsi" else active_filters["city"],

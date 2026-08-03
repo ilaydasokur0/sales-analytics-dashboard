@@ -117,11 +117,6 @@ def render_dashboard_body(current_df, sales_df, active_filters, monthly_chart_df
                     label_col="product_name",
                     value_col="total_amount",
                 )
-
-    # ==========================================
-    # 2. BÖLÜM: Ürün seçiliyken 2 geniş sütun (Bölgesel kart gereksiz),
-    # aksi halde 3 eşit sütun, yan yana, üst satıra yakın (başlık yok)
-    # ==========================================
     row2_selected_product = active_filters.get("product", "Hepsi")
     row2_has_city_card = row2_selected_product == "Hepsi"
     row2_col3 = None
