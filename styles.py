@@ -64,19 +64,69 @@ div[data-testid="stDecoration"] {
 [data-testid="stMainBlockContainer"], 
 .block-container {
     max-width: 1880px;
-    padding-top: 0.45rem !important;   /* sabit (fixed) aç/kapa butonumuzun
-                                          altında kalmasın diye başlığa
-                                          yetecek boşluk bırakıyoruz */
+    padding-top: 1.2rem !important;   /* Başlık ve aç/kapa butonu rahat nefes alsın */
     padding-bottom: 0.45rem !important;
     background: linear-gradient(180deg, #EEF3F9 0%, #E7EEF6 100%);
 }
 
+.header-title-container {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;              /* İkon, çizgi ve yazı dikey dengesi */
+    margin-top: 0 !important;
+    margin-bottom: 0.85rem !important; 
+    padding-left: 0 !important;       
+    margin-left: 0 !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 999 !important;
+}
+
+/* İKON KUTUSU (KİBAR OPTİMAL BOYUT) */
+.header-icon-box {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 30px !important;            /* Kutunun dış boyutu 30px */
+    height: 30px !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+}
+
+.header-icon-box svg {
+    width: 28px !important;            /* İkon boyutu kibar 28px yapıldı */
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    max-width: 28px !important;
+    max-height: 28px !important;
+    display: block !important;
+}
+
+/* İKON İLE YAZI ARASINDAKİ İNCE DİKEY ÇİZGİ */
+.header-icon-box::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    right: -7px !important;             /* İkonun yanına dengeli sabitleme */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 2px !important;              /* Çizgi kalınlığı */
+    height: 20px !important;             /* Çizgi yüksekliği ikonla ortalandı */
+    background: #00A8B5 !important;    /* Turkuaz renkle vurucu ayrım */
+    border-radius: 2px !important;
+}
+
+/* METİN BOYUTU VE RENGİ */
+.gradient-page-title,
 .page-title {
-    font-size: 2.15rem;
-    line-height: 1.1;
-    font-weight: 800;
-    color: var(--navy) !important;
-    margin: -0.45rem 0 0.95rem !important;
+    font-size: 1.95rem !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    color: var(--navy, #0A2B47) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
 }
 
 .page-title + .stCaption, 
