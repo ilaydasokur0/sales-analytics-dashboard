@@ -27,6 +27,7 @@ Python ve Streamlit kullanılarak geliştirilen bu proje, satış verilerinin et
 
 ### Ana Dashboard
 
+<img width="1336" height="633" alt="Dashboard" src="https://github.com/user-attachments/assets/72e3eb0c-e04f-4ab0-9491-aeeedcbeb588" />
 
 
 ### Filtreleme Örneği
