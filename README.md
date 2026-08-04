@@ -1,51 +1,66 @@
-# Sales Dashboard
+# 📊 Satış Analiz Dashboard
 
-Project purpose:
-- Interactive Streamlit dashboard for analyzing sales data from sample CSV files.
+Python ve Streamlit kullanılarak geliştirilen, satış verilerinin etkileşimli olarak analiz edilmesini sağlayan bir dashboard uygulamasıdır.
 
-Technologies:
-- Python 3.10+
+Proje kapsamında örnek satış verileri oluşturulmuş, bu veriler analiz için işlenmiş ve kullanıcıların farklı filtreler üzerinden satış performansını inceleyebileceği dinamik bir raporlama ekranı geliştirilmiştir.
+
+## 🚀 Özellikler
+
+- Toplam Ciro, Toplam Kilogram, Ortalama Fatura Tutarı, Fatura Sayısı ve Aktif Müşteri Sayısı gibi KPI göstergeleri
+- Tarih, ay, çeyrek, il, müşteri ve ürün bazında dinamik filtreleme
+- Önceki dönem ile karşılaştırmalı performans analizi
+- Aylık satış trendi grafiği
+- Ürün, müşteri ve il bazlı performans analizleri
+- Ürün tipi ve PL dağılım grafikleri
+- Filtrelere göre anlık güncellenen analiz kartları ve detay tabloları
+
+## 🛠️ Kullanılan Teknolojiler
+
+- Python
 - Streamlit
-- pandas
-- numpy
+- Pandas
+- NumPy
+- Altair
+- HTML & CSS
 
-Project structure:
-- `app.py` - Streamlit app entrypoint
-- `analysis.py` - data loading and transformation helpers
-- `styles.py` - css loader for Streamlit
-- `components/` - UI components (sidebar, KPI, charts, overview, city, customer)
-- `utils/` - utility helpers (formatting, table builders, metrics)
-- `data/` - example CSV data files
+## 📂 Proje Yapısı
 
-Setup
-1. Create and activate a Python virtual environment:
-
-```bash
-python -m venv .venv
-# Windows
-.\.venv\Scripts\activate
-# macOS / Linux
-source .venv/bin/activate
+```
+app.py
+components/
+services/
+charts/
+config/
+assets/
+requirements.txt
 ```
 
-2. Install dependencies:
+## ▶️ Kurulum
 
 ```bash
+git clone https://github.com/kullaniciadi/sales-dashboard.git
+
+cd sales-dashboard
+
 pip install -r requirements.txt
-```
 
-Run
-
-```bash
 streamlit run app.py
 ```
 
-Dashboard features
-- Date, city, customer and product filters in sidebar
-- KPIs with period-over-period deltas
-- Monthly line charts and distribution (PL / product type)
-- Ranked tables for top/bottom customers, cities and products
+## 📷 Ekran Görüntüleri
 
-Notes
-- This repository is structured for clarity and reuse: UI components live under `components/` and smaller helpers under `utils/`.
-- No behavior has been changed from the original implementation; this README documents the existing app.
+### Ana Dashboard
+
+![Dashboard](images/dashboard.png)
+
+### Filtreleme
+
+![Filtreleme](images/filters.png)
+
+### Analiz
+
+![Analiz](images/analysis.png)
+
+## 📝 Not
+
+Bu projede kullanılan satış verileri örnek amaçlı oluşturulmuş olup gerçek ticari verileri temsil etmemektedir.
