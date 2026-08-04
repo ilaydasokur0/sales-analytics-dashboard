@@ -27,15 +27,14 @@ Python ve Streamlit kullanılarak geliştirilen bu proje, satış verilerinin et
 
 ### Ana Dashboard
 
-![Ana Dashboard](images/dashboard.png)
+
 
 ### Filtreleme Örneği
 
-![Filtreleme](images/filters.png)
+
 
 ### Analiz Görünümü
 
-![Analiz](images/analysis.png)
 
 ## 📁 Proje Yapısı
 
