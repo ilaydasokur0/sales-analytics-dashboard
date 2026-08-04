@@ -1,4 +1,3 @@
-<img width="1340" height="626" alt="Filtered" src="https://github.com/user-attachments/assets/4ed61a6f-89b5-4411-8ec7-a95d23115eb1" />
 # 📊 Satış Analiz Dashboard
 
 Python ve Streamlit kullanılarak geliştirilen bu proje, satış verilerinin etkileşimli olarak analiz edilmesini sağlayan bir dashboard uygulamasıdır. Kullanıcılar tarih, il, müşteri ve ürün filtreleriyle verileri inceleyebilir; KPI kartları, performans grafikleri ve çeşitli analiz ekranları üzerinden satış performansını değerlendirebilir.
