@@ -47,20 +47,6 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## 📷 Ekran Görüntüleri
-
-### Ana Dashboard
-
-![Dashboard](images/dashboard.png)
-
-### Filtreleme
-
-![Filtreleme](images/filters.png)
-
-### Analiz
-
-![Analiz](images/analysis.png)
-
 ## 📝 Not
 
 Bu projede kullanılan satış verileri örnek amaçlı oluşturulmuş olup gerçek ticari verileri temsil etmemektedir.
