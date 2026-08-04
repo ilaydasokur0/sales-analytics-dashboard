@@ -17,12 +17,7 @@ def generate_invoices():
     end_date = datetime.strptime(END_DATE, "%Y-%m-%d")
 
     date_difference = (end_date - start_date).days
-
-    # Assign per-customer invoice frequency weights so some customers are more frequent buyers
-    # We sample weights from a gamma distribution to create variability
     customer_weights = np.random.default_rng().gamma(shape=2.0, scale=1.0, size=len(customers))
-
-    # Sample customers for each invoice according to weights (with replacement)
     sampled_customers = customers.sample(n=INVOICE_COUNT, replace=True, weights=customer_weights)
     sampled_customers = sampled_customers.reset_index(drop=True)
 
