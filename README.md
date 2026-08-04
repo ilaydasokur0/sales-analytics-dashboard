@@ -1,18 +1,18 @@
 # 📊 Satış Analiz Dashboard
 
-Python ve Streamlit kullanılarak geliştirilen, satış verilerinin etkileşimli olarak analiz edilmesini sağlayan bir dashboard uygulamasıdır.
-
-Proje kapsamında örnek satış verileri oluşturulmuş, bu veriler analiz için işlenmiş ve kullanıcıların farklı filtreler üzerinden satış performansını inceleyebileceği dinamik bir raporlama ekranı geliştirilmiştir.
+Python ve Streamlit kullanılarak geliştirilen bu proje, satış verilerinin etkileşimli olarak analiz edilmesini sağlayan bir dashboard uygulamasıdır. Kullanıcılar tarih, il, müşteri ve ürün filtreleriyle verileri inceleyebilir; KPI kartları, performans grafikleri ve çeşitli analiz ekranları üzerinden satış performansını değerlendirebilir.
 
 ## 🚀 Özellikler
 
-- Toplam Ciro, Toplam Kilogram, Ortalama Fatura Tutarı, Fatura Sayısı ve Aktif Müşteri Sayısı gibi KPI göstergeleri
-- Tarih, ay, çeyrek, il, müşteri ve ürün bazında dinamik filtreleme
-- Önceki dönem ile karşılaştırmalı performans analizi
-- Aylık satış trendi grafiği
-- Ürün, müşteri ve il bazlı performans analizleri
-- Ürün tipi ve PL dağılım grafikleri
-- Filtrelere göre anlık güncellenen analiz kartları ve detay tabloları
+- Dinamik filtreleme (Tarih, Ay, Çeyrek, İl, Müşteri, Ürün)
+- KPI kartları
+- Aylık performans grafikleri
+- Ürün ciro dağılımı
+- Ürün tipi ve PL dağılımları
+- Müşteri performans analizi
+- Bölgesel performans analizi
+- Dinamik sıralama kartları
+- Modüler proje yapısı
 
 ## 🛠️ Kullanılan Teknolojiler
 
@@ -23,30 +23,38 @@ Proje kapsamında örnek satış verileri oluşturulmuş, bu veriler analiz içi
 - Altair
 - HTML & CSS
 
-## 📂 Proje Yapısı
+## 📷 Ekran Görüntüleri
+
+### Ana Dashboard
+
+![Ana Dashboard](images/dashboard.png)
+
+### Filtreleme Örneği
+
+![Filtreleme](images/filters.png)
+
+### Analiz Görünümü
+
+![Analiz](images/analysis.png)
+
+## 📁 Proje Yapısı
 
 ```
-app.py
-components/
-services/
-charts/
-config/
-assets/
-requirements.txt
+sales_dashboard/
+│
+├── config/
+├── data/
+├── generators/
+├── services/
+├── utils/
+├── images/
+├── app.py
+└── README.md
 ```
 
-## ▶️ Kurulum
+## ▶️ Çalıştırma
 
 ```bash
-git clone https://github.com/kullaniciadi/sales-dashboard.git
-
-cd sales-dashboard
-
 pip install -r requirements.txt
-
 streamlit run app.py
 ```
-
-## 📝 Not
-
-Bu projede kullanılan satış verileri örnek amaçlı oluşturulmuş olup gerçek ticari verileri temsil etmemektedir.
