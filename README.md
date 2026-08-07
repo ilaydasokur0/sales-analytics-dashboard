@@ -11,7 +11,6 @@ Python ve Streamlit kullanılarak geliştirilen bu proje, satış verilerinin et
 - **Ürün ciro dağılımı**: Donut grafik ve detaylı legend
 - **Müşteri ve bölgesel performans analizi**: Yatay bar grafikler, tekil müşteri/il seçiliyken özel sıralama/karşılaştırma kartlarına dönüşüm
 - **Dinamik sıralama (rank) kartları**: Seçili müşteri/il/ürünün ulusal/bölgesel sıralamadaki yerini gösteren özet kartlar
-- **Daraltılabilir sidebar**: Filtre panelini açıp kapatma
 - **Modüler proje yapısı**: Veri, servis ve arayüz katmanları ayrı klasörlerde
 
 ## 🗂️ Veri Kaynağı
